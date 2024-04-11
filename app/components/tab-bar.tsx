@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 export default function TabBar() {
   const pathname = usePathname();
   return (
-    <div className="btm-nav">
+    <div className="btm-nav lg:hidden">
       <button className="text-primary">
         <svg
           xmlns="http://www.w3.org/2000/svg"
