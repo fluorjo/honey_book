@@ -1,6 +1,7 @@
 "use client";
 import { useFormState } from "react-dom";
 import DarkModeToggleButton from "./components/DarkModeToggleButton";
+import Input from "./components/input";
 import { login } from "./loginAction";
 
 export default function Home() {
@@ -13,7 +14,7 @@ export default function Home() {
         <span>아이콘, 로고</span>
         <h2>당도 - 당(신 근처의)도(서관)</h2>
       </div>
-      <form action="" className="flex flex-col items-center gap-2 my-4">
+      <form action={dispatch} className="flex flex-col items-center gap-2 my-4">
         <label className="input input-primary flex items-center gap-2  bg-yellow-200">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,10 +24,12 @@ export default function Home() {
           >
             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
           </svg>
-          <input
-            type="text"
-            className="grow border-none focus:ring-0"
-            placeholder="Username"
+          <Input
+            name="email"
+            type={"email"}
+            placeholder={"Email"}
+            required={true}
+            errors={state?.fieldErrors.email}
           />
         </label>
         <label className="input input-primary flex items-center gap-2 bg-yellow-200">
@@ -42,10 +45,14 @@ export default function Home() {
               clipRule="evenodd"
             />
           </svg>
-          <input
-            type="password"
-            className="grow border-none focus:ring-0"
-            placeholder="password"
+
+          <Input
+            name="password"
+            type={"password"}
+            placeholder={"Password"}
+            required={true}
+            // minLength={PASSWORD_MIN_LENGTH}
+            errors={state?.fieldErrors.password}
           />
         </label>
         <button className="btn btn-primary ">로그인</button>

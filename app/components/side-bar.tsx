@@ -1,8 +1,9 @@
 "use client";
 import { usePathname } from "next/navigation";
 interface SideBarProps {
-    children: React.ReactNode; // children의 타입을 React.ReactNode로 명시
+    children: React.ReactNode;
   }
+  // 크기 조절 가능하게.
 export default function SideBar({ children }: SideBarProps) {
   const pathname = usePathname();
 
@@ -25,7 +26,7 @@ export default function SideBar({ children }: SideBarProps) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+        <ul className="menu p-4 w-30 min-h-full bg-base-200 text-base-content">
           {/* Sidebar content here */}
           <li>
             <a>Sidebar Item 1</a>
