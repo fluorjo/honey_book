@@ -14,7 +14,8 @@ export default function Home() {
         <h2>당도 - 당(신 근처의)도(서관)</h2>
       </div>
       <form action="" className="flex flex-col items-center gap-2 my-4">
-        <label className="input input-primary flex items-center gap-2">
+        
+        <label className="input input-primary flex items-center gap-2  bg-yellow-200">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -29,7 +30,7 @@ export default function Home() {
             placeholder="Username"
           />
         </label>
-        <label className="input input-primary flex items-center gap-2">
+        <label className="input input-primary flex items-center gap-2 bg-yellow-200">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
