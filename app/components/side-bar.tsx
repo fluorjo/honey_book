@@ -1,7 +1,9 @@
 "use client";
 import { usePathname } from "next/navigation";
-
-export default function SideBar() {
+interface SideBarProps {
+    children: React.ReactNode; // children의 타입을 React.ReactNode로 명시
+  }
+export default function SideBar({ children }: SideBarProps) {
   const pathname = usePathname();
 
   return (
@@ -9,6 +11,7 @@ export default function SideBar() {
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col items-center justify-center">
         {/* Page content here */}
+        {children}
         <label
           htmlFor="my-drawer-2"
           className="btn btn-primary drawer-button lg:hidden"
@@ -16,7 +19,7 @@ export default function SideBar() {
           Open drawer
         </label>
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side z-50">
         <label
           htmlFor="my-drawer-2"
           aria-label="close sidebar"

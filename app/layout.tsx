@@ -18,9 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <SideBar />
-        {children}
+      <body className={inter.className} style={{ position: 'relative', zIndex: 1 }}>
+      <SideBar>{children}</SideBar>
       <TabBar />
         </body>
     </html>
