@@ -15,6 +15,9 @@ const config: Config = {
       },
     },
   },
+  corePlugins: {
+    preflight: false,
+  },
   plugins: [require("daisyui"), require("@tailwindcss/forms")],
   // daisyUI config (optional - here are the default values)
   daisyui: {
