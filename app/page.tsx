@@ -3,7 +3,7 @@ import { useFormState } from "react-dom";
 import DarkModeToggleButton from "./components/DarkModeToggleButton";
 import Input from "./components/input";
 import { login } from "./loginAction";
-
+import Link from "next/link";
 export default function Home() {
   const [state, dispatch] = useFormState(login, null);
 
@@ -55,12 +55,14 @@ export default function Home() {
             errors={state?.fieldErrors.password}
           />
         </label>
-        <button className="btn btn-primary ">로그인</button>
+        <input type="submit" className="btn btn-primary "></input>
       </form>
       <div>
         <div>
           <span>아직 계정이 없으신가요?</span>
-          <button className="btn btn-primary">회원가입</button>
+          <Link href={"/create-account"} passHref>
+            <button className="btn btn-primary">회원가입</button>
+          </Link>
         </div>
       </div>
     </div>
