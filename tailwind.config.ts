@@ -13,6 +13,18 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        intro: {
+          from: { transform: "h-[100px]" },
+          to: { transform: " h-[200px]" },
+        },
+      },
+      animation: {
+        intro: "intro 1s ease-in-out",
+      },
+      transitionProperty: {
+        'height': 'height'
+      }
     },
   },
   corePlugins: {
