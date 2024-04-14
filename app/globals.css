@@ -3,11 +3,20 @@
 @tailwind utilities;
 
 @media (prefers-color-scheme: light) {
-
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+label {
+  background-color: red;
+}
+
+input,
+textarea {
+  color: black;
+  padding: 10px;
 }

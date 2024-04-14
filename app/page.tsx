@@ -1,21 +1,21 @@
 "use client";
+import Link from "next/link";
 import { useFormState } from "react-dom";
 import DarkModeToggleButton from "./components/DarkModeToggleButton";
 import Input from "./components/input";
 import { login } from "./loginAction";
-import Link from "next/link";
 export default function Home() {
   const [state, dispatch] = useFormState(login, null);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-secondary">
       <DarkModeToggleButton />
       <div>
         <span>아이콘, 로고</span>
         <h2>당도 - 당(신 근처의)도(서관)</h2>
       </div>
       <form action={dispatch} className="flex flex-col items-center gap-2 my-4">
-        <label className="input input-primary flex items-center gap-2  bg-yellow-200">
+        <label className="input input-primary flex items-center gap-2  bg-secondary-content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -32,7 +32,7 @@ export default function Home() {
             errors={state?.fieldErrors.email}
           />
         </label>
-        <label className="input input-primary flex items-center gap-2 bg-yellow-200">
+        <label className="input input-primary flex items-center gap-2 bg-secondary-content">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -45,7 +45,6 @@ export default function Home() {
               clipRule="evenodd"
             />
           </svg>
-
           <Input
             name="password"
             type={"password"}
