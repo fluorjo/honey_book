@@ -17,12 +17,20 @@ async function getUser() {
   notFound();
 }
 
+// async function Username() {
+//   // await new Promise((resolve) => setTimeout(resolve, 30000));
+//   const user = await getUser();
+//   return <h1>Welcome! {user?.username}!</h1>;
+// }
 async function Username() {
-  // await new Promise((resolve) => setTimeout(resolve, 30000));
-  const user = await getUser();
-  return <h1>Welcome! {user?.username}!</h1>;
+  try {
+    const user = await getUser();
+    return <h1>Welcome! {user?.username}!</h1>;
+  } catch (error) {
+    console.error("Failed to fetch user:", error);
+    return <h1>Error fetching user.</h1>;
+  }
 }
-
 export default async function Profile() {
   const logOut = async () => {
     "use server";
@@ -32,7 +40,7 @@ export default async function Profile() {
   };
   return (
     <div>
-         <Suspense fallback={"Welcome!"}>
+      <Suspense fallback={"Welcome!"}>
         <Username />
       </Suspense>
       <form action={logOut}>
