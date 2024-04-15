@@ -19,4 +19,5 @@ input,
 textarea {
   color: black;
   padding: 10px;
+  resize: none;
 }
