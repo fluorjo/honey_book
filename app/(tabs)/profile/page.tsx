@@ -18,7 +18,7 @@ async function getUser() {
 }
 
 async function Username() {
-  await new Promise((resolve) => setTimeout(resolve, 30000));
+  // await new Promise((resolve) => setTimeout(resolve, 30000));
   const user = await getUser();
   return <h1>Welcome! {user?.username}!</h1>;
 }
