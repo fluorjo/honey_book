@@ -5,6 +5,7 @@ import {
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import AddPost from "./addPost";
 
 async function getPosts() {
   const posts = await db.post.findMany({
@@ -34,10 +35,8 @@ export default async function Posts() {
   return (
     <>
       {/* // 위에 바로 포스팅할 수 있게 하고 뭐 버튼 클릭하면 집중 모드로 */}
-      <form action="" className="flex flex-col bg-green-400">
-        <textarea className="bg-blue-300">제목</textarea>
-        <textarea className=" bg-blue-100 transition-height duration-300 ease-in-out h-24 focus:h-48 ">내용</textarea>
-      </form>
+      <AddPost />
+
       <div className="p-5 flex flex-col bg-red-400">
         {posts.map((post) => (
           <Link
