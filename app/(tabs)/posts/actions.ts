@@ -32,7 +32,7 @@ export async function uploadPost(formData: FormData) {
           id: true,
         },
       });
-      redirect(`/posts/${post.id}`);
+      redirect(`/posts/`);
       //redirect("/products")
     }
   }
