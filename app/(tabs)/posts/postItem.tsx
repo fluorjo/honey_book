@@ -36,11 +36,10 @@ export default function PostItem({ post }: PostItemProps) {
 
   useEffect(() => {
     const fetchComments = async () => {
-      const data = await getComments();
+      const data = await getComments(post.id);
       setComments(data);
-      console.log(data)
+      console.log(data);
     };
-
     fetchComments();
   }, [post.id]);
 

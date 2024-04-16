@@ -38,8 +38,9 @@ export async function uploadPost(formData: FormData) {
   }
 }
 
-export async function getComments() {
+export async function getComments(postId:number) {
   const comments = await db.comment.findMany({
+    where: { postId: postId },
     select: {
       id: true,
       payload: true,
