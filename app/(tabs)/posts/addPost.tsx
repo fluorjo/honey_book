@@ -38,7 +38,7 @@ export default function AddPost() {
         {...register("description")}
         className=" bg-blue-100 transition-height duration-300 ease-in-out h-24 
         "
-        //focus:h-48 해서 크게 하는 건 좋은데 버튼 누르려고 하면 다시 줄어들어서 짜증난다. 이거 고쳐야 함. 
+        //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함. 
       >
         내용
       </textarea>
