@@ -37,3 +37,17 @@ export async function uploadPost(formData: FormData) {
     }
   }
 }
+
+export async function getComments() {
+  const comments = await db.comment.findMany({
+    select: {
+      id: true,
+      payload: true,
+      created_at: true,
+    },
+  });
+  return comments.map(comment => ({
+    ...comment,
+    payload: comment.payload ?? "No description available",
+  }));
+}

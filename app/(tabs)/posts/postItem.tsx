@@ -5,14 +5,20 @@ import {
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
 }
+interface Comment {
+  id: number;
+  payload: string;
+  created_at: Date;
+}
 
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+export default function PostItem({ post }: PostItemProps) {
   const {
     register,
     handleSubmit,
@@ -26,6 +32,18 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const toggleComments = () => {
     setShowComments(!showComments);
   };
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const data = await getComments();
+      setComments(data);
+      console.log(data)
+    };
+
+    fetchComments();
+  }, [post.id]);
+
   const description = post.description || "No description provided.";
 
   return (
@@ -51,7 +69,11 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
       </div>
       {showComments && (
         <div>
-          <div className="bg-green-300">{post.title}의 댓글 목록 .</div>
+          <div className="p-5 flex flex-col bg-red-400">
+            {comments.map((comment) => (
+              <p key={comment.id}>{comment.payload}</p>
+            ))}
+          </div>
           <form className="bg-blue-500">
             <textarea
               className="bg-blue-200"
@@ -65,6 +87,4 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
       )}
     </div>
   );
-};
-
-export default PostItem;
+}
