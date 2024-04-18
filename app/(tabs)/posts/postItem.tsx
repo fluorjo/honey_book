@@ -60,8 +60,6 @@ export default function PostItem({ post }: PostItemProps) {
         return;
       }
 
-      const result = await deletePost(post.id, session.id);
-      setMessage(result.message);
       // 추가적으로 포스트 삭제 후 UI를 갱신하는 로직 필요
     } catch (err: any) {
       setError(err.message || "Failed to delete the post.");
