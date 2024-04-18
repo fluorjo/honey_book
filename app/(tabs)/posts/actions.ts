@@ -2,6 +2,7 @@
 
 import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { error } from "console";
 import { redirect } from "next/navigation";
 import { postSchema } from "./schema";
 
@@ -10,9 +11,9 @@ export async function uploadPost(formData: FormData) {
     title: formData.get("title"),
     description: formData.get("description"),
   };
-
   const result = postSchema.safeParse(data);
   if (!result.success) {
+    console.log("error", error);
     return result.error.flatten();
   } else {
     const session = await getSession();
@@ -59,6 +60,7 @@ export async function deletePost(postId: number) {
     await db.post.delete({
       where: { id: postId },
     });
+    redirect(`/posts/`);
   } catch (e) {
     console.log(e);
   }
