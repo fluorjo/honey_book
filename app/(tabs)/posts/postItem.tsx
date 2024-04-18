@@ -3,6 +3,8 @@ import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
+  PencilSquareIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -56,6 +58,8 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
+          <PencilSquareIcon className="size-4" />
+          <TrashIcon className="size-4" />
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
