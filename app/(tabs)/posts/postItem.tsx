@@ -1,4 +1,5 @@
 "use client";
+import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
@@ -47,6 +48,25 @@ export default function PostItem({ post }: PostItemProps) {
 
   const description = post.description || "No description provided.";
 
+  // delete Post
+  const [error, setError] = useState<string | null>(null);
+
+  const [message, setMessage] = useState("");
+  const handleDelete = async () => {
+    try {
+      const session = await getSession();
+      if (!session || !session.id) {
+        setError("Authentication required");
+        return;
+      }
+
+      const result = await deletePost(post.id, session.id);
+      setMessage(result.message);
+      // 추가적으로 포스트 삭제 후 UI를 갱신하는 로직 필요
+    } catch (err: any) {
+      setError(err.message || "Failed to delete the post.");
+    }
+  };
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
       <h2 className="text-black text-lg font-semibold">{post.title}</h2>
@@ -58,10 +78,12 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <span onClick={() => deletePost(post.id)}>
-          <TrashIcon className="size-4" />
+          <span onClick={handleDelete}>
+            <TrashIcon className="size-4" />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {message && <p style={{ color: "green" }}>{message}</p>}
           </span>
-            <PencilSquareIcon className="size-4" />
+          <PencilSquareIcon className="size-4" />
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}

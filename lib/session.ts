@@ -1,5 +1,6 @@
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
+import { NextApiRequest } from "next";
 
 interface SessionContent {
   id?: number;
