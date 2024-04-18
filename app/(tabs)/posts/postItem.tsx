@@ -1,16 +1,15 @@
 "use client";
-import getSession from "@/lib/session";
+import DeletePostButton from "@/app/components/deletePostButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
   PencilSquareIcon,
-  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { deletePost, getComments } from "./actions";
+import { getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
@@ -52,19 +51,7 @@ export default function PostItem({ post }: PostItemProps) {
   const [error, setError] = useState<string | null>(null);
 
   const [message, setMessage] = useState("");
-  const handleDelete = async () => {
-    try {
-      const session = await getSession();
-      if (!session || !session.id) {
-        setError("Authentication required");
-        return;
-      }
 
-      // 추가적으로 포스트 삭제 후 UI를 갱신하는 로직 필요
-    } catch (err: any) {
-      setError(err.message || "Failed to delete the post.");
-    }
-  };
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
       <h2 className="text-black text-lg font-semibold">{post.title}</h2>
@@ -76,11 +63,7 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <span onClick={handleDelete}>
-            <TrashIcon className="size-4" />
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {message && <p style={{ color: "green" }}>{message}</p>}
-          </span>
+          <DeletePostButton postId={post.id} />
           <PencilSquareIcon className="size-4" />
           <span>
             <HandThumbUpIcon className="size-4" />
