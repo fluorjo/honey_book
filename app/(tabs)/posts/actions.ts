@@ -38,7 +38,34 @@ export async function uploadPost(formData: FormData) {
   }
 }
 
-export async function getComments(postId:number) {
+export async function deletePost(postId: number) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const post = await db.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      throw new Error("Post not found");
+    }
+
+    if (post.userId !== session.id) {
+      throw new Error("Unauthorized to delete this post");
+    }
+
+    await db.post.delete({
+      where: { id: postId },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getComments(postId: number) {
   const comments = await db.comment.findMany({
     where: { postId: postId },
     select: {
@@ -47,7 +74,7 @@ export async function getComments(postId:number) {
       created_at: true,
     },
   });
-  return comments.map(comment => ({
+  return comments.map((comment) => ({
     ...comment,
     payload: comment.payload ?? "No description available",
   }));

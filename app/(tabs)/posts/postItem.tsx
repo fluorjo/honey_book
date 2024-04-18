@@ -9,7 +9,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getComments } from "./actions";
+import { deletePost, getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
@@ -58,8 +58,10 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <PencilSquareIcon className="size-4" />
+          <span onClick={() => deletePost(post.id)}>
           <TrashIcon className="size-4" />
+          </span>
+            <PencilSquareIcon className="size-4" />
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}

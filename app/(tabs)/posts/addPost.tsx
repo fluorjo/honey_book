@@ -33,7 +33,6 @@ export default function AddPost() {
       className="flex flex-col bg-green-400"
     >
       <input {...register("title")} className="bg-blue-300"/>
-
       <textarea
         {...register("description")}
         className=" bg-blue-100 transition-height duration-300 ease-in-out h-24 
