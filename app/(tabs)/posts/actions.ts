@@ -5,7 +5,12 @@ import getSession from "@/lib/session";
 import { error } from "console";
 import { redirect } from "next/navigation";
 import { postSchema } from "./schema";
-
+import { NextApiResponse } from "next";
+import { revalidateTag } from "next/cache";
+const revalidate = async () => {
+  "use server";
+  revalidateTag("all_posts_lists");
+};
 export async function uploadPost(formData: FormData) {
   const data = {
     title: formData.get("title"),
@@ -33,12 +38,14 @@ export async function uploadPost(formData: FormData) {
           id: true,
         },
       });
-      redirect(`/posts/`);
+      revalidate()
+      // redirect(`/posts/`);
       //redirect("/products")
     }
   }
 }
 export async function deletePost(postId: number) {
+
   try {
     const session = await getSession();
     if (!session || !session.id) {
@@ -60,7 +67,7 @@ export async function deletePost(postId: number) {
     await db.post.delete({
       where: { id: postId },
     });
-    redirect(`/posts/`);
+    revalidate()
   } catch (e) {
     console.log(e);
   }

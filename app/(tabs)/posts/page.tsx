@@ -1,14 +1,10 @@
 import db from "@/lib/db";
-import { formatToTimeAgo } from "@/lib/utils";
-import {
-  ChatBubbleBottomCenterIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
 // import Link from "next/link";
+import { unstable_cache as nextCache } from "next/cache";
 import AddPost from "./addPost";
 import PostItem from "./postItem";
 
-async function getPosts() {
+async function getInitialPosts() {
   const posts = await db.post.findMany({
     select: {
       id: true,
@@ -24,9 +20,9 @@ async function getPosts() {
       },
     },
   });
-  return posts.map(post => ({
+  return posts.map((post) => ({
     ...post,
-    description: post.description ?? "No description available"
+    description: post.description ?? "No description available",
   }));
 }
 
@@ -34,14 +30,17 @@ export const metadata = {
   title: "Posts",
 };
 
+const getCachedPosts = nextCache(getInitialPosts, ["home-posts"],{tags:['all_posts_lists']});
+
 export default async function Posts() {
-  const posts = await getPosts();
+  const initialPosts = await getCachedPosts();
+  console.log("posts", initialPosts);
   return (
     <>
       {/* // 위에 바로 포스팅할 수 있게 하고 뭐 버튼 클릭하면 집중 모드로 */}
       <AddPost />
       <div className="p-5 flex flex-col bg-red-400">
-        {posts.map((post) => (
+        {initialPosts.map((post) => (
           <PostItem key={post.id} post={post} />
         ))}
       </div>

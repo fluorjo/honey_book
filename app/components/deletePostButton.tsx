@@ -1,5 +1,6 @@
 "use client";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { revalidateTag } from "next/cache";
 import { deletePost } from "../(tabs)/posts/actions";
 
 interface DeletePostButtonProps {
@@ -7,6 +8,7 @@ interface DeletePostButtonProps {
 }
 
 export default function DeletePostButton({ postId }: DeletePostButtonProps) {
+
   const onClick = async () => {
     deletePost(postId);
   };
