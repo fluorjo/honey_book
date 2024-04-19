@@ -70,7 +70,7 @@ model Post {
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  commentText String
+  commentText String 
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)

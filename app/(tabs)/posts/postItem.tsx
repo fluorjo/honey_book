@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { uploadComment } from "./CommentActions";
 import { editPost, getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
+import CommentForm from "./commentForm";
 interface PostItemProps {
   post: PostType;
 }
@@ -26,15 +27,6 @@ export default function PostItem({ post }: PostItemProps) {
   const description = post.description || "No description provided.";
 
   //댓글 관련
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<CommentType>({
-    resolver: zodResolver(commentSchema),
-  });
-
   const [showComments, setShowComments] = useState(true);
 
   const toggleComments = () => {
@@ -72,26 +64,6 @@ export default function PostItem({ post }: PostItemProps) {
   };
 
   // 코멘트 추가
-  const onSubmitComment = async (commentData: CommentType) => {
-    console.log("commentData", commentData);
-    const formData = new FormData();
-    formData.append("commentText", commentData.commentText);
-    try {
-      const errors = await uploadComment(formData);
-      if (errors) {
-        console.log("Server-side Errors:", errors);
-        alert("Error submitting comment: " + JSON.stringify(errors));
-      } else {
-        console.log("Comment uploaded successfully");
-        alert("Comment uploaded successfully!");
-
-        // Navigate or refresh the form upon success
-      }
-    } catch (error: any) {
-      console.error("Submission Error:", error);
-      alert("Submission Error: " + error.message);
-    }
-  };
 
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
@@ -137,19 +109,8 @@ export default function PostItem({ post }: PostItemProps) {
               <p key={comment.id}>{comment.commentText}</p>
             ))}
           </div>
-          <form
-            className="bg-blue-500"
-            onSubmit={handleSubmit(onSubmitComment)}
-          >
-            <textarea
-              className="bg-blue-200"
-              placeholder="Comment this post"
-              required
-              {...register("commentText", { required: true })}
-            />
-            <input type="submit" value="Submit"></input>
-            {errors.commentText && <p>{errors.commentText.message}</p>}
-          </form>
+          <CommentForm postId={post.id} />
+
         </div>
       )}
     </div>
