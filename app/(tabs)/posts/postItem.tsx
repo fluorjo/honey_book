@@ -5,12 +5,13 @@ import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
-  PencilIcon
+  PencilIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { getComments } from "./actions";
+import { editPost, getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
@@ -61,10 +62,20 @@ export default function PostItem({ post }: PostItemProps) {
   const onEdit = () => {
     setIsEditing(true);
   };
-
+  const handleEditPost = async () => {
+    await editPost(post.id, {
+      title: editedTitle,
+      description: editedDescription,
+    });
+    setIsEditing(false); 
+  };
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
-      {!isEditing? (<h2 className="text-black text-lg font-semibold">{post.title}</h2>):(<textarea defaultValue={editedTitle}/>)}
+      {!isEditing ? (
+        <h2 className="text-black text-lg font-semibold">{post.title}</h2>
+      ) : (
+        <textarea defaultValue={editedTitle} />
+      )}
       {!isEditing ? (
         <p onDoubleClick={onEdit}>{editedDescription}</p>
       ) : (
@@ -72,7 +83,7 @@ export default function PostItem({ post }: PostItemProps) {
           className="bg-blue-200"
           defaultValue={editedDescription}
           onChange={(e) => setEditedDescription(e.target.value)}
-          // onBlur={handleSubmit(onSubmit)}
+          onBlur={handleEditPost}
         />
       )}
       <div className="flex items-center justify-between text-sm">
@@ -84,11 +95,12 @@ export default function PostItem({ post }: PostItemProps) {
         <div className="flex gap-4 items-center">
           <DeletePostButton postId={post.id} />
           {/* <PencilSquareIcon className="size-4" /> */}
-          <PencilIcon onClick={onEdit}/>
-          <EditPostButton
+          <PencilIcon className="size-5" onClick={onEdit} />
+          <PencilSquareIcon className="size-5" onClick={handleEditPost}/>
+          {/* <EditPostButton
             postId={post.id}
             data={{ title: post.title, description: post.description }}
-          />
+          /> */}
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
