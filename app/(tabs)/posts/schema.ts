@@ -12,11 +12,7 @@ export const postSchema = z.object({
 export const commentSchema = z.object({
   id: z.number(), // or z.string() depending on your database ID type
   commentText: z.string({
-    required_error: "Description is required",
-  }),
-  created_at: z.date(), // Assuming 'created_at' is a Date object
-  _count: z.object({
-    likes: z.number(),
+    required_error: "commentText is required",
   }),
 });
 
