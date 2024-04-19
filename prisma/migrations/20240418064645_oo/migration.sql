@@ -49,7 +49,7 @@ CREATE TABLE "Post" (
 -- CreateTable
 CREATE TABLE "Comment" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "payload" TEXT NOT NULL,
+    "commentText" TEXT NOT NULL,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL,
     "userId" INTEGER NOT NULL,

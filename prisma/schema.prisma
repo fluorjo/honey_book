@@ -9,9 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider  = "sqlite"
+  provider = "sqlite"
   // provider  = "postgresql"
-  url       = "file:./database.db" 
+  url      = "file:./database.db"
   // url       = env("POSTGRES_PRISMA_URL") 
   // directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
@@ -69,15 +69,15 @@ model Post {
 }
 
 model Comment {
-  id         Int      @id @default(autoincrement())
-  payload    String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId     Int
-  postId     Int
-  likes      Like[]
+  id          Int      @id @default(autoincrement())
+  commentText String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId      Int
+  postId      Int
+  likes       Like[]
 }
 
 model Like {

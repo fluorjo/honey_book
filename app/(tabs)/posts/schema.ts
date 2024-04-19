@@ -1,3 +1,4 @@
+import { Comment } from './../../../node_modules/.prisma/client/index.d';
 import { z } from "zod";
 
 export const postSchema = z.object({
@@ -7,11 +8,10 @@ export const postSchema = z.object({
   description: z.string({
     required_error: "Description is required",
   }),
-
 });
 export const commentSchema = z.object({
   id: z.number(), // or z.string() depending on your database ID type
-  payload: z.string({
+  commentText: z.string({
     required_error: "Description is required",
   }),
   created_at: z.date(), // Assuming 'created_at' is a Date object
@@ -27,18 +27,15 @@ export interface PostType {
   views: number;
   created_at: Date;
   _count: {
-    comments: number;
     likes: number;
+    comments:number
   };
 }
 export interface CommentType {
   id: number;
-  title: string;
-  description: string;
-  views: number;
+  commentText: string;
   created_at: Date;
   _count: {
-    comments: number;
     likes: number;
   };
 }

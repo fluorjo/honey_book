@@ -1,6 +1,5 @@
 "use client";
 import DeletePostButton from "@/app/components/deletePostButton";
-import EditPostButton from "@/app/components/editPostButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
@@ -18,7 +17,7 @@ interface PostItemProps {
 }
 interface Comment {
   id: number;
-  payload: string;
+  commentText: string;
   created_at: Date;
 }
 
@@ -67,8 +66,15 @@ export default function PostItem({ post }: PostItemProps) {
       title: editedTitle,
       description: editedDescription,
     });
-    setIsEditing(false); 
+    setIsEditing(false);
   };
+  // 코멘트 추가
+  const onSubmitComment = async (commentData: CommentType) => {
+    console.log("commentData", commentData);
+    const formData = new FormData();
+    formData.append("commentText", commentData.commentText);
+  };
+
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
       {!isEditing ? (
@@ -94,13 +100,8 @@ export default function PostItem({ post }: PostItemProps) {
         </div>
         <div className="flex gap-4 items-center">
           <DeletePostButton postId={post.id} />
-          {/* <PencilSquareIcon className="size-4" /> */}
           <PencilIcon className="size-5" onClick={onEdit} />
-          <PencilSquareIcon className="size-5" onClick={handleEditPost}/>
-          {/* <EditPostButton
-            postId={post.id}
-            data={{ title: post.title, description: post.description }}
-          /> */}
+          <PencilSquareIcon className="size-5" onClick={handleEditPost} />
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
@@ -115,7 +116,7 @@ export default function PostItem({ post }: PostItemProps) {
         <div>
           <div className="p-5 flex flex-col bg-red-400">
             {comments.map((comment) => (
-              <p key={comment.id}>{comment.payload}</p>
+              <p key={comment.id}>{comment.commentText}</p>
             ))}
           </div>
           <form className="bg-blue-500">
