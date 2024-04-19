@@ -35,6 +35,8 @@ export default function PostItem({ post }: PostItemProps) {
   const toggleComments = () => {
     setShowComments(!showComments);
   };
+  
+  // 캐싱이 되면 이것들도 정리해야 될지도.
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
