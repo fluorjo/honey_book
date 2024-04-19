@@ -34,7 +34,6 @@ const getCachedPosts = nextCache(getInitialPosts, ["home-posts"],{tags:['all_pos
 
 export default async function Posts() {
   const initialPosts = await getCachedPosts();
-  console.log("posts", initialPosts);
   return (
     <>
       {/* // 위에 바로 포스팅할 수 있게 하고 뭐 버튼 클릭하면 집중 모드로 */}

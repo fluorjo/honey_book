@@ -42,6 +42,7 @@ export async function uploadPost(formData: FormData) {
     }
   }
 }
+
 export async function deletePost(postId: number) {
   try {
     const session = await getSession();
@@ -69,9 +70,12 @@ export async function deletePost(postId: number) {
     console.log(e);
   }
 }
-
 // 포스트 수정
-export async function editPost(postId: number, data: { title?: string, description?: string }) {
+
+export async function editPost(
+  postId: number,
+  data: { title?: string; description?: string }
+) {
   try {
     const session = await getSession();
     if (!session || !session.id) {
@@ -90,20 +94,32 @@ export async function editPost(postId: number, data: { title?: string, descripti
       throw new Error("Unauthorized to edit this post");
     }
 
+    const isTitleChanged = data.title !== undefined && data.title !== post.title;
+    const isDescriptionChanged = data.description !== undefined && data.description !== post.description;
+
+    if (!isTitleChanged && !isDescriptionChanged) {
+      console.log("No changes detected.");
+      return post; // 변경 사항 없음, 기존 포스트 반환
+    }
+
+    // 업데이트 진행
     const updatedPost = await db.post.update({
       where: { id: postId },
       data: {
-        title: data.title ?? post.title,
-        description: data.description ?? post.description,
+        title: isTitleChanged ? data.title : post.title,
+        description: isDescriptionChanged ? data.description : post.description,
       },
     });
+    console.log("editpost", post);
+    console.log("updatedPost", updatedPost);
     revalidateAllpost();
     return updatedPost;
   } catch (e) {
-    console.log(e);
+    console.log("eerr", e);
     throw e; // It's generally a good idea to rethrow the error after logging it
   }
 }
+
 export async function getComments(postId: number) {
   const comments = await db.comment.findMany({
     where: { postId: postId },

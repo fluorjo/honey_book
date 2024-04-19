@@ -1,10 +1,11 @@
 "use client";
 import DeletePostButton from "@/app/components/deletePostButton";
+import EditPostButton from "@/app/components/editPostButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
-  PencilSquareIcon,
+  PencilIcon
 } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -13,7 +14,6 @@ import { getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
-
 }
 interface Comment {
   id: number;
@@ -22,6 +22,9 @@ interface Comment {
 }
 
 export default function PostItem({ post }: PostItemProps) {
+  const description = post.description || "No description provided.";
+
+  //댓글 관련
   const {
     register,
     handleSubmit,
@@ -35,10 +38,9 @@ export default function PostItem({ post }: PostItemProps) {
   const toggleComments = () => {
     setShowComments(!showComments);
   };
-  
+
   // 캐싱이 되면 이것들도 정리해야 될지도.
   const [comments, setComments] = useState<Comment[]>([]);
-
   useEffect(() => {
     const fetchComments = async () => {
       const data = await getComments(post.id);
@@ -48,17 +50,31 @@ export default function PostItem({ post }: PostItemProps) {
     fetchComments();
   }, [post.id]);
 
-  const description = post.description || "No description provided.";
-
-  // delete Post
-  const [error, setError] = useState<string | null>(null);
-
-  const [message, setMessage] = useState("");
+  // 포스트 수정
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(
+    post.description || "No description provided"
+  );
+  const [editedTitle, setEditedTitle] = useState(
+    post.title || "No title provided"
+  );
+  const onEdit = () => {
+    setIsEditing(true);
+  };
 
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
-      <h2 className="text-black text-lg font-semibold">{post.title}</h2>
-      <p>{description}</p>
+      {!isEditing? (<h2 className="text-black text-lg font-semibold">{post.title}</h2>):(<textarea defaultValue={editedTitle}/>)}
+      {!isEditing ? (
+        <p onDoubleClick={onEdit}>{editedDescription}</p>
+      ) : (
+        <textarea
+          className="bg-blue-200"
+          defaultValue={editedDescription}
+          onChange={(e) => setEditedDescription(e.target.value)}
+          // onBlur={handleSubmit(onSubmit)}
+        />
+      )}
       <div className="flex items-center justify-between text-sm">
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(post.created_at.toString())}</span>
@@ -67,7 +83,12 @@ export default function PostItem({ post }: PostItemProps) {
         </div>
         <div className="flex gap-4 items-center">
           <DeletePostButton postId={post.id} />
-          <PencilSquareIcon className="size-4" />
+          {/* <PencilSquareIcon className="size-4" /> */}
+          <PencilIcon onClick={onEdit}/>
+          <EditPostButton
+            postId={post.id}
+            data={{ title: post.title, description: post.description }}
+          />
           <span>
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
