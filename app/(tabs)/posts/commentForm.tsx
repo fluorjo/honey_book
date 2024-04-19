@@ -18,6 +18,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
     console.log("commentData", commentData);
     const formData = new FormData();
     formData.append("commentText", commentData.commentText);
+    formData.append("postId", postId.toString()); 
     try {
       const errors = await uploadComment(formData);
       if (errors) {

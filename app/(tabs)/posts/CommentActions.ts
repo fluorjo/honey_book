@@ -2,12 +2,8 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
-import { revalidateTag } from "next/cache";
 import { commentSchema } from "./schema";
-const revalidateAllpost = async () => {
-  "use server";
-  revalidateTag("all_posts_lists");
-};
+
 export async function uploadComment(formData: FormData) {
   console.log("commentupload ");
   const data = {
@@ -15,7 +11,14 @@ export async function uploadComment(formData: FormData) {
     postId: formData.get("postId"),
   };
   const result = commentSchema.safeParse(data);
-  const postId = data.postId ? parseInt(data.postId.toString(), 10) : null;
+  const postIdValue = data.postId ? data.postId.toString() : null;
+  const postId = postIdValue ? parseInt(postIdValue, 10) : null;
+  if (postId === null || isNaN(postId)) {
+    console.error("Invalid postId, it must be a number and not null");
+    console.log('postId',postId)
+    return { error: "Invalid postId provided" };
+  }
+
 
   if (!result.success) {
     console.log("commentupload error", error);
@@ -42,7 +45,7 @@ export async function uploadComment(formData: FormData) {
           id: true,
         },
       });
-      revalidateAllpost();
+      console.log("comment", comment);
     }
   }
 }

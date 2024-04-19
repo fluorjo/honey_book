@@ -10,7 +10,6 @@ export const postSchema = z.object({
   }),
 });
 export const commentSchema = z.object({
-  id: z.number(), // or z.string() depending on your database ID type
   commentText: z.string({
     required_error: "commentText is required",
   }),
