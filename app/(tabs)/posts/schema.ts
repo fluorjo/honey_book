@@ -1,20 +1,13 @@
 import { z } from "zod";
 
 export const postSchema = z.object({
-
   title: z.string({
     required_error: "Title is required!!!!!",
   }),
   description: z.string({
     required_error: "Description is required",
   }),
-  // id: z.number(), // or z.string() depending on your database ID type
-  // views: z.number(),
-  // created_at: z.date(), // Assuming 'created_at' is a Date object
-  // _count: z.object({
-  //   comments: z.number(),
-  //   likes: z.number(),
-  // }),
+
 });
 export const commentSchema = z.object({
   id: z.number(), // or z.string() depending on your database ID type
@@ -27,5 +20,25 @@ export const commentSchema = z.object({
   }),
 });
 
-export type PostType = z.infer<typeof postSchema>;
-export type CommentType = z.infer<typeof commentSchema>;
+export interface PostType {
+  id: number;
+  title: string;
+  description: string;
+  views: number;
+  created_at: Date;
+  _count: {
+    comments: number;
+    likes: number;
+  };
+}
+export interface CommentType {
+  id: number;
+  title: string;
+  description: string;
+  views: number;
+  created_at: Date;
+  _count: {
+    comments: number;
+    likes: number;
+  };
+}

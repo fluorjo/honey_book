@@ -13,6 +13,7 @@ import { getComments } from "./actions";
 import { CommentType, PostType, commentSchema } from "./schema";
 interface PostItemProps {
   post: PostType;
+
 }
 interface Comment {
   id: number;
