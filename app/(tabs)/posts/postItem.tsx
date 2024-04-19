@@ -7,13 +7,11 @@ import {
   PencilIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { uploadComment } from "./CommentActions";
 import { editPost, getComments } from "./actions";
-import { CommentType, PostType, commentSchema } from "./schema";
 import CommentForm from "./commentForm";
+import { PostType } from "./schema";
+import { unstable_cache as nextCache } from "next/cache";
 interface PostItemProps {
   post: PostType;
 }
@@ -28,7 +26,6 @@ export default function PostItem({ post }: PostItemProps) {
 
   //댓글 관련
   const [showComments, setShowComments] = useState(true);
-
   const toggleComments = () => {
     setShowComments(!showComments);
   };
@@ -43,6 +40,14 @@ export default function PostItem({ post }: PostItemProps) {
     };
     fetchComments();
   }, [post.id]);
+
+  function getCachedComment(postId: number) {
+    const cachedOperation = nextCache(getComments, ["post-comments-status"], {
+      tags: [`comments-status-${postId}`],
+    });
+    return cachedOperation(postId);
+  }
+  
 
   // 포스트 수정
   const [isEditing, setIsEditing] = useState(false);
@@ -110,7 +115,6 @@ export default function PostItem({ post }: PostItemProps) {
             ))}
           </div>
           <CommentForm postId={post.id} />
-
         </div>
       )}
     </div>
