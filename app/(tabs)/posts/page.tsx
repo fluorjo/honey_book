@@ -30,7 +30,10 @@ export const metadata = {
   title: "Posts",
 };
 
-const getCachedPosts = nextCache(getInitialPosts, ["home-posts"],{tags:['all_posts_lists']});
+const getCachedPosts = nextCache(getInitialPosts, ["home-posts"], {
+  tags: ["all_posts_lists"],
+  revalidate: 1,
+});
 
 export default async function Posts() {
   const initialPosts = await getCachedPosts();

@@ -8,6 +8,7 @@ import { getComments } from "../actions";
 // import LikeButton from "../../components/like-button";
 import TestButton from './test'
 import CommentForm from "../commentForm";
+import LikePostButton from "@/app/components/likePostButton";
 
 async function getPost(id: number) {
   try {
@@ -129,11 +130,12 @@ export default async function PostDetail({
             ))}
           </div>
           <TestButton postId={id}/>
+          <LikePostButton isLiked={isLiked} likeCount={likeCount} postId={id} />
           <CommentForm postId={id} />
 
           {/* <button onClick={()=>revalidate(post.id)}></button> */}
         </div>
-        {/* <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} /> */}
+ 
       </div>
     </div>
   );

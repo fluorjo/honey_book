@@ -7,12 +7,11 @@ import {
   PencilIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
-import { revalidateTest } from "./[id]/action";
-import { editPost, getComments } from "./actions";
+import { useState } from "react";
+import { editPost } from "./actions";
 import CommentForm from "./commentForm";
-import { PostType } from "./schema";
 import CommentList from "./commentList";
+import { PostType } from "./schema";
 interface PostItemProps {
   post: PostType;
 }
@@ -96,7 +95,6 @@ export default function PostItem({ post }: PostItemProps) {
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
           </span>
-
           <span onClick={toggleComments}>
             <ChatBubbleBottomCenterIcon className="size-4" />
             {post._count.comments}
@@ -110,7 +108,7 @@ export default function PostItem({ post }: PostItemProps) {
               <p key={comment.id}>{comment.commentText}</p>
             ))}
           </div> */}
-          <CommentList postId={post.id}/>
+          <CommentList postId={post.id} />
           <CommentForm postId={post.id} />
         </div>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { revalidateTest } from "./action";
+import { revalidateTest } from "./actions";
 
 interface props {
   postId: number;
