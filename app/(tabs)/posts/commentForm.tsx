@@ -1,3 +1,4 @@
+'use client'
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { uploadComment } from "./CommentActions";
@@ -26,7 +27,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
         alert("Error submitting comment: " + JSON.stringify(errors));
       } else {
         console.log("Comment uploaded successfully");
-        alert("Comment uploaded successfully!");
+        // alert("Comment uploaded successfully!");
       }
     } catch (error: any) {
       console.error("Submission Error:", error);

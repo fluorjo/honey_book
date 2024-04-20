@@ -1,14 +1,13 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
-import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
+import { EyeIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getComments } from "../actions";
-import CommentForm from "../commentForm";
 // import LikeButton from "../../components/like-button";
+import TestButton from './test'
+import CommentForm from "../commentForm";
 
 async function getPost(id: number) {
   try {
@@ -77,13 +76,11 @@ function getCachedLikeStatus(postId: number) {
 // 댓글
 
 function getCachedComments(postId: number) {
-    const commentCachedOperation = nextCache(getComments, ["comment-status"], {
-      tags: [`comment-status-${postId}`],
-    });
-    return commentCachedOperation(postId);
-  }
-  
-
+  const commentCachedOperation = nextCache(getComments, ["comment-status"], {
+    tags: [`comment-status-${postId}`],
+  });
+  return commentCachedOperation(postId);
+}
 
 export default async function PostDetail({
   params,
@@ -99,7 +96,8 @@ export default async function PostDetail({
     return notFound();
   }
   const { likeCount, isLiked } = await getCachedLikeStatus(id);
-  const comments=await getCachedComments(id)
+  const comments = await getCachedComments(id);
+
   return (
     <div className="p-5 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -130,6 +128,10 @@ export default async function PostDetail({
               <p key={comment.id}>{comment.commentText}</p>
             ))}
           </div>
+          <TestButton postId={id}/>
+          <CommentForm postId={id} />
+
+          {/* <button onClick={()=>revalidate(post.id)}></button> */}
         </div>
         {/* <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} /> */}
       </div>

@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
 import { commentSchema } from "./schema";
+import { revalidateTag } from "next/cache";
 
 export async function uploadComment(formData: FormData) {
   console.log("commentupload ");
@@ -46,6 +47,7 @@ export async function uploadComment(formData: FormData) {
         },
       });
       console.log("comment", comment);
+      revalidateTag(`comment-status-${postId}`);
     }
   }
 }
