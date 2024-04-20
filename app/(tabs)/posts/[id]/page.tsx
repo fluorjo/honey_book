@@ -6,6 +6,8 @@ import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/o
 import { unstable_cache as nextCache, revalidateTag } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { getComments } from "../actions";
+import CommentForm from "../commentForm";
 // import LikeButton from "../../components/like-button";
 
 async function getPost(id: number) {
@@ -72,6 +74,17 @@ function getCachedLikeStatus(postId: number) {
   return cachedOperation(postId);
 }
 
+// 댓글
+
+function getCachedComments(postId: number) {
+    const commentCachedOperation = nextCache(getComments, ["comment-status"], {
+      tags: [`comment-status-${postId}`],
+    });
+    return commentCachedOperation(postId);
+  }
+  
+
+
 export default async function PostDetail({
   params,
 }: {
@@ -86,6 +99,7 @@ export default async function PostDetail({
     return notFound();
   }
   const { likeCount, isLiked } = await getCachedLikeStatus(id);
+  const comments=await getCachedComments(id)
   return (
     <div className="p-5 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -109,6 +123,13 @@ export default async function PostDetail({
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
           <EyeIcon className="size-5" />
           <span>조회 {post.views}</span>
+        </div>
+        <div>
+          <div className="p-5 flex flex-col bg-red-400">
+            {comments.map((comment) => (
+              <p key={comment.id}>{comment.commentText}</p>
+            ))}
+          </div>
         </div>
         {/* <LikeButton isLiked={isLiked} likeCount={likeCount} postId={id} /> */}
       </div>
