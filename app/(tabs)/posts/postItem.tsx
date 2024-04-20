@@ -41,12 +41,12 @@ export default function PostItem({ post }: PostItemProps) {
     fetchComments();
   }, [post.id]);
 
-  function getCachedComment(postId: number) {
-    const cachedOperation = nextCache(getComments, ["post-comments-status"], {
-      tags: [`comments-status-${postId}`],
-    });
-    return cachedOperation(postId);
-  }
+  // function getCachedComment(postId: number) {
+  //   const cachedOperation = nextCache(getComments, ["post-comments-status"], {
+  //     tags: [`comments-status-${postId}`],
+  //   });
+  //   return cachedOperation(postId);
+  // }
   
 
   // 포스트 수정
