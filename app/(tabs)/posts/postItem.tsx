@@ -8,10 +8,11 @@ import {
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
+import { revalidateTest } from "./[id]/action";
 import { editPost, getComments } from "./actions";
 import CommentForm from "./commentForm";
 import { PostType } from "./schema";
-import { unstable_cache as nextCache } from "next/cache";
+import CommentList from "./commentList";
 interface PostItemProps {
   post: PostType;
 }
@@ -31,23 +32,16 @@ export default function PostItem({ post }: PostItemProps) {
   };
 
   // 캐싱이 되면 이것들도 정리해야 될지도.
-  const [comments, setComments] = useState<Comment[]>([]);
-  useEffect(() => {
-    const fetchComments = async () => {
-      const data = await getComments(post.id);
-      setComments(data);
-      console.log(data);
-    };
-    fetchComments();
-  }, [post.id]);
 
-  // function getCachedComment(postId: number) {
-  //   const cachedOperation = nextCache(getComments, ["post-comments-status"], {
-  //     tags: [`comments-status-${postId}`],
-  //   });
-  //   return cachedOperation(postId);
-  // }
-  
+  // useEffect(() => {
+  //   revalidateTest(post.id);
+  //   const fetchComments = async () => {
+  //     const data = await getComments(post.id);
+  //     setComments(data);
+  //     console.log("ddd", data);
+  //   };
+  //   fetchComments();
+  // }, [post.id]);
 
   // 포스트 수정
   const [isEditing, setIsEditing] = useState(false);
@@ -78,6 +72,7 @@ export default function PostItem({ post }: PostItemProps) {
         <textarea defaultValue={editedTitle} />
       )}
       {!isEditing ? (
+        // 더블 클릭을 그냥 페이지 상세로.
         <p onDoubleClick={onEdit}>{editedDescription}</p>
       ) : (
         <textarea
@@ -101,6 +96,7 @@ export default function PostItem({ post }: PostItemProps) {
             <HandThumbUpIcon className="size-4" />
             {post._count.likes}
           </span>
+
           <span onClick={toggleComments}>
             <ChatBubbleBottomCenterIcon className="size-4" />
             {post._count.comments}
@@ -109,11 +105,12 @@ export default function PostItem({ post }: PostItemProps) {
       </div>
       {showComments && (
         <div>
-          <div className="p-5 flex flex-col bg-red-400">
+          {/* <div className="p-5 flex flex-col bg-red-400">
             {comments.map((comment) => (
               <p key={comment.id}>{comment.commentText}</p>
             ))}
-          </div>
+          </div> */}
+          <CommentList postId={post.id}/>
           <CommentForm postId={post.id} />
         </div>
       )}

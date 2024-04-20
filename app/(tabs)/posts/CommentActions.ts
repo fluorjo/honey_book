@@ -4,6 +4,7 @@ import getSession from "@/lib/session";
 import { error } from "console";
 import { commentSchema } from "./schema";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function uploadComment(formData: FormData) {
   console.log("commentupload ");
@@ -19,8 +20,6 @@ export async function uploadComment(formData: FormData) {
     console.log('postId',postId)
     return { error: "Invalid postId provided" };
   }
-
-
   if (!result.success) {
     console.log("commentupload error", error);
     return result.error.flatten();
@@ -47,7 +46,6 @@ export async function uploadComment(formData: FormData) {
         },
       });
       console.log("comment", comment);
-      revalidateTag(`comment-status-${postId}`);
     }
   }
 }

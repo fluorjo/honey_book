@@ -3,9 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { uploadComment } from "./CommentActions";
 import { CommentType, commentSchema } from "./schema";
+
 interface CommentFormProps {
   postId: number;
 }
+
 const CommentForm = ({ postId }: CommentFormProps) => {
   const {
     register,
@@ -14,7 +16,6 @@ const CommentForm = ({ postId }: CommentFormProps) => {
   } = useForm<CommentType>({
     resolver: zodResolver(commentSchema),
   });
-
   const onSubmitComment = async (commentData: CommentType) => {
     console.log("commentData", commentData);
     const formData = new FormData();
@@ -22,6 +23,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
     formData.append("postId", postId.toString()); 
     try {
       const errors = await uploadComment(formData);
+
       if (errors) {
         console.log("Server-side Errors:", errors);
         alert("Error submitting comment: " + JSON.stringify(errors));
@@ -33,6 +35,8 @@ const CommentForm = ({ postId }: CommentFormProps) => {
       console.error("Submission Error:", error);
       alert("Submission Error: " + error.message);
     }
+    location.reload()
+
   };
 
   return (
