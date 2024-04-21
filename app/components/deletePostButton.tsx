@@ -1,16 +1,17 @@
 "use client";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import { deletePost } from "../(tabs)/posts/actions";
 
-interface DeletePostButtonProps {
-  postId: number;
+interface DeleteButtonProps {
+  postId: number;  // postId 혹은 commentId
+  onDelete: (postId: number) => void;  // 삭제 로직을 처리할 함수
 }
 
-export default function DeletePostButton({ postId }: DeletePostButtonProps) {
+export default function DeleteButton({ postId, onDelete }: DeleteButtonProps) {
 
   const onClick = async () => {
-    deletePost(postId);
+    onDelete(postId);
   };
+
   return (
     <button onClick={onClick} className="bg-transparent border-none">
       <TrashIcon className="size-5" />
