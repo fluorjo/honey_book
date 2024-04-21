@@ -70,7 +70,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
           {/* <PencilSquareIcon className="size-5" onClick={handleEditComment} /> */}
           <span>
             <HandThumbUpIcon className="size-4" />
-            {comment._count.likes}
+            {/* {comment._count.likes} */}
           </span>
           {/* <span onClick={toggleComments}>
             <ChatBubbleBottomCenterIcon className="size-4" />

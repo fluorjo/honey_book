@@ -30,7 +30,7 @@ export interface CommentType {
   id: number;
   commentText: string;
   created_at: Date;
-  _count: {
-    likes: number;
-  };
+  // _count: {
+  //   likes: number;
+  // };
 }

@@ -4,6 +4,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 import { postSchema } from "./schema";
 const revalidateAllpost = async () => {
   "use server";
@@ -145,11 +146,14 @@ export async function deleteComment(commentId: number) {
       throw new Error("Unauthorized to delete this comment");
     }
 
-    await db.post.delete({
+    await db.comment.delete({
       where: { id: commentId },
     });
-    revalidateAllpost();
+    // revalidateAllpost();
   } catch (e) {
+    console.log("eeeerrrrr");
     console.log(e);
   }
+  // redirect("/posts");
+
 }
