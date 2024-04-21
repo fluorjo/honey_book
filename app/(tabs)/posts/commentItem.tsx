@@ -1,9 +1,9 @@
 "use client";
 import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
-import { HandThumbUpIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { HandThumbUpIcon, PencilIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { deleteComment } from "./actions";
+import { deleteComment, editComment } from "./actions";
 import { CommentType } from "./schema";
 interface CommentItemProps {
   comment: CommentType;
@@ -38,12 +38,12 @@ export default function CommentItem({ comment }: CommentItemProps) {
   const onEdit = () => {
     setIsEditing(true);
   };
-  // const handleEditComment = async () => {
-  //   await editComment(comment.id, {
-  //     commentText: editedCommentText,
-  //   });
-  //   setIsEditing(false);
-  // };
+  const handleEditComment = async () => {
+    await editComment(comment.id, {
+      commentText: editedCommentText,
+    });
+    setIsEditing(false);
+  };
 
   // 코멘트 추가
 
@@ -67,7 +67,8 @@ export default function CommentItem({ comment }: CommentItemProps) {
         <div className="flex gap-4 items-center">
           <DeleteButton itemId={comment.id} onDelete={deleteComment} />
           <PencilIcon className="size-5" onClick={onEdit} />
-          {/* <PencilSquareIcon className="size-5" onClick={handleEditComment} /> */}
+          {/* 편집 모드일 때 = 제출 버튼은 검게 칠해진 걸로. */}
+          <PencilSquareIcon className="size-5" onClick={handleEditComment} />
           <span>
             <HandThumbUpIcon className="size-4" />
             {/* {comment._count.likes} */}

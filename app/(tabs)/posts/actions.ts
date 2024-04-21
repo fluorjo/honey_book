@@ -4,7 +4,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 import { postSchema } from "./schema";
 const revalidateAllpost = async () => {
   "use server";
@@ -155,5 +154,43 @@ export async function deleteComment(commentId: number) {
     console.log(e);
   }
   // redirect("/posts");
+}
 
+export async function editComment(
+  commentId: number,
+  data: { commentText?: string }
+) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const comment = await db.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+
+    if (comment.userId !== session.id) {
+      throw new Error("Unauthorized to edit this comment");
+    }
+
+    // 업데이트 진행
+    const updatedComment = await db.comment.update({
+      where: { id: commentId },
+      data: {
+        commentText: data.commentText,
+      },
+    });
+    console.log("editcomment", comment);
+    console.log("updatedComment", updatedComment);
+    // revalidateAllComment();
+    return updatedComment;
+  } catch (e) {
+    console.log("eerr", e);
+    throw e; // It's generally a good idea to rethrow the error after logging it
+  }
 }
