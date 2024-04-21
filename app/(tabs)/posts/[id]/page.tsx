@@ -43,7 +43,7 @@ async function getPost(id: number) {
 
 const getCachedPost = nextCache(getPost, ["post-detail"], {
   tags: ["post-detail"],
-  revalidate: 60,
+  revalidate: 1,
 });
 
 async function getLikeStatus(postId: number) {
@@ -68,7 +68,7 @@ async function getLikeStatus(postId: number) {
 }
 
 function getCachedLikeStatus(postId: number) {
-  const cachedOperation = nextCache(getLikeStatus, ["product-like-status"], {
+  const cachedOperation = nextCache(getLikeStatus, ["post-like-status"], {
     tags: [`like-status-${postId}`],
   });
   return cachedOperation(postId);
@@ -76,9 +76,9 @@ function getCachedLikeStatus(postId: number) {
 
 // 댓글
 
-function getCachedComments(postId: number) {
-  const commentCachedOperation = nextCache(getComments, ["comment-status"], {
-    tags: [`comment-status-${postId}`],
+function getCachedPostComments(postId: number) {
+  const commentCachedOperation = nextCache(getComments, ["post-comments"], {
+    tags: [`comment-${postId}`],
   });
   return commentCachedOperation(postId);
 }
@@ -97,7 +97,7 @@ export default async function PostDetail({
     return notFound();
   }
   const { likeCount, isLiked } = await getCachedLikeStatus(id);
-  const comments = await getCachedComments(id);
+  const comments = await getCachedPostComments(id);
 
   return (
     <div className="p-5 text-white">

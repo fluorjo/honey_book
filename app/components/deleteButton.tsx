@@ -2,14 +2,14 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 interface DeleteButtonProps {
-  postId: number;  // postId 혹은 commentId
-  onDelete: (postId: number) => void;  // 삭제 로직을 처리할 함수
+  itemId: number;  // itemId 혹은 commentId
+  onDelete: (itemId: number) => void;  // 삭제 로직을 처리할 함수
 }
 
-export default function DeleteButton({ postId, onDelete }: DeleteButtonProps) {
+export default function DeleteButton({ itemId, onDelete }: DeleteButtonProps) {
 
   const onClick = async () => {
-    onDelete(postId);
+    onDelete(itemId);
   };
 
   return (

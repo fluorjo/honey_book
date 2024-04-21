@@ -1,5 +1,5 @@
 "use client";
-import DeletePostButton from "@/app/components/deletePostButton";
+import DeletePostButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
@@ -12,7 +12,7 @@ import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
-import DeleteButton from "@/app/components/deletePostButton";
+import DeleteButton from "@/app/components/deleteButton";
 interface PostItemProps {
   post: PostType;
 }
@@ -89,7 +89,7 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <DeleteButton postId={post.id}onDelete={deletePost} />
+          <DeleteButton itemId={post.id}onDelete={deletePost} />
           <PencilIcon className="size-5" onClick={onEdit} />
           <PencilSquareIcon className="size-5" onClick={handleEditPost} />
           <span>

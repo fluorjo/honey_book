@@ -111,7 +111,7 @@ export async function editPost(
     throw e; // It's generally a good idea to rethrow the error after logging it
   }
 }
-
+// comment
 export async function getComments(postId: number) {
   const comments = await db.comment.findMany({
     where: { postId: postId },
@@ -125,4 +125,31 @@ export async function getComments(postId: number) {
     ...comment,
     commentText: comment.commentText ?? "No description available",
   }));
+}
+export async function deleteComment(commentId: number) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const comment = await db.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      throw new Error("Post not found");
+    }
+
+    if (comment.userId !== session.id) {
+      throw new Error("Unauthorized to delete this comment");
+    }
+
+    await db.post.delete({
+      where: { id: commentId },
+    });
+    revalidateAllpost();
+  } catch (e) {
+    console.log(e);
+  }
 }
