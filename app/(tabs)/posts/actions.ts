@@ -5,6 +5,7 @@ import getSession from "@/lib/session";
 import { error } from "console";
 import { revalidateTag } from "next/cache";
 import { postSchema } from "./schema";
+import { redirect } from "next/navigation";
 const revalidateAllpost = async () => {
   "use server";
   revalidateTag("all_posts_lists");
@@ -113,6 +114,7 @@ export async function editPost(
 }
 // comment
 export async function getComments(postId: number) {
+  
   const comments = await db.comment.findMany({
     where: { postId: postId },
     select: {
@@ -126,7 +128,10 @@ export async function getComments(postId: number) {
     commentText: comment.commentText ?? "No description available",
   }));
 }
-export async function deleteComment(commentId: number) {
+
+export async function deleteComment(commentId: number, 
+  // onSuccess: () => void
+) {
   try {
     const session = await getSession();
     if (!session || !session.id) {
@@ -148,12 +153,11 @@ export async function deleteComment(commentId: number) {
     await db.comment.delete({
       where: { id: commentId },
     });
-    // revalidateAllpost();
+    // onSuccess(); 
   } catch (e) {
     console.log("eeeerrrrr");
     console.log(e);
   }
-  // redirect("/posts");
 }
 
 export async function editComment(

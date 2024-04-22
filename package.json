@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "export PORT=3003 && next dev",
+    "dev": "next dev",
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"
-  
   },
   "dependencies": {
     "@heroicons/react": "^2.1.3",

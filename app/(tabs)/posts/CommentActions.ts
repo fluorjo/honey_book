@@ -3,8 +3,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
 import { commentSchema } from "./schema";
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function uploadComment(formData: FormData) {
   console.log("commentupload ");
@@ -17,7 +15,7 @@ export async function uploadComment(formData: FormData) {
   const postId = postIdValue ? parseInt(postIdValue, 10) : null;
   if (postId === null || isNaN(postId)) {
     console.error("Invalid postId, it must be a number and not null");
-    console.log('postId',postId)
+    console.log("postId", postId);
     return { error: "Invalid postId provided" };
   }
   if (!result.success) {
