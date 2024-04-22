@@ -1,5 +1,5 @@
 "use client";
-import DeletePostButton from "@/app/components/deleteButton";
+import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ChatBubbleBottomCenterIcon,
@@ -12,7 +12,8 @@ import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
-import DeleteButton from "@/app/components/deleteButton";
+import Link from "next/link";
+
 interface PostItemProps {
   post: PostType;
 }
@@ -65,7 +66,9 @@ export default function PostItem({ post }: PostItemProps) {
   // 코멘트 추가
 
   return (
-    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
+    <Link href={`/postDetail/${post.id}`} className="flex gap-5">
+
+    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
       {!isEditing ? (
         <h2 className="text-black text-lg font-semibold">{post.title}</h2>
       ) : (
@@ -89,7 +92,7 @@ export default function PostItem({ post }: PostItemProps) {
           <span>조회 {post.views}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <DeleteButton itemId={post.id}onDelete={deletePost} />
+          <DeleteButton itemId={post.id} onDelete={deletePost} />
           <PencilIcon className="size-5" onClick={onEdit} />
           <PencilSquareIcon className="size-5" onClick={handleEditPost} />
           <span>
@@ -114,5 +117,7 @@ export default function PostItem({ post }: PostItemProps) {
         </div>
       )}
     </div>
+    </Link>
+
   );
 }
