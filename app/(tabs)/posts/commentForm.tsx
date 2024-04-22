@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { uploadComment } from "./CommentActions";
@@ -20,10 +20,9 @@ const CommentForm = ({ postId }: CommentFormProps) => {
     console.log("commentData", commentData);
     const formData = new FormData();
     formData.append("commentText", commentData.commentText);
-    formData.append("postId", postId.toString()); 
+    formData.append("postId", postId.toString());
     try {
       const errors = await uploadComment(formData);
-
       if (errors) {
         console.log("Server-side Errors:", errors);
         alert("Error submitting comment: " + JSON.stringify(errors));
@@ -35,8 +34,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
       console.error("Submission Error:", error);
       alert("Submission Error: " + error.message);
     }
-    location.reload()
-
+    location.reload();
   };
 
   return (

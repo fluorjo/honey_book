@@ -1,12 +1,18 @@
 "use client";
 import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
-import { HandThumbUpIcon, PencilIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
+import {
+  HandThumbUpIcon,
+  PencilIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { deleteComment, editComment } from "./actions";
 import { CommentType } from "./schema";
+
 interface CommentItemProps {
   comment: CommentType;
+  mutate: () => void;
 }
 interface Comment {
   id: number;
@@ -14,7 +20,7 @@ interface Comment {
   created_at: Date;
 }
 
-export default function CommentItem({ comment }: CommentItemProps) {
+export default function CommentItem({ comment, mutate }: CommentItemProps) {
   // const commentText = comment.commentText || "No description provided.";
 
   // 캐싱이 되면 이것들도 정리해야 될지도.
@@ -44,7 +50,10 @@ export default function CommentItem({ comment }: CommentItemProps) {
     });
     setIsEditing(false);
   };
-
+  const onDelete = async (itemId: number) => {
+    await deleteComment(itemId);
+    mutate(); // 삭제 성공 후 mutate 호출
+  };
   // 코멘트 추가
 
   return (
@@ -65,7 +74,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <DeleteButton itemId={comment.id} onDelete={deleteComment} />
+          <DeleteButton itemId={comment.id} onDelete={onDelete} />
           <PencilIcon className="size-5" onClick={onEdit} />
           {/* 편집 모드일 때 = 제출 버튼은 검게 칠해진 걸로. */}
           <PencilSquareIcon className="size-5" onClick={handleEditComment} />
