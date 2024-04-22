@@ -13,7 +13,7 @@ import { revalidateTag } from "next/cache";
 
 interface CommentItemProps {
   comment: CommentType;
-  mutate: () => void;
+  mutate?: () => void;
 }
 interface Comment {
   id: number;
@@ -53,9 +53,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
   };
   const onDelete = async (itemId: number) => {
     await deleteComment(itemId);
-
-
-    mutate(); // 삭제 성공 후 mutate 호출
+    mutate?.(); 
   };
   // 코멘트 추가
 

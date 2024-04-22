@@ -2,13 +2,14 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon } from "@heroicons/react/24/solid";
-import { unstable_cache as nextCache, revalidateTag } from "next/cache";
+import { unstable_cache as nextCache } from "next/cache";
 import { notFound } from "next/navigation";
 import { getComments } from "../actions";
 // import LikeButton from "../../components/like-button";
-import TestButton from './test'
-import CommentForm from "../commentForm";
 import LikePostButton from "@/app/components/likePostButton";
+import CommentForm from "../commentForm";
+import CommentItem from "../commentItem";
+import TestButton from "./test";
 
 async function getPost(id: number) {
   try {
@@ -125,17 +126,20 @@ export default async function PostDetail({
         </div>
         <div>
           <div className="p-5 flex flex-col bg-red-400">
-            {comments.map((comment) => (
-              <p key={comment.id}>{comment.commentText}</p>
-            ))}
+            {comments &&
+              comments.map((comment: any) => (
+                <CommentItem
+                  key={comment.id}
+                  comment={comment}
+
+                />
+              ))}
           </div>
-          <TestButton postId={id}/>
+          <TestButton postId={id} />
           <LikePostButton isLiked={isLiked} likeCount={likeCount} postId={id} />
           <CommentForm postId={id} />
-
           {/* <button onClick={()=>revalidate(post.id)}></button> */}
         </div>
- 
       </div>
     </div>
   );
