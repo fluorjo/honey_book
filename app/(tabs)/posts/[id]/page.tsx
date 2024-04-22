@@ -78,7 +78,7 @@ function getCachedLikeStatus(postId: number) {
 
 function getCachedPostComments(postId: number) {
   const commentCachedOperation = nextCache(getComments, ["post-comments"], {
-    tags: [`comment-${postId}`],
+    tags: [`comment`],
   });
   return commentCachedOperation(postId);
 }

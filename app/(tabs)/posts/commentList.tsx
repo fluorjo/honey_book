@@ -1,3 +1,4 @@
+'use client'
 import useSWR from "swr";
 import CommentItem from "./commentItem";
 
@@ -11,7 +12,7 @@ interface Comment {
   created_at: Date;
 }
 
-async function CommentList({ postId }: CommentListProps) {
+ function CommentList({ postId }: CommentListProps) {
   // const [comments, setComments] = useState<Comment[]>([]);
   // useEffect(() => {
   //   async function fetchComments() {

@@ -41,7 +41,7 @@ export default function AddPost() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col bg-green-400"
     >
-      <input {...register("title")} className="bg-blue-300" />
+      <input {...register("title")} className="bg-blue-200" />
       <textarea
         {...register("description")}
         className=" bg-blue-100 transition-height duration-300 ease-in-out h-24 

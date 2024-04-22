@@ -152,6 +152,7 @@ export async function deleteComment(
     await db.comment.delete({
       where: { id: commentId },
     });
+    revalidateTag(`comment`)
     // onSuccess();
   } catch (e) {
     console.log("eeeerrrrr");
