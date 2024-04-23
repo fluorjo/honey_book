@@ -21,3 +21,9 @@ textarea {
   padding: 10px;
   resize: none;
 }
+@layer components {
+  .Icon_Button {
+    @apply size-5 ;
+  }
+}
+

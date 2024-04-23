@@ -121,7 +121,7 @@ export default async function PostDetail({
       <p className="mb-5">{post.description}</p>
       <div className="flex flex-col gap-5 items-start">
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
-          <EyeIcon className="size-5" />
+          <EyeIcon className="Icon_Button" />
           <span>조회 {post.views}</span>
         </div>
         <div>
@@ -135,7 +135,7 @@ export default async function PostDetail({
                 />
               ))}
           </div>
-          <TestButton postId={id} />
+          {/* <TestButton postId={id} /> */}
           <LikePostButton isLiked={isLiked} likeCount={likeCount} postId={id} />
           <CommentForm postId={id} />
           {/* <button onClick={()=>revalidate(post.id)}></button> */}

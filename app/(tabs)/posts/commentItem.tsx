@@ -76,11 +76,11 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
         </div>
         <div className="flex gap-4 items-center">
           <DeleteButton itemId={comment.id} onDelete={onDelete} />
-          <PencilIcon className="size-5" onClick={onEdit} />
+          <PencilIcon className="Icon_Button" onClick={onEdit} />
           {/* 편집 모드일 때 = 제출 버튼은 검게 칠해진 걸로. */}
-          <PencilSquareIcon className="size-5" onClick={handleEditComment} />
+          <PencilSquareIcon className="Icon_Button" onClick={handleEditComment} />
           <span>
-            <HandThumbUpIcon className="size-4" />
+            <HandThumbUpIcon className="Icon_Button" />
             {/* {comment._count.likes} */}
           </span>
           {/* <span onClick={toggleComments}>

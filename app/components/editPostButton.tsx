@@ -20,7 +20,7 @@ export default function EditPostButton(
 
   return (
     <button onClick={onClick} className="bg-transparent border-none">
-      <PencilSquareIcon className="size-5" />
+      <PencilSquareIcon className="Icon_Button" />
     </button>
   );
 }

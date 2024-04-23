@@ -4,10 +4,11 @@ import { formatToTimeAgo } from "@/lib/utils";
 import {
   ArrowsPointingOutIcon,
   ChatBubbleBottomCenterIcon,
+  EyeIcon,
   HandThumbUpIcon,
-  PencilIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import { PencilSquareIcon as PencilSquareIconSolid } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deletePost, editPost } from "./actions";
@@ -88,27 +89,35 @@ export default function PostItem({ post }: PostItemProps) {
       <div className="flex items-center justify-between text-sm">
         <span
           onClick={() => router.push(`/postModal/${post.id}`)}
-          className="icon-[entypo--popup] size-5"
+          className="icon-[entypo--popup] Icon_Button"
         ></span>
         <ArrowsPointingOutIcon
           onClick={() => router.push(`/postDetail/${post.id}`)}
-          className="size-5"
+          className="Icon_Button"
         />
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(post.created_at.toString())}</span>
-          <span>·</span>
-          <span>조회 {post.views}</span>
+          <span className="flex flex-row ">
+            <EyeIcon className="Icon_Button mr-1" /> {post.views}
+          </span>
         </div>
         <div className="flex gap-4 items-center">
           <DeleteButton itemId={post.id} onDelete={deletePost} />
-          <PencilIcon className="size-5" onClick={onEdit} />
-          <PencilSquareIcon className="size-5" onClick={handleEditPost} />
+          {isEditing ? (
+            <PencilSquareIconSolid
+              className="Icon_Button"
+              onClick={handleEditPost}
+            />
+          ) : (
+            <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
+          )}
+
           <span>
-            <HandThumbUpIcon className="size-4" />
+            <HandThumbUpIcon className="Icon_Button" />
             {post._count.likes}
           </span>
           <span onClick={toggleComments}>
-            <ChatBubbleBottomCenterIcon className="size-4" />
+            <ChatBubbleBottomCenterIcon className="Icon_Button" />
             {post._count.comments}
           </span>
         </div>
