@@ -1,5 +1,5 @@
+import BackButton from "@/app/components/backButton";
 import db from "@/lib/db";
-import { XMarkIcon } from "@heroicons/react/24/solid";
 import { unstable_cache as nextCache } from "next/cache";
 import { notFound } from "next/navigation";
 import { getComments } from "../../../actions";
@@ -60,8 +60,11 @@ export default async function Modal({ params }: { params: { id: string } }) {
     return notFound();
   }
   const comments = await getCachedPostComments(id);
+
   return (
-    <div className="absolute w-full h-full z-50 flex items-center justify-center bg-black bg-opacity-60 left-0 top-0">
+    <>
+      <BackButton />
+
       <h2 className="text-lg font-semibold bg-blue-200">{post.title}</h2>
       <p className="mb-5 bg-blue-400">{post.description}</p>
       <div className="p-5 flex flex-col bg-red-400">
@@ -70,15 +73,12 @@ export default async function Modal({ params }: { params: { id: string } }) {
             <CommentItem key={comment.id} comment={comment} />
           ))}
       </div>
-      {/* 버튼만 따로 다른 파일로 분리시키기 */}
-      <button className="absolute right-5 top-5 text-neutral-200">
-        <XMarkIcon className="size-10" />
-      </button>
+
       {/* <div className="max-w-screen-sm h-1/2  flex justify-center w-full">
         <div className="aspect-square  bg-neutral-700 text-neutral-200  rounded-md flex justify-center items-center">
           <PhotoIcon className="h-28" />
         </div>
       </div> */}
-    </div>
+    </>
   );
 }
