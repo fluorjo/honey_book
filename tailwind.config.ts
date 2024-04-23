@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const { addDynamicIconSelectors } = require("@iconify/tailwind");
 
 const config: Config = {
   content: [
@@ -23,14 +24,18 @@ const config: Config = {
         intro: "intro 1s ease-in-out",
       },
       transitionProperty: {
-        'height': 'height'
-      }
+        height: "height",
+      },
     },
   },
   corePlugins: {
     preflight: false,
   },
-  plugins: [require("daisyui"), require("@tailwindcss/forms")],
+  plugins: [
+    require("daisyui"),
+    require("@tailwindcss/forms"),
+    addDynamicIconSelectors(),
+  ],
   // daisyUI config (optional - here are the default values)
   daisyui: {
     themes: [

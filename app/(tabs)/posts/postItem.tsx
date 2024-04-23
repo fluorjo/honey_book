@@ -2,17 +2,18 @@
 import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
+  ArrowsPointingOutIcon,
   ChatBubbleBottomCenterIcon,
   HandThumbUpIcon,
   PencilIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
-import Link from "next/link";
 
 interface PostItemProps {
   post: PostType;
@@ -64,10 +65,9 @@ export default function PostItem({ post }: PostItemProps) {
   };
 
   // 코멘트 추가
+  const router = useRouter();
 
   return (
-    <Link href={`/postDetail/${post.id}`} className="flex gap-5">
-
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
       {!isEditing ? (
         <h2 className="text-black text-lg font-semibold">{post.title}</h2>
@@ -86,6 +86,14 @@ export default function PostItem({ post }: PostItemProps) {
         />
       )}
       <div className="flex items-center justify-between text-sm">
+        <span
+          onClick={() => router.push(`/postModal/${post.id}`)}
+          className="icon-[entypo--popup] size-5"
+        ></span>
+        <ArrowsPointingOutIcon
+          onClick={() => router.push(`/postDetail/${post.id}`)}
+          className="size-5"
+        />
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(post.created_at.toString())}</span>
           <span>·</span>
@@ -117,7 +125,5 @@ export default function PostItem({ post }: PostItemProps) {
         </div>
       )}
     </div>
-    </Link>
-
   );
 }
