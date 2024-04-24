@@ -1,22 +1,21 @@
 "use client";
+import LikePostButtonForList from "@/app/components/LikePostButtonForList";
 import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ArrowsPointingOutIcon,
   ChatBubbleBottomCenterIcon,
   EyeIcon,
-  HandThumbUpIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import { PencilSquareIcon as PencilSquareIconSolid } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import useSWR from "swr";
 import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
-import useSWR from "swr";
-import LikePostButton2 from "@/app/components/likePostButton2";
 
 interface PostItemProps {
   post: PostType;
@@ -69,9 +68,9 @@ export default function PostItem({ post }: PostItemProps) {
 
   // 코멘트 추가
   const router = useRouter();
- // 좋아요
- const fetcher = (url: any) => fetch(url).then((res) => res.json());
- const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
+  // 좋아요
+  const fetcher = (url: any) => fetch(url).then((res) => res.json());
+  const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
 
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
@@ -116,16 +115,19 @@ export default function PostItem({ post }: PostItemProps) {
           ) : (
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
           )}
-
-          {/* <span className='bg-slate-400 p-0 m-0'> */}
-            <HandThumbUpIcon className="Icon_Button " />
-            {post._count.likes}
-          {/* </span> */}
-          <LikePostButton2 isLiked={data?.isLiked} likeCount={data?.likeCount} postId={post.id} mutate={mutate} />
-          {/* <span onClick={toggleComments}> */}
+          <LikePostButtonForList
+            isLiked={data?.isLiked}
+            likeCount={data?.likeCount}
+            postId={post.id}
+            mutate={mutate}
+          />
+          <span
+            onClick={toggleComments}
+            className="bg-transparent border-0 flex flex-row"
+          >
             <ChatBubbleBottomCenterIcon className="Icon_Button" />
             {post._count.comments}
-          {/* </span> */}
+          </span>
         </div>
       </div>
       {showComments && (

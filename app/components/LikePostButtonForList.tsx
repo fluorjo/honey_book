@@ -40,11 +40,7 @@ export default function LikePostButton({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2  transition-colors ${
-        state.isLiked
-          ? "bg-orange-500 text-white border-orange-500"
-          : "hover:bg-neutral-800"
-      }`}
+      className={`bg-transparent border-0 flex flex-row`}
     >
       {state.isLiked ? (
         <HandThumbUpIcon className="Icon_Button" />
@@ -54,7 +50,7 @@ export default function LikePostButton({
       {state.isLiked ? (
         <span> {state.likeCount}</span>
       ) : (
-        <span>공감하기 ({state.likeCount})</span>
+        <span> {state.likeCount}</span>
       )}
     </button>
   );

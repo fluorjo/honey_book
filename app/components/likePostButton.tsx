@@ -1,9 +1,9 @@
 "use client";
 
+import { dislikePost, likePost } from "@/app/(tabs)/posts/[id]/actions";
 import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { useOptimistic } from "react";
-import { dislikePost, likePost } from "@/app/(tabs)/posts/[id]/actions";
 
 interface LikeButtonProps {
   isLiked: boolean;
@@ -11,7 +11,7 @@ interface LikeButtonProps {
   postId: number;
 }
 
-export default function LikePostButton2({
+export default function LikePostButtonForList({
   isLiked,
   likeCount,
   postId,
