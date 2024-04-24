@@ -1,20 +1,22 @@
 "use client";
 
+import { dislikePost, likePost } from "@/app/(tabs)/posts/[id]/actions";
 import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { useOptimistic } from "react";
-import { dislikePost, likePost } from "@/app/(tabs)/posts/[id]/actions";
 
 interface LikeButtonProps {
   isLiked: boolean;
   likeCount: number;
   postId: number;
+  mutate?: () => void;
 }
 
-export default function LikePostButton2({
+export default function LikePostButton({
   isLiked,
   likeCount,
   postId,
+  mutate,
 }: LikeButtonProps) {
   const [state, reducerFn] = useOptimistic(
     { isLiked, likeCount },
@@ -29,8 +31,10 @@ export default function LikePostButton2({
     reducerFn(undefined);
     if (isLiked) {
       await dislikePost(postId);
+      mutate?.();
     } else {
       await likePost(postId);
+      mutate?.();
     }
   };
   return (

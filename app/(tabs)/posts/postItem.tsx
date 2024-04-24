@@ -16,7 +16,7 @@ import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
 import useSWR from "swr";
-import LikePostButton from "@/app/components/likePostButton";
+import LikePostButton2 from "@/app/components/likePostButton2";
 
 interface PostItemProps {
   post: PostType;
@@ -121,7 +121,7 @@ export default function PostItem({ post }: PostItemProps) {
             <HandThumbUpIcon className="Icon_Button " />
             {post._count.likes}
           {/* </span> */}
-          <LikePostButton isLiked={data?.isLiked} likeCount={data?.likeCount} postId={post.id} />
+          <LikePostButton2 isLiked={data?.isLiked} likeCount={data?.likeCount} postId={post.id} mutate={mutate} />
           {/* <span onClick={toggleComments}> */}
             <ChatBubbleBottomCenterIcon className="Icon_Button" />
             {post._count.comments}

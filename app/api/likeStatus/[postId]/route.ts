@@ -2,6 +2,7 @@
 
 import getSession from "@/lib/session";
 import { PrismaClient } from "@prisma/client";
+import { boolean } from "zod";
 
 // async function getLikeStatus(postId: number) {
 //   const session = await getSession();
@@ -46,10 +47,11 @@ export async function GET(
         postId: parseInt(params.postId),
       },
     });
-    return {
+    return Response.json({
+      ok: true,
       likeCount,
-      isLiked: Boolean(isLiked),
-    };
+      isLiked:Boolean(isLiked),
+    });
   } catch (error) {
     console.error("Error fetching comments:", error);
   }
