@@ -12,11 +12,11 @@ import { PencilSquareIcon as PencilSquareIconSolid } from "@heroicons/react/24/s
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
+import DropdownMenu from "../../components/dropDown";
 import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
-
 interface PostItemProps {
   post: PostType;
 }
@@ -71,9 +71,30 @@ export default function PostItem({ post }: PostItemProps) {
   // 좋아요
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
   const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
+  function checkAndCloseDropDown(e: { currentTarget: any }) {
+    let targetEl = e.currentTarget;
+    if (targetEl && targetEl.matches(":focus")) {
+      setTimeout(function () {
+        targetEl.blur();
+      }, 0);
+    }
+  }
+  let openDropdown: boolean = false;
 
+  function handleClickItem() {
+    // close it
+    openDropdown = false;
+  }
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
+
+      <DropdownMenu
+        post={post}
+        deletePost={deletePost}
+        isEditing={isEditing}
+        handleEditPost={handleEditPost}
+        onEdit={onEdit}
+      />
       {!isEditing ? (
         <h2 className="text-black text-lg font-semibold">{post.title}</h2>
       ) : (
@@ -106,7 +127,7 @@ export default function PostItem({ post }: PostItemProps) {
           </span>
         </div>
         <div className="flex gap-4 items-center">
-          <DeleteButton itemId={post.id} onDelete={deletePost} />
+          {/* <DeleteButton itemId={post.id} onDelete={deletePost} />
           {isEditing ? (
             <PencilSquareIconSolid
               className="Icon_Button"
@@ -114,7 +135,7 @@ export default function PostItem({ post }: PostItemProps) {
             />
           ) : (
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
-          )}
+          )} */}
           <LikePostButtonForList
             isLiked={data?.isLiked}
             likeCount={data?.likeCount}
