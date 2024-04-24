@@ -12,10 +12,7 @@ export default function DeleteButton({ itemId, onDelete }: DeleteButtonProps) {
   };
 
   return (
-    <button
-      onClick={onClick}
-      className="Icon_Button bg-transparent border-none"
-    >
+    <button onClick={onClick} className="Icon_Button border-none p-0 bg-transparent">
       <TrashIcon className="Icon_Button" />
     </button>
   );

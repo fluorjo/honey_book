@@ -3,17 +3,17 @@ import { PencilSquareIcon as PencilSquareIconSolid } from "@heroicons/react/24/s
 import { useState } from "react";
 import DeleteButton from "./deleteButton";
 interface Post {
-    id: number;
-  }
-  
-  interface DropdownMenuProps {
-    post: Post;
-    deletePost: (postId: number) => void; 
-    isEditing: boolean;
-    handleEditPost: () => void; 
-    onEdit: () => void; 
-  }
-  
+  id: number;
+}
+
+interface DropdownMenuProps {
+  post: Post;
+  deletePost: (postId: number) => void;
+  isEditing: boolean;
+  handleEditPost: () => void;
+  onEdit: () => void;
+}
+
 export default function DropdownMenu({
   post,
   deletePost,
@@ -32,23 +32,27 @@ export default function DropdownMenu({
   }
 
   return (
-    <div className={`dropdown ${isOpen ? "dropdown-open" : ""} dropdown-end`}>
+    <div
+      className={`dropdown ${
+        isOpen ? "dropdown-open" : ""
+      } dropdown-end  flex justify-end h-5 top-6 pr-4`}
+    >
       <div
         tabIndex={0}
         role="button"
-        className="btn m-1"
+        className="btn m-0 p-0 min-h-0 bg-transparent"
         onMouseDown={toggleDropdown}
       >
-        <span className="icon-[uil--bars]"></span>
+        <span className="icon-[uil--bars] Icon_Button"></span>
       </div>
       <ul
         tabIndex={0}
-        className={`dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 ${
+        className={`dropdown-content z-[1] menu p-0 shadow bg-base-100 rounded-box top-6 ${
           isOpen ? "" : "hidden"
-        }`}
+        } `}
       >
         <li>
-          <a onClick={closeDropdown}>
+          <a onClick={closeDropdown} className=''>
             <DeleteButton itemId={post.id} onDelete={deletePost} />
           </a>
         </li>
