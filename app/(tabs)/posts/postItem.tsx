@@ -15,6 +15,8 @@ import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
+import useSWR from "swr";
+import LikePostButton from "@/app/components/likePostButton";
 
 interface PostItemProps {
   post: PostType;
@@ -67,6 +69,9 @@ export default function PostItem({ post }: PostItemProps) {
 
   // 코멘트 추가
   const router = useRouter();
+ // 좋아요
+ const fetcher = (url: any) => fetch(url).then((res) => res.json());
+ const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
 
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
@@ -116,6 +121,7 @@ export default function PostItem({ post }: PostItemProps) {
             <HandThumbUpIcon className="Icon_Button " />
             {post._count.likes}
           {/* </span> */}
+          <LikePostButton isLiked={data?.isLiked} likeCount={data?.likeCount} postId={post.id} />
           {/* <span onClick={toggleComments}> */}
             <ChatBubbleBottomCenterIcon className="Icon_Button" />
             {post._count.comments}
