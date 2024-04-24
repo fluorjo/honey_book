@@ -112,14 +112,14 @@ export default function PostItem({ post }: PostItemProps) {
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
           )}
 
-          <span>
-            <HandThumbUpIcon className="Icon_Button" />
+          {/* <span className='bg-slate-400 p-0 m-0'> */}
+            <HandThumbUpIcon className="Icon_Button " />
             {post._count.likes}
-          </span>
-          <span onClick={toggleComments}>
+          {/* </span> */}
+          {/* <span onClick={toggleComments}> */}
             <ChatBubbleBottomCenterIcon className="Icon_Button" />
             {post._count.comments}
-          </span>
+          {/* </span> */}
         </div>
       </div>
       {showComments && (

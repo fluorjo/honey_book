@@ -112,6 +112,7 @@ export async function editPost(
   }
 }
 // comment
+// 유저명을 가져와야 되는데.
 export async function getComments(postId: number) {
   const comments = await db.comment.findMany({
     where: { postId: postId },

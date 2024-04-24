@@ -9,7 +9,6 @@ import {
 import { useState } from "react";
 import { deleteComment, editComment } from "./actions";
 import { CommentType } from "./schema";
-import { revalidateTag } from "next/cache";
 
 interface CommentItemProps {
   comment: CommentType;
@@ -22,20 +21,6 @@ interface Comment {
 }
 
 export default function CommentItem({ comment, mutate }: CommentItemProps) {
-  // const commentText = comment.commentText || "No description provided.";
-
-  // 캐싱이 되면 이것들도 정리해야 될지도.
-
-  // useEffect(() => {
-  //   revalidateTest(comment.id);
-  //   const fetchComments = async () => {
-  //     const data = await getComments(comment.id);
-  //     setComments(data);
-  //     console.log("ddd", data);
-  //   };
-  //   fetchComments();
-  // }, [comment.id]);
-
   // 포스트 수정
   const [isEditing, setIsEditing] = useState(false);
   const [editedCommentText, setEditedCommentText] = useState(
@@ -53,7 +38,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
   };
   const onDelete = async (itemId: number) => {
     await deleteComment(itemId);
-    mutate?.(); 
+    mutate?.();
   };
   // 코멘트 추가
 
@@ -78,7 +63,10 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           <DeleteButton itemId={comment.id} onDelete={onDelete} />
           <PencilIcon className="Icon_Button" onClick={onEdit} />
           {/* 편집 모드일 때 = 제출 버튼은 검게 칠해진 걸로. */}
-          <PencilSquareIcon className="Icon_Button" onClick={handleEditComment} />
+          <PencilSquareIcon
+            className="Icon_Button"
+            onClick={handleEditComment}
+          />
           <span>
             <HandThumbUpIcon className="Icon_Button" />
             {/* {comment._count.likes} */}
