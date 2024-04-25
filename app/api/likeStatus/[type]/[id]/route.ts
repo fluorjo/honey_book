@@ -5,25 +5,26 @@ import { PrismaClient } from "@prisma/client";
 
 export async function GET(
   _request: Request,
-  { params }: { params: { postId: string } },
+  { params }: { params: { id: string, type: string }  },
   response: Response
 ) {
   const session = await getSession();
   const db = new PrismaClient();
 
   try {
-    const isLiked = await db.like.findUnique({
+    // id와 type을 통해 댓글인지 포스트인지 구분
+    const { id, type } = params;
+    const whereClause =
+      type === "post" ? { postId: parseInt(id) } : { commentId: parseInt(id) };
+
+    const isLiked = await db.like.findFirst({
       where: {
-        id: {
-          postId: parseInt(params.postId),
-          userId: session.id!,
-        },
+        ...whereClause,
+        userId: session.id,
       },
     });
     const likeCount = await db.like.count({
-      where: {
-        postId: parseInt(params.postId),
-      },
+      where: whereClause,
     });
     return Response.json({
       ok: true,
@@ -32,5 +33,6 @@ export async function GET(
     });
   } catch (error) {
     console.error("Error fetching comments:", error);
+    return response.json();
   }
 }

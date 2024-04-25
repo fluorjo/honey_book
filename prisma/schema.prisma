@@ -80,4 +80,6 @@ model Like {
   userId     Int
   postId     Int?
   commentId  Int?
+
+  @@unique([userId, postId, commentId])
 }

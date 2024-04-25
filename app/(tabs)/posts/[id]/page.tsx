@@ -49,12 +49,10 @@ const getCachedPost = nextCache(getPost, ["post-detail"], {
 
 async function getLikeStatus(postId: number) {
   const session = await getSession();
-  const isLiked = await db.like.findUnique({
+  const isLiked = await db.like.findFirst({
     where: {
-      id: {
         postId,
         userId: session.id!,
-      },
     },
   });
   const likeCount = await db.like.count({
