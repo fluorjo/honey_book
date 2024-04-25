@@ -2,23 +2,23 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { PencilSquareIcon as PencilSquareIconSolid } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import DeleteButton from "./deleteButton";
-interface Post {
+interface Comment {
   id: number;
 }
 
 interface DropdownMenuProps {
-  post: Post;
-  deletePost: (postId: number) => void;
+  comment: Comment;
+  deleteComment: (commentId: number) => void;
   isEditing: boolean;
-  handleEditPost: () => void;
+  handleEditComment: () => void;
   onEdit: () => void;
 }
 
 export default function DropdownBottomMenu({
-  post,
-  deletePost,
+  comment,
+  deleteComment,
   isEditing,
-  handleEditPost,
+  handleEditComment,
   onEdit,
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,9 +33,9 @@ export default function DropdownBottomMenu({
 
   return (
     <div
-      className={`dropdown dropdown-top${
+      className={`dropdown dropdown-top dropdown-end${
         isOpen ? "dropdown-open" : ""
-      } dropdown-end  flex justify-end h-5 top-0 pr-4 `}
+      }   flex justify-end h-5 top-0 pr-4 `}
     >
       <div
         tabIndex={0}
@@ -53,7 +53,7 @@ export default function DropdownBottomMenu({
       >
         <li>
           <a onClick={closeDropdown} className="">
-            <DeleteButton itemId={post.id} onDelete={deletePost} />
+            <DeleteButton itemId={comment.id} onDelete={deleteComment} />
           </a>
         </li>
         <li>
@@ -61,7 +61,7 @@ export default function DropdownBottomMenu({
             {isEditing ? (
               <PencilSquareIconSolid
                 className="Icon_Button"
-                onClick={handleEditPost}
+                onClick={handleEditComment}
               />
             ) : (
               <PencilSquareIcon className="Icon_Button" onClick={onEdit} />

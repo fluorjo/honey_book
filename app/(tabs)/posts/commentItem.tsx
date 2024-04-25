@@ -1,6 +1,7 @@
 "use client";
 import LikeButton from "@/app/components/LikeButton";
 import DeleteButton from "@/app/components/deleteButton";
+import DropdownBottomMenu from "@/app/components/dropDownBottom";
 import { formatToTimeAgo } from "@/lib/utils";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
@@ -85,7 +86,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
-          <DeleteButton itemId={comment.id} onDelete={onDelete} />
+          {/* <DeleteButton itemId={comment.id} onDelete={onDelete} />
           {!isEditing ? (
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
           ) : (
@@ -93,11 +94,9 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
               className="Icon_Button"
               onClick={handleEditComment}
             />
-          )}
+          )} */}
 
           <span>
-            {/* <HandThumbUpIcon className="Icon_Button" /> */}
-            {/* {comment._count.likes} */}
             <LikeButton
               isLiked={likeStatus?.isLiked}
               likeCount={likeStatus?.likeCount}
@@ -106,9 +105,13 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
               type={"comment"}
             />
           </span>
-          {/* <span onClick={toggleComments}>
-            <ChatBubbleBottomCenterIcon className="size-4" />
-          </span> */}
+          <DropdownBottomMenu
+        comment={comment}
+        deleteComment={onDelete}
+        isEditing={isEditing}
+        handleEditComment={handleEditComment}
+        onEdit={onEdit}
+          />
         </div>
       </div>
     </div>
