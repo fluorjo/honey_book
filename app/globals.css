@@ -26,15 +26,16 @@ textarea {
     @apply size-5;
   }
   .text-overflow {
-    @apply overflow-hidden break-words;
+    @apply overflow-hidden break-words min-h-[2rem] pt-2 ;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     @apply line-clamp-2;
     cursor: pointer; /* 포인터를 클릭 가능하게 변경 */
-    transition: height 0.3s ease; /* 부드러운 전환 효과 */
+    /* transition: height 0.3s ease;  */
   }
 
   .text-overflow.expanded {
+    @apply max-h-[250rem];
     -webkit-line-clamp: unset; /* 확장 시 제한 해제 */
   }
 }

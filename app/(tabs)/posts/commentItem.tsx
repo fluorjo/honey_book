@@ -62,10 +62,10 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     setExpanded(!expanded); // 상태 토글
   };
   return (
-    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-secondary max-w-full ">
+    <div className="mb-5 border-b border-neutral-500 text-black flex flex-col gap-2  bg-secondary max-w-full p-2">
       <div className="flex flex-row">
         {" "}
-        <div className=" overflow-hidden  flex flex-row items-center space-x-1  bg-red-400">
+        <div className=" overflow-hidden  flex flex-col  items-center space-y-1 mr-2">
           {userInfo?.user.avatar !== null ? (
             <Image
               src={userInfo?.user.avatar}
@@ -81,14 +81,18 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
         </div>
         {!isEditing ? (
           <div
-            className={`text-overflow ${expanded ? "expanded" : ""} max-w-[70%]`}
+            className={`text-overflow ${
+              expanded ? "expanded" : ""
+            } max-w-[70%]  bg-gray-200 px-2 rounded-md `}
             onClick={toggleExpand}
           >
             {editedCommentText}
           </div>
         ) : (
           <textarea
-            className="bg-blue-200 text-overflow"
+            className={`text-overflow ${
+              expanded ? "expanded" : ""
+            } max-w-[70%] `}
             defaultValue={editedCommentText}
             onChange={(e) => setEditedCommentText(e.target.value)}
             // onBlur={handleEditComment}

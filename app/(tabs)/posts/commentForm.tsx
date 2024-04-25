@@ -38,14 +38,15 @@ const CommentForm = ({ postId }: CommentFormProps) => {
   };
 
   return (
-    <form className="bg-blue-500" onSubmit={handleSubmit(onSubmitComment)}>
+    <form className="flex flex-row items-center justify-evenly" onSubmit={handleSubmit(onSubmitComment)}>
       <textarea
-        className="bg-blue-200"
+        className="textarea textarea-bordered"
         placeholder="Comment this post"
         required
         {...register("commentText")}
       />
-      <input type="submit" value="Submit" />
+      <button className="btn btn-primary">Post</button>
+
       {errors.commentText && <p>{errors.commentText.message}</p>}
     </form>
   );
