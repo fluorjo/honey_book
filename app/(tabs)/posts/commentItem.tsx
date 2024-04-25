@@ -106,11 +106,12 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
         </div>
         <div className="flex gap-4 items-center">
           {!isEditing ? (
-            <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
+            null
           ) : (
-            <PencilIcon className="Icon_Button" onClick={handleEditComment} />
-          )}
+            // <PencilIcon className="Icon_Button" onClick={handleEditComment} />
+            <button className="btn btn-primary" onClick={handleEditComment}>Post</button>
 
+          )}
           <span>
             <LikeButton
               isLiked={likeStatus?.isLiked}

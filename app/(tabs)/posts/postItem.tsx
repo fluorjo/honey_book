@@ -102,12 +102,17 @@ export default function PostItem({ post }: PostItemProps) {
       {!isEditing ? (
         <p>{editedDescription}</p>
       ) : (
-        <textarea
-          className="bg-blue-200"
-          defaultValue={editedDescription}
-          onChange={(e) => setEditedDescription(e.target.value)}
-          onBlur={handleEditPost}
-        />
+        <>
+          <textarea
+            className="bg-blue-200"
+            defaultValue={editedDescription}
+            onChange={(e) => setEditedDescription(e.target.value)}
+            // onBlur={handleEditPost}
+          />
+          <button className="btn btn-primary" onClick={handleEditPost}>
+            Post
+          </button>
+        </>
       )}
       <div className="flex items-center justify-between text-sm">
         <div className="flex gap-4 items-center">
