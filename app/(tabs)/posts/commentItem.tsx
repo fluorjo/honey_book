@@ -2,7 +2,11 @@
 import LikeButton from "@/app/components/LikeButton";
 import DropdownBottomMenu from "@/app/components/dropDownBottom";
 import { formatToTimeAgo } from "@/lib/utils";
-import { PencilIcon, PencilSquareIcon, UserIcon } from "@heroicons/react/24/solid";
+import {
+  PencilIcon,
+  PencilSquareIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
@@ -50,6 +54,13 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     fetcher
   );
 
+  // 택스트 펼침, 접음
+
+  const [expanded, setExpanded] = useState(false); // 펼침 상태를 관리하는 상태 변수
+
+  const toggleExpand = () => {
+    setExpanded(!expanded); // 상태 토글
+  };
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-secondary max-w-full ">
       <div className="flex flex-row">
@@ -68,9 +79,13 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           )}
           <span>{userInfo?.user.username}</span>
         </div>
-   
         {!isEditing ? (
-          <h3 className='text-overflow hover:xxxxx bg-green-200 max-w-[70%]'>{editedCommentText}</h3>
+          <div
+            className={`text-overflow ${expanded ? "expanded" : ""} max-w-[70%]`}
+            onClick={toggleExpand}
+          >
+            {editedCommentText}
+          </div>
         ) : (
           <textarea
             className="bg-blue-200 text-overflow"
@@ -86,14 +101,10 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
-
           {!isEditing ? (
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
           ) : (
-            <PencilIcon
-              className="Icon_Button"
-              onClick={handleEditComment}
-            />
+            <PencilIcon className="Icon_Button" onClick={handleEditComment} />
           )}
 
           <span>

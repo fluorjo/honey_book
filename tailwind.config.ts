@@ -26,7 +26,16 @@ const config: Config = {
       transitionProperty: {
         height: "height",
       },
+      lineClamp: {
+        '2': '2',
+        'none': 'unset'
+      }
     },
+  },
+  variants: {
+    extend: {
+      lineClamp: ['hover']
+    }
   },
   corePlugins: {
     preflight: false,
@@ -35,48 +44,50 @@ const config: Config = {
     require("daisyui"),
     require("@tailwindcss/forms"),
     addDynamicIconSelectors(),
+    require('@tailwindcss/line-clamp'),
+
   ],
   // daisyUI config (optional - here are the default values)
   daisyui: {
     themes: [
       {
-        'bumblebee': {
-           'primary' : '#f9d72f',
-           'primary-focus' : '#e9c307',
-           'primary-content' : '#18182f',
+        bumblebee: {
+          primary: "#f9d72f",
+          "primary-focus": "#e9c307",
+          "primary-content": "#18182f",
 
-           'secondary' : '#dfa62a',
-           'secondary-focus' : '#be8b1e',
-           'secondary-content' : '#ffffff',
+          secondary: "#dfa62a",
+          "secondary-focus": "#be8b1e",
+          "secondary-content": "#ffffff",
 
-           'accent' : '#18182f',
-           'accent-focus' : '#111122',
-           'accent-content' : '#ffffff',
+          accent: "#18182f",
+          "accent-focus": "#111122",
+          "accent-content": "#ffffff",
 
-           'neutral' : '#18182f',
-           'neutral-focus' : '#111122',
-           'neutral-content' : '#ffffff',
+          neutral: "#18182f",
+          "neutral-focus": "#111122",
+          "neutral-content": "#ffffff",
 
-           'base-100' : '#ffffc8',
-           'base-200' : '#f5f5f5',
-           'base-300' : '#e3e3e3',
-           'base-content' : '#000000',
+          "base-100": "#ffffc8",
+          "base-200": "#f5f5f5",
+          "base-300": "#e3e3e3",
+          "base-content": "#000000",
 
-           'info' : '#1c92f2',
-           'success' : '#009485',
-           'warning' : '#ff9900',
-           'error' : '#ff5724',
+          info: "#1c92f2",
+          success: "#009485",
+          warning: "#ff9900",
+          error: "#ff5724",
 
-          '--rounded-box': '1rem',          
-          '--rounded-btn': '.5rem',        
-          '--rounded-badge': '1.9rem',      
+          "--rounded-box": "1rem",
+          "--rounded-btn": ".5rem",
+          "--rounded-badge": "1.9rem",
 
-          '--animation-btn': '.25s',       
-          '--animation-input': '.2s',       
+          "--animation-btn": ".25s",
+          "--animation-input": ".2s",
 
-          '--btn-text-case': 'uppercase',   
-          '--navbar-padding': '.5rem',      
-          '--border-btn': '1px',            
+          "--btn-text-case": "uppercase",
+          "--navbar-padding": ".5rem",
+          "--border-btn": "1px",
         },
       },
     ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
