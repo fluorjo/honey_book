@@ -32,18 +32,6 @@ export default function PostItem({ post }: PostItemProps) {
     setShowComments(!showComments);
   };
 
-  // 캐싱이 되면 이것들도 정리해야 될지도.
-
-  // useEffect(() => {
-  //   revalidateTest(post.id);
-  //   const fetchComments = async () => {
-  //     const data = await getComments(post.id);
-  //     setComments(data);
-  //     console.log("ddd", data);
-  //   };
-  //   fetchComments();
-  // }, [post.id]);
-
   // 포스트 수정
   const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState(
@@ -68,22 +56,14 @@ export default function PostItem({ post }: PostItemProps) {
   // 좋아요
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
   const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
-  function checkAndCloseDropDown(e: { currentTarget: any }) {
-    let targetEl = e.currentTarget;
-    if (targetEl && targetEl.matches(":focus")) {
-      setTimeout(function () {
-        targetEl.blur();
-      }, 0);
-    }
-  }
-  let openDropdown: boolean = false;
+  const { data: userInfo } = useSWR(`api/userInfo/${[post.id]}`, fetcher);
 
-  function handleClickItem() {
-    // close it
-    openDropdown = false;
-  }
+  // const getCachedPostUserInfo = nextCache(getPostUserInfo, ["post-userInfo"], {
+  //   tags: ["post-userInfo"],
+  // });
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
+      <span>{userInfo?.user.username}</span>
       <div className="bg-transparent flex flex-row justify-end relative top-4">
         <span
           onClick={() => router.push(`/postModal/${post.id}`)}

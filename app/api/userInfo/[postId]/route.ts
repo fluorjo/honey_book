@@ -2,7 +2,6 @@
 
 import getSession from "@/lib/session";
 import { PrismaClient } from "@prisma/client";
-
 export async function GET(
   _request: Request,
   { params }: { params: { postId: string } },
@@ -12,24 +11,20 @@ export async function GET(
   const db = new PrismaClient();
 
   try {
-    const isLiked = await db.like.findUnique({
+    const postUser = await db.post.findUnique({
       where: {
-        id: {
-          postId: parseInt(params.postId),
-          userId: session.id!,
+        id: parseInt(params.postId),
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            avatar: true,
+          },
         },
       },
     });
-    const likeCount = await db.like.count({
-      where: {
-        postId: parseInt(params.postId),
-      },
-    });
-    return Response.json({
-      ok: true,
-      likeCount,
-      isLiked: Boolean(isLiked),
-    });
+    return Response.json(postUser);
   } catch (error) {
     console.error("Error fetching comments:", error);
   }
