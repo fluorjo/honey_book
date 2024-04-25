@@ -35,24 +35,24 @@ export default function DropdownMenu({
     <div
       className={`dropdown ${
         isOpen ? "dropdown-open" : ""
-      } dropdown-end  flex justify-end h-5 top-6 pr-4`}
+      } dropdown-end  flex justify-end h-5 top-0 pr-4 `}
     >
       <div
         tabIndex={0}
         role="button"
-        className="btn m-0 p-0 min-h-0 bg-transparent"
+        className="btn m-0 p-0 h-5 min-h-0 bg-transparent  border-none shadow-none"
         onMouseDown={toggleDropdown}
       >
         <span className="icon-[uil--bars] Icon_Button"></span>
       </div>
       <ul
         tabIndex={0}
-        className={`dropdown-content z-[1] menu p-0 shadow bg-base-100 rounded-box top-6 ${
+        className={`dropdown-content z-[1] menu p-0 shadow bg-base-100 rounded-box top-4 ${
           isOpen ? "" : "hidden"
         } `}
       >
         <li>
-          <a onClick={closeDropdown} className=''>
+          <a onClick={closeDropdown} className="">
             <DeleteButton itemId={post.id} onDelete={deletePost} />
           </a>
         </li>

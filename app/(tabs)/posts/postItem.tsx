@@ -84,13 +84,24 @@ export default function PostItem({ post }: PostItemProps) {
   }
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
-      <DropdownMenu
-        post={post}
-        deletePost={deletePost}
-        isEditing={isEditing}
-        handleEditPost={handleEditPost}
-        onEdit={onEdit}
-      />
+      <div className="bg-transparent flex flex-row justify-end relative top-4">
+        <span
+          onClick={() => router.push(`/postModal/${post.id}`)}
+          className="icon-[entypo--popup] Icon_Button"
+        ></span>
+        <ArrowsPointingOutIcon
+          onClick={() => router.push(`/postDetail/${post.id}`)}
+          className="Icon_Button"
+        />
+        <DropdownMenu
+          post={post}
+          deletePost={deletePost}
+          isEditing={isEditing}
+          handleEditPost={handleEditPost}
+          onEdit={onEdit}
+        />
+      </div>
+
       {!isEditing ? (
         <h2 className="text-black text-lg font-semibold">{post.title}</h2>
       ) : (
@@ -108,14 +119,6 @@ export default function PostItem({ post }: PostItemProps) {
         />
       )}
       <div className="flex items-center justify-between text-sm">
-        <span
-          onClick={() => router.push(`/postModal/${post.id}`)}
-          className="icon-[entypo--popup] Icon_Button"
-        ></span>
-        <ArrowsPointingOutIcon
-          onClick={() => router.push(`/postDetail/${post.id}`)}
-          className="Icon_Button"
-        />
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(post.created_at.toString())}</span>
           <span className="flex flex-row ">
@@ -123,15 +126,6 @@ export default function PostItem({ post }: PostItemProps) {
           </span>
         </div>
         <div className="flex gap-4 items-center">
-          {/* <DeleteButton itemId={post.id} onDelete={deletePost} />
-          {isEditing ? (
-            <PencilSquareIconSolid
-              className="Icon_Button"
-              onClick={handleEditPost}
-            />
-          ) : (
-            <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
-          )} */}
           <LikePostButtonForList
             isLiked={data?.isLiked}
             likeCount={data?.likeCount}
