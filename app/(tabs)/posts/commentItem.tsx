@@ -1,15 +1,16 @@
 "use client";
 import DeleteButton from "@/app/components/deleteButton";
 import { formatToTimeAgo } from "@/lib/utils";
+import { HandThumbUpIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import {
-  HandThumbUpIcon,
-  PencilIcon,
-  PencilSquareIcon,
-} from "@heroicons/react/24/outline";
+  PencilSquareIcon as PencilSquareIconSolid,
+  UserIcon,
+} from "@heroicons/react/24/solid";
+import Image from "next/image";
 import { useState } from "react";
+import useSWR from "swr";
 import { deleteComment, editComment } from "./actions";
 import { CommentType } from "./schema";
-
 interface CommentItemProps {
   comment: CommentType;
   mutate?: () => void;
@@ -40,30 +41,54 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     await deleteComment(itemId);
     mutate?.();
   };
-  // 코멘트 추가
 
+  const fetcher = (url: any) => fetch(url).then((res) => res.json());
+
+  const { data: userInfo } = useSWR(
+    `api/commentUserInfo/${[comment.id]}`,
+    fetcher
+  );
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
-      {isEditing ? 
+      {!isEditing ? (
+        <p>{editedCommentText}</p>
+      ) : (
         <textarea
           className="bg-blue-200"
           defaultValue={editedCommentText}
           onChange={(e) => setEditedCommentText(e.target.value)}
           // onBlur={handleEditComment}
         />
-      :null}
+      )}
       <div className="flex items-center justify-between text-sm">
+        <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
+          {userInfo?.user.avatar !== null ? (
+            <Image
+              src={userInfo?.user.avatar}
+              width={35}
+              height={35}
+              alt={userInfo?.user.username}
+              className="bg-slate-300"
+            />
+          ) : (
+            <UserIcon className="size-[35px] rounded-full bg-slate-300" />
+          )}
+          <span>{userInfo?.user.username}</span>
+        </div>
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
           <DeleteButton itemId={comment.id} onDelete={onDelete} />
-          <PencilIcon className="Icon_Button" onClick={onEdit} />
-          {/* 편집 모드일 때 = 제출 버튼은 검게 칠해진 걸로. */}
-          <PencilSquareIcon
-            className="Icon_Button"
-            onClick={handleEditComment}
-          />
+          {!isEditing ? (
+            <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
+          ) : (
+            <PencilSquareIconSolid
+              className="Icon_Button"
+              onClick={handleEditComment}
+            />
+          )}
+
           <span>
             <HandThumbUpIcon className="Icon_Button" />
             {/* {comment._count.likes} */}

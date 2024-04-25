@@ -1,19 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  // provider  = "postgresql"
   url      = "file:./database.db"
-  // url       = env("POSTGRES_PRISMA_URL") 
-  // directUrl = env("POSTGRES_URL_NON_POOLING") 
 }
 
 model User {
@@ -26,11 +17,11 @@ model User {
   avatar     String?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  tokens     SMSToken[]
-  products   Product[]
-  posts      Post[]
   Comment    Comment[]
   Like       Like[]
+  posts      Post[]
+  products   Product[]
+  tokens     SMSToken[]
 }
 
 model SMSToken {
@@ -38,9 +29,8 @@ model SMSToken {
   token      String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  userId     Int
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  userId Int
 }
 
 model Product {
@@ -51,8 +41,8 @@ model Product {
   description String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -62,33 +52,32 @@ model Post {
   views       Int       @default(0)
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   comments    Comment[]
   likes       Like[]
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comment {
   id          Int      @id @default(autoincrement())
-  commentText String 
+  commentText String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId      Int
   postId      Int
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   likes       Like[]
 }
 
 model Like {
+  id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post       Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment    Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
   userId     Int
-  postId     Int
-  Comment    Comment? @relation(fields: [commentId], references: [id])
+  postId     Int?
   commentId  Int?
-
-  @@id(name: "id", [userId, postId])
 }

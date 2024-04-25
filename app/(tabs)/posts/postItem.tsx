@@ -57,7 +57,7 @@ export default function PostItem({ post }: PostItemProps) {
   // 좋아요
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
   const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
-  const { data: userInfo } = useSWR(`api/userInfo/${[post.id]}`, fetcher);
+  const { data: userInfo } = useSWR(`api/postUserInfo/${[post.id]}`, fetcher);
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100 px-3">
       <div className="bg-transparent flex flex-row  relative top-4 justify-between">
