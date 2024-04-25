@@ -11,7 +11,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 
 export async function likePost(postId: number) {
-  await new Promise((r) => setTimeout(r, 10000));
   const session = await getSession();
   try {
     await db.like.create({
@@ -25,17 +24,26 @@ export async function likePost(postId: number) {
 }
 
 export async function dislikePost(postId: number) {
-  await new Promise((r) => setTimeout(r, 10000));
   try {
     const session = await getSession();
-    await db.like.delete({
+    const like = await db.like.findFirst({
       where: {
-        id: {
-          postId,
-          userId: session.id!,
-        },
+        postId: postId,
+        userId: session.id,
+      },
+      select: {
+        id: true,
       },
     });
-    revalidateTag(`like-status-${postId}`);
+    if (like) {
+      await db.like.delete({
+        where: {
+          id: like.id,
+        },
+      });
+      revalidateTag(`like-status-${postId}`);
+    } else {
+      console.log("좋아요를 찾을 수 없음: 삭제할 대상이 없습니다.");
+    }
   } catch (e) {}
 }

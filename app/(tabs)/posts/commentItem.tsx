@@ -11,6 +11,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import { deleteComment, editComment } from "./actions";
 import { CommentType } from "./schema";
+import LikePostButtonForList from "@/app/components/LikePostButtonForList";
 interface CommentItemProps {
   comment: CommentType;
   mutate?: () => void;
@@ -48,6 +49,8 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     `api/commentUserInfo/${[comment.id]}`,
     fetcher
   );
+  const { data:likeStatus, mutate:likeStatusMutate } = useSWR(`api/likeStatus/comment/${[comment.id]}`, fetcher);
+
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
       {!isEditing ? (
@@ -90,8 +93,14 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           )}
 
           <span>
-            <HandThumbUpIcon className="Icon_Button" />
+            {/* <HandThumbUpIcon className="Icon_Button" /> */}
             {/* {comment._count.likes} */}
+            <LikePostButtonForList
+            isLiked={likeStatus?.isLiked}
+            likeCount={likeStatus?.likeCount}
+            postId={comment.id}
+            mutate={likeStatusMutate}
+          />
           </span>
           {/* <span onClick={toggleComments}>
             <ChatBubbleBottomCenterIcon className="size-4" />
