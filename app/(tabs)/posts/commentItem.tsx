@@ -1,13 +1,8 @@
 "use client";
 import LikeButton from "@/app/components/LikeButton";
-import DeleteButton from "@/app/components/deleteButton";
 import DropdownBottomMenu from "@/app/components/dropDownBottom";
 import { formatToTimeAgo } from "@/lib/utils";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
-import {
-  PencilSquareIcon as PencilSquareIconSolid,
-  UserIcon,
-} from "@heroicons/react/24/solid";
+import { PencilIcon, PencilSquareIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
@@ -56,19 +51,10 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
   );
 
   return (
-    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
-      {!isEditing ? (
-        <p>{editedCommentText}</p>
-      ) : (
-        <textarea
-          className="bg-blue-200"
-          defaultValue={editedCommentText}
-          onChange={(e) => setEditedCommentText(e.target.value)}
-          // onBlur={handleEditComment}
-        />
-      )}
-      <div className="flex items-center justify-between text-sm">
-        <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
+    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-secondary max-w-full ">
+      <div className="flex flex-row">
+        {" "}
+        <div className=" overflow-hidden  flex flex-row items-center space-x-1  bg-red-400">
           {userInfo?.user.avatar !== null ? (
             <Image
               src={userInfo?.user.avatar}
@@ -82,19 +68,33 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           )}
           <span>{userInfo?.user.username}</span>
         </div>
+   
+        {!isEditing ? (
+          <h3 className='text-overflow hover:xxxxx bg-green-200 max-w-[70%]'>{editedCommentText}</h3>
+        ) : (
+          <textarea
+            className="bg-blue-200 text-overflow"
+            defaultValue={editedCommentText}
+            onChange={(e) => setEditedCommentText(e.target.value)}
+            // onBlur={handleEditComment}
+          />
+        )}
+      </div>
+
+      <div className="flex items-center justify-between text-sm">
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
-          {/* <DeleteButton itemId={comment.id} onDelete={onDelete} />
+
           {!isEditing ? (
             <PencilSquareIcon className="Icon_Button" onClick={onEdit} />
           ) : (
-            <PencilSquareIconSolid
+            <PencilIcon
               className="Icon_Button"
               onClick={handleEditComment}
             />
-          )} */}
+          )}
 
           <span>
             <LikeButton
@@ -106,11 +106,11 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
             />
           </span>
           <DropdownBottomMenu
-        comment={comment}
-        deleteComment={onDelete}
-        isEditing={isEditing}
-        handleEditComment={handleEditComment}
-        onEdit={onEdit}
+            comment={comment}
+            deleteComment={onDelete}
+            isEditing={isEditing}
+            handleEditComment={handleEditComment}
+            onEdit={onEdit}
           />
         </div>
       </div>

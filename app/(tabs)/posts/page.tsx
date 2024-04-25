@@ -44,7 +44,7 @@ export default async function Posts() {
     <>
 
       <AddPost />
-      <div className="p-5 flex flex-col bg-red-400">
+      <div className="p-5 flex flex-col ">
         {initialPosts.map((post) => (
           <PostItem key={post.id} post={post} />
         ))}

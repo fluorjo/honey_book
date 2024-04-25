@@ -59,7 +59,7 @@ export default function PostItem({ post }: PostItemProps) {
   const { data, mutate } = useSWR(`api/likeStatus/post/${[post.id]}`, fetcher);
   const { data: userInfo } = useSWR(`api/postUserInfo/${[post.id]}`, fetcher);
   return (
-    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100 px-3">
+    <div className="pb-5 mb-5  text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-primary px-3 rounded-md max-w-72">
       <div className="bg-transparent flex flex-row  relative top-4 justify-between">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
           {userInfo?.user.avatar !== null ? (
@@ -100,7 +100,6 @@ export default function PostItem({ post }: PostItemProps) {
         <textarea defaultValue={editedTitle} />
       )}
       {!isEditing ? (
-        // 더블 클릭을 그냥 페이지 상세로.
         <p>{editedDescription}</p>
       ) : (
         <textarea

@@ -40,47 +40,45 @@ const config: Config = {
   daisyui: {
     themes: [
       {
-        "123": {
-          primary: "#6e501e",
-          "primary-focus": "#6e501e",
-          "primary-content": "#ffffff",
+        'bumblebee': {
+           'primary' : '#f9d72f',
+           'primary-focus' : '#e9c307',
+           'primary-content' : '#18182f',
 
-          secondary: "rgb(255,230,140)",
-          "secondary-focus": "#bd0091",
-          "secondary-content": "rgb(255,240,190)",
+           'secondary' : '#dfa62a',
+           'secondary-focus' : '#be8b1e',
+           'secondary-content' : '#ffffff',
 
-          accent: "#37cdbe",
-          "accent-focus": "#2ba69a",
-          "accent-content": "#ffffff",
+           'accent' : '#18182f',
+           'accent-focus' : '#111122',
+           'accent-content' : '#ffffff',
 
-          neutral: "#e1be3c",
-          "neutral-focus": "#2a2e37",
-          "neutral-content": "#ffffff",
+           'neutral' : '#18182f',
+           'neutral-focus' : '#111122',
+           'neutral-content' : '#ffffff',
 
-          "base-100": "#ffdc32",
-          "base-200": "#f9fafb",
-          "base-300": "#ced3d9",
-          "base-content": "#1e2734",
+           'base-100' : '#ffffc8',
+           'base-200' : '#f5f5f5',
+           'base-300' : '#e3e3e3',
+           'base-content' : '#000000',
 
-          info: "#1c92f2",
-          success: "#009485",
-          warning: "#ff9900",
-          error: "#ff5724",
+           'info' : '#1c92f2',
+           'success' : '#009485',
+           'warning' : '#ff9900',
+           'error' : '#ff5724',
 
-          "--rounded-box": "1rem",
-          "--rounded-btn": ".5rem",
-          "--rounded-badge": "1.9rem",
+          '--rounded-box': '1rem',          
+          '--rounded-btn': '.5rem',        
+          '--rounded-badge': '1.9rem',      
 
-          "--animation-btn": ".25s",
-          "--animation-input": ".2s",
+          '--animation-btn': '.25s',       
+          '--animation-input': '.2s',       
 
-          "--btn-text-case": "uppercase",
-          "--navbar-padding": ".5rem",
-          "--border-btn": "1px",
+          '--btn-text-case': 'uppercase',   
+          '--navbar-padding': '.5rem',      
+          '--border-btn': '1px',            
         },
       },
-      ,
-      "business",
     ], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     darkTheme: "business", // name of one of the included themes for dark mode
     base: true, // applies background color and foreground color for root element by default
