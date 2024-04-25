@@ -6,10 +6,9 @@ import { unstable_cache as nextCache } from "next/cache";
 import { notFound } from "next/navigation";
 import { getComments } from "../actions";
 // import LikeButton from "../../components/like-button";
-import LikePostButton from "@/app/components/likePostButton";
+import LikeButton from "@/app/components/LikeButton";
 import CommentForm from "../commentForm";
 import CommentItem from "../commentItem";
-import TestButton from "./test";
 
 async function getPost(id: number) {
   try {
@@ -51,8 +50,8 @@ async function getLikeStatus(postId: number) {
   const session = await getSession();
   const isLiked = await db.like.findFirst({
     where: {
-        postId,
-        userId: session.id!,
+      postId,
+      userId: session.id!,
     },
   });
   const likeCount = await db.like.count({
@@ -126,15 +125,11 @@ export default async function PostDetail({
           <div className="p-5 flex flex-col bg-red-400">
             {comments &&
               comments.map((comment: any) => (
-                <CommentItem
-                  key={comment.id}
-                  comment={comment}
-
-                />
+                <CommentItem key={comment.id} comment={comment} />
               ))}
           </div>
           {/* <TestButton postId={id} /> */}
-          <LikePostButton isLiked={isLiked} likeCount={likeCount} postId={id} />
+          <LikeButton isLiked={isLiked} likeCount={likeCount} id={id} type={"post"} />
           <CommentForm postId={id} />
           {/* <button onClick={()=>revalidate(post.id)}></button> */}
         </div>

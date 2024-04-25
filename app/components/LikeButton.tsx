@@ -4,18 +4,20 @@ import { dislikePost, likePost } from "@/app/(tabs)/posts/[id]/actions";
 import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { useOptimistic } from "react";
-
+import { dislikeComment, likeComment } from "../(tabs)/posts/CommentActions";
 interface LikeButtonProps {
   isLiked: boolean;
   likeCount: number;
-  postId: number;
+  id: number;
+  type: "post" | "comment"; // 포스트 또는 코멘트 구분
   mutate?: () => void;
 }
 
-export default function LikePostButton({
+export default function LikeButton({
   isLiked,
   likeCount,
-  postId,
+  id,
+  type,
   mutate,
 }: LikeButtonProps) {
   const [state, reducerFn] = useOptimistic(
@@ -29,11 +31,20 @@ export default function LikePostButton({
   );
   const onClick = async () => {
     reducerFn(undefined);
-    if (isLiked) {
-      await dislikePost(postId);
+    if (state.isLiked) {
+      // Type에 따라 적절한 함수 호출
+      if (type === 'post') {
+        await dislikePost(id);
+      } else {
+        await dislikeComment(id);
+      }
       mutate?.();
     } else {
-      await likePost(postId);
+      if (type === 'post') {
+        await likePost(id);
+      } else {
+        await likeComment(id);
+      }
       mutate?.();
     }
   };

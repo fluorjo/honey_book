@@ -2,8 +2,8 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { error } from "console";
-import { commentSchema } from "./schema";
 import { revalidateTag } from "next/cache";
+import { commentSchema } from "./schema";
 
 export async function uploadComment(formData: FormData) {
   console.log("commentupload ");
@@ -44,10 +44,47 @@ export async function uploadComment(formData: FormData) {
           id: true,
         },
       });
-      revalidateTag(`comment`)
+      revalidateTag(`comment`);
       console.log("comment", comment);
     }
   }
+}
+export async function likeComment(commentId: number) {
+  const session = await getSession();
+  try {
+    await db.like.create({
+      data: {
+        commentId,
+        userId: session.id!,
+      },
+    });
+    revalidateTag(`like-status-${commentId}`);
+  } catch (e) {}
+}
+
+export async function dislikeComment(commentId: number) {
+  try {
+    const session = await getSession();
+    const like = await db.like.findFirst({
+      where: {
+        commentId: commentId,
+        userId: session.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (like) {
+      await db.like.delete({
+        where: {
+          id: like.id,
+        },
+      });
+      revalidateTag(`like-status-${commentId}`);
+    } else {
+      console.log("좋아요를 찾을 수 없음: 삭제할 대상이 없습니다.");
+    }
+  } catch (e) {}
 }
 
 // export async function deletePost(postId: number) {

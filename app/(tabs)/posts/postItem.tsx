@@ -1,5 +1,5 @@
 "use client";
-import LikePostButtonForList from "@/app/components/LikePostButtonForList";
+import LikeButton from "@/app/components/LikeButton";
 import { formatToTimeAgo } from "@/lib/utils";
 import {
   ArrowsPointingOutIcon,
@@ -118,11 +118,12 @@ export default function PostItem({ post }: PostItemProps) {
           </span>
         </div>
         <div className="flex gap-4 items-center">
-          <LikePostButtonForList
+          <LikeButton
             isLiked={data?.isLiked}
             likeCount={data?.likeCount}
-            postId={post.id}
+            id={post.id}
             mutate={mutate}
+            type={"post"}
           />
           <span
             onClick={toggleComments}
