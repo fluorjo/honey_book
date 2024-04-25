@@ -44,17 +44,14 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
 
   return (
     <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-300">
-      {!isEditing ? (
-        // 더블 클릭을 그냥 페이지 상세로.
-        <p onDoubleClick={onEdit}>{editedCommentText}</p>
-      ) : (
+      {isEditing ? 
         <textarea
           className="bg-blue-200"
           defaultValue={editedCommentText}
           onChange={(e) => setEditedCommentText(e.target.value)}
           // onBlur={handleEditComment}
         />
-      )}
+      :null}
       <div className="flex items-center justify-between text-sm">
         <div className="flex gap-4 items-center">
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>

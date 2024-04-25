@@ -6,6 +6,8 @@ import {
   ChatBubbleBottomCenterIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
@@ -14,6 +16,7 @@ import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
+
 interface PostItemProps {
   post: PostType;
 }
@@ -24,8 +27,6 @@ interface Comment {
 }
 
 export default function PostItem({ post }: PostItemProps) {
-  const description = post.description || "No description provided.";
-
   //댓글 관련
   const [showComments, setShowComments] = useState(true);
   const toggleComments = () => {
@@ -57,29 +58,40 @@ export default function PostItem({ post }: PostItemProps) {
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
   const { data, mutate } = useSWR(`api/likeStatus/${[post.id]}`, fetcher);
   const { data: userInfo } = useSWR(`api/userInfo/${[post.id]}`, fetcher);
-
-  // const getCachedPostUserInfo = nextCache(getPostUserInfo, ["post-userInfo"], {
-  //   tags: ["post-userInfo"],
-  // });
   return (
-    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100">
-      <span>{userInfo?.user.username}</span>
-      <div className="bg-transparent flex flex-row justify-end relative top-4">
-        <span
-          onClick={() => router.push(`/postModal/${post.id}`)}
-          className="icon-[entypo--popup] Icon_Button"
-        ></span>
-        <ArrowsPointingOutIcon
-          onClick={() => router.push(`/postDetail/${post.id}`)}
-          className="Icon_Button"
-        />
-        <DropdownMenu
-          post={post}
-          deletePost={deletePost}
-          isEditing={isEditing}
-          handleEditPost={handleEditPost}
-          onEdit={onEdit}
-        />
+    <div className="pb-5 mb-5 border-b border-neutral-500 text-black flex flex-col gap-2 last:pb-0 last:border-b-0 bg-amber-100 px-3">
+      <div className="bg-transparent flex flex-row  relative top-4 justify-between">
+        <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
+          {userInfo?.user.avatar !== null ? (
+            <Image
+              src={userInfo?.user.avatar}
+              width={40}
+              height={40}
+              alt={userInfo?.user.username}
+              className="bg-slate-300"
+            />
+          ) : (
+            <UserIcon className="size-[40px] rounded-full bg-slate-300" />
+          )}
+          <span>{userInfo?.user.username}</span>
+        </div>
+        <div className="flex flex-row space-x-4">
+          <span
+            onClick={() => router.push(`/postModal/${post.id}`)}
+            className="icon-[entypo--popup] Icon_Button"
+          ></span>
+          <ArrowsPointingOutIcon
+            onClick={() => router.push(`/postDetail/${post.id}`)}
+            className="Icon_Button"
+          />
+          <DropdownMenu
+            post={post}
+            deletePost={deletePost}
+            isEditing={isEditing}
+            handleEditPost={handleEditPost}
+            onEdit={onEdit}
+          />
+        </div>
       </div>
 
       {!isEditing ? (
@@ -89,7 +101,7 @@ export default function PostItem({ post }: PostItemProps) {
       )}
       {!isEditing ? (
         // 더블 클릭을 그냥 페이지 상세로.
-        <p onDoubleClick={onEdit}>{editedDescription}</p>
+        <p>{editedDescription}</p>
       ) : (
         <textarea
           className="bg-blue-200"

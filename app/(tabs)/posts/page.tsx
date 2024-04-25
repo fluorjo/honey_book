@@ -19,6 +19,9 @@ async function getInitialPosts() {
         },
       },
     },
+    orderBy: {
+      created_at: 'desc', 
+    },
   });
   return posts.map((post) => ({
     ...post,
@@ -39,7 +42,7 @@ export default async function Posts() {
   const initialPosts = await getCachedPosts();
   return (
     <>
-      {/* // 위에 바로 포스팅할 수 있게 하고 뭐 버튼 클릭하면 집중 모드로 */}
+
       <AddPost />
       <div className="p-5 flex flex-col bg-red-400">
         {initialPosts.map((post) => (
