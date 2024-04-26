@@ -68,7 +68,7 @@ export default function PostItem({ post }: PostItemProps) {
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
       {/* 모달 */}
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <input type="checkbox" id={modalId} className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box">
           <h3 className="text-lg font-bold">{editedTitle}</h3>
@@ -88,7 +88,7 @@ export default function PostItem({ post }: PostItemProps) {
             <CommentForm postId={post.id} />
           </div>
         </div>
-        <label className="modal-backdrop" htmlFor="my_modal_7">
+        <label className="modal-backdrop" htmlFor={modalId}>
           Close
         </label>
       </div>
@@ -111,7 +111,7 @@ export default function PostItem({ post }: PostItemProps) {
         </div>
         <div className="flex flex-row space-x-4">
           <label
-            htmlFor="my_modal_7"
+            htmlFor={modalId}
             className=" icon-[entypo--popup] Icon_Button"
           ></label>
           {/* <span
