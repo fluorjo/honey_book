@@ -1,10 +1,10 @@
 "use client";
+import { PhotoIcon } from "@heroicons/react/24/outline";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { uploadPost,getUploadUrl } from "./actions";
-import { PostType, postSchema } from "./schema";
 import { useState } from "react";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import { useForm } from "react-hook-form";
+import { getUploadUrl, uploadPost } from "./actions";
+import { PostType, postSchema } from "./schema";
 
 export default function AddPost() {
   const [preview, setPreview] = useState("");
@@ -88,35 +88,52 @@ export default function AddPost() {
         className=" textarea textarea-bordered transition-height duration-300 ease-in-out h-24 
         "
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
-        
       />
-       <label
-          htmlFor="photo"
+        {preview === "" ? null : (
+        <div
           className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
           style={{
             backgroundImage: `url(${preview})`,
           }}
         >
-          {preview === "" ? (
-            <>
-              <PhotoIcon className="w-20" />
-              <div className="text-neutral-400 text-sm">
-                사진을 추가해주세요.
-                {errors.photo?.message}
-              </div>
-            </>
-          ) : null}
+          {" "}
+        </div>
+      )}
+      <div className="bg-slate-200 h-10 flex items-center p-2 ">
+        <label htmlFor="photo">
+          <PhotoIcon className="Icon_Button" />
         </label>
-        <input
-          onChange={onImageChange}
-          type="file"
-          id="photo"
-          name="photo"
-          accept="image/*"
-          className="hidden"
-        />
+      </div>
 
-      <button type="submit" value="Submit" className="btn btn-primary">Post</button>
+    
+      {/* <div
+        className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${preview})`,
+        }}
+      >
+        {preview === "" ? (
+          <>
+            <PhotoIcon className="w-20" />
+            <div className="text-neutral-400 text-sm">
+              사진을 추가해주세요.
+              {errors.photo?.message}
+            </div>
+          </>
+        ) : null}
+      </div> */}
+      <input
+        onChange={onImageChange}
+        type="file"
+        id="photo"
+        name="photo"
+        accept="image/*"
+        className="hidden"
+      />
+
+      <button type="submit" value="Submit" className="btn btn-primary">
+        Post
+      </button>
     </form>
   );
 }
