@@ -2,11 +2,7 @@
 import LikeButton from "@/app/components/LikeButton";
 import DropdownBottomMenu from "@/app/components/dropDownBottom";
 import { formatToTimeAgo } from "@/lib/utils";
-import {
-  PencilIcon,
-  PencilSquareIcon,
-  UserIcon,
-} from "@heroicons/react/24/solid";
+import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
@@ -46,11 +42,15 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
 
   const { data: userInfo } = useSWR(
-    `api/commentUserInfo/${[comment.id]}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/commentUserInfo/${[
+      comment.id,
+    ]}`,
     fetcher
   );
   const { data: likeStatus, mutate: likeStatusMutate } = useSWR(
-    `api/likeStatus/comment/${[comment.id]}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/likeStatus/comment/${[
+      comment.id,
+    ]}`,
     fetcher
   );
 
@@ -66,16 +66,16 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
       <div className="flex flex-row">
         {" "}
         <div className=" overflow-hidden  flex flex-col  items-center space-y-1 mr-2">
-          {userInfo?.user.avatar !== null ? (
+          {userInfo?.user.avatar ? (
             <Image
-              src={userInfo?.user.avatar}
+              src={userInfo.user.avatar}
               width={35}
               height={35}
-              alt={userInfo?.user.username}
-              className="bg-slate-300"
+              alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+              className=""
             />
           ) : (
-            <UserIcon className="size-[35px] rounded-full bg-slate-300" />
+            <UserIcon className="size-[35px] rounded-full " />
           )}
           <span>{userInfo?.user.username}</span>
         </div>
@@ -88,7 +88,6 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           >
             {editedCommentText}
           </div>
-          
         ) : (
           <textarea
             className={`text-overflow ${
@@ -106,12 +105,11 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         </div>
         <div className="flex gap-4 items-center">
-          {!isEditing ? (
-            null
-          ) : (
+          {!isEditing ? null : (
             // <PencilIcon className="Icon_Button" onClick={handleEditComment} />
-            <button className="btn btn-primary" onClick={handleEditComment}>Post</button>
-
+            <button className="btn btn-primary" onClick={handleEditComment}>
+              Post
+            </button>
           )}
           <span>
             <LikeButton

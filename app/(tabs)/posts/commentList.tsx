@@ -15,7 +15,7 @@ interface Comment {
  function CommentList({ postId }: CommentListProps) {
 
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
-  const { data: comments, mutate } = useSWR(`api/comments/${postId}`, fetcher);
+  const { data: comments, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/comments/${postId}`, fetcher);
 
   return (
     <div className="p-0 m-0 flex flex-col  border-[10px] border-black">

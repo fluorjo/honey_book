@@ -42,7 +42,6 @@ export default async function Posts() {
   const initialPosts = await getCachedPosts();
   return (
     <>
-
       <AddPost />
       <div className="p-5 flex flex-col ">
         {initialPosts.map((post) => (
