@@ -60,6 +60,29 @@ export default function PostItem({ post }: PostItemProps) {
   const { data: userInfo } = useSWR(`api/postUserInfo/${[post.id]}`, fetcher);
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
+      {/* 모달 실험 */}
+      {/* The button to open modal */}
+      <label htmlFor="my_modal_7" className="btn">
+        open modal
+      </label>
+
+      {/* Put this part before </body> tag */}
+      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">{editedTitle}</h3>
+          <p className="py-4">{editedDescription}</p>
+          <div>
+          <CommentList postId={post.id} />
+          <CommentForm postId={post.id} />
+        </div>
+        </div>
+        <label className="modal-backdrop" htmlFor="my_modal_7">
+          Close
+        </label>
+      </div>
+      {/* 모달 실험 */}
+
       <div className="bg-transparent flex flex-row  relative top-4 justify-between">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
           {userInfo?.user.avatar !== null ? (
@@ -140,11 +163,6 @@ export default function PostItem({ post }: PostItemProps) {
       </div>
       {showComments && (
         <div>
-          {/* <div className="p-5 flex flex-col bg-red-400">
-            {comments.map((comment) => (
-              <p key={comment.id}>{comment.commentText}</p>
-            ))}
-          </div> */}
           <CommentList postId={post.id} />
           <CommentForm postId={post.id} />
         </div>

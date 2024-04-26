@@ -62,12 +62,12 @@ export default async function Modal({ params }: { params: { id: string } }) {
   const comments = await getCachedPostComments(id);
 
   return (
-    <div className="bg-green-200 ">
+    <div className="bg-yellow-200 w-[900px] flex flex-col items-center">
       <BackButton />
 
       <h2 className="text-lg font-semibold bg-blue-200">{post.title}</h2>
       <p className="mb-5 bg-blue-400">{post.description}</p>
-      <div className="p-5 flex flex-col bg-red-400">
+      <div className="p-5 flex flex-col bg-red-400 w-[80%]">
         {comments &&
           comments.map((comment: any) => (
             <CommentItem key={comment.id} comment={comment} />
