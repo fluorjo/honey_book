@@ -43,7 +43,7 @@ export default function DropdownBottomMenu({
         className="btn m-0 p-0 h-5 min-h-0 bg-transparent  border-none shadow-none"
         onMouseDown={toggleDropdown}
       >
-        <span className="icon-[uil--bars] Icon_Button"></span>
+        <span className="icon-[uil--ellipsis-v]" ></span>
       </div>
       <ul
         tabIndex={0}
