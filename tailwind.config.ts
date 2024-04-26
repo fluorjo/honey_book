@@ -56,7 +56,7 @@ const config: Config = {
           "primary-focus": "#e9c307",
           "primary-content": "#18182f",
 
-          secondary: "#dfa62a",
+          secondary: "#fffad5",
           "secondary-focus": "#be8b1e",
           "secondary-content": "#ffffff",
 
@@ -68,7 +68,7 @@ const config: Config = {
           "neutral-focus": "#111122",
           "neutral-content": "#ffffff",
 
-          "base-100": "#ffffc8",
+          "base-100": "#ffffff",
           "base-200": "#f5f5f5",
           "base-300": "#e3e3e3",
           "base-content": "#000000",

@@ -62,7 +62,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     setExpanded(!expanded); // 상태 토글
   };
   return (
-    <div className="mb-5 border-b border-neutral-500 text-black flex flex-col gap-2  bg-secondary max-w-full p-2">
+    <div className="mb-5 border-b border-neutral-500 text-black flex flex-col gap-2  bg-secondary max-w-full p-2 rounded-md">
       <div className="flex flex-row">
         {" "}
         <div className=" overflow-hidden  flex flex-col  items-center space-y-1 mr-2">

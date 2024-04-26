@@ -61,11 +61,6 @@ export default function PostItem({ post }: PostItemProps) {
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
       {/* 모달 실험 */}
-      {/* The button to open modal */}
-      <label htmlFor="my_modal_7" className="btn">
-        open modal
-      </label>
-
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
@@ -73,9 +68,9 @@ export default function PostItem({ post }: PostItemProps) {
           <h3 className="text-lg font-bold">{editedTitle}</h3>
           <p className="py-4">{editedDescription}</p>
           <div>
-          <CommentList postId={post.id} />
-          <CommentForm postId={post.id} />
-        </div>
+            <CommentList postId={post.id} />
+            <CommentForm postId={post.id} />
+          </div>
         </div>
         <label className="modal-backdrop" htmlFor="my_modal_7">
           Close
@@ -99,10 +94,14 @@ export default function PostItem({ post }: PostItemProps) {
           <span>{userInfo?.user.username}</span>
         </div>
         <div className="flex flex-row space-x-4">
-          <span
+          <label
+            htmlFor="my_modal_7"
+            className=" icon-[entypo--popup] Icon_Button"
+          ></label>
+          {/* <span
             onClick={() => router.push(`/postModal/${post.id}`)}
             className="icon-[entypo--popup] Icon_Button"
-          ></span>
+          ></span> */}
           <ArrowsPointingOutIcon
             onClick={() => router.push(`/postDetail/${post.id}`)}
             className="Icon_Button"
@@ -161,6 +160,7 @@ export default function PostItem({ post }: PostItemProps) {
           </span>
         </div>
       </div>
+
       {showComments && (
         <div>
           <CommentList postId={post.id} />

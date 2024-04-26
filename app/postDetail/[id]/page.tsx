@@ -1,14 +1,15 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { EyeIcon } from "@heroicons/react/24/solid";
+import { EyeIcon } from "@heroicons/react/24/outline";
 import { unstable_cache as nextCache } from "next/cache";
 import { notFound } from "next/navigation";
 import { getComments } from "../../(tabs)/posts/actions";
 // import LikeButton from "../../components/like-button";
 import LikeButton from "@/app/components/LikeButton";
+
+import CommentItem from "@/app/(tabs)/posts/commentItem";
 import CommentForm from "../../(tabs)/posts/commentForm";
-import CommentItem from "../../(tabs)/posts/commentItem";
 
 async function getPost(id: number) {
   try {
@@ -98,7 +99,7 @@ export default async function PostDetail({
   const comments = await getCachedPostComments(id);
 
   return (
-    <div className="p-5 text-white">
+    <div className="p-5 text-black">
       <div className="flex items-center gap-2 mb-2">
         {/* <Image
           width={28}
@@ -120,18 +121,32 @@ export default async function PostDetail({
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
           <EyeIcon className="Icon_Button" />
           <span>조회 {post.views}</span>
+          <LikeButton
+            isLiked={isLiked}
+            likeCount={likeCount}
+            id={id}
+            type={"post"}
+          />
         </div>
         <div>
-          <div className="p-5 flex flex-col bg-red-400">
+          {/* <div className="p-5 flex flex-col bg-red-400 w-[800px]">
             {comments &&
               comments.map((comment: any) => (
                 <CommentItem key={comment.id} comment={comment} />
               ))}
-          </div>
-          {/* <TestButton postId={id} /> */}
-          <LikeButton isLiked={isLiked} likeCount={likeCount} id={id} type={"post"} />
+          </div> */}
+          <details className="collapse bg-transparent">
+            <summary className="collapse-title text-sm font-medium w-2">
+              Show Comment
+            </summary>
+            <div className="collapse-content w-72">
+              {comments &&
+                comments.map((comment: any) => (
+                  <CommentItem key={comment.id} comment={comment} />
+                ))}
+            </div>
+          </details>
           <CommentForm postId={id} />
-          {/* <button onClick={()=>revalidate(post.id)}></button> */}
         </div>
       </div>
     </div>
