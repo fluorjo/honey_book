@@ -91,7 +91,7 @@ export default function AddPost() {
         "
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
       />
-        {preview === "" ? null : (
+      {preview === "" ? null : (
         <div
           className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
           style={{
@@ -101,13 +101,12 @@ export default function AddPost() {
           {" "}
         </div>
       )}
-      <div className="bg-slate-200 h-10 flex items-center p-2 ">
-        <label htmlFor="photo">
-          <PhotoIcon className="Icon_Button" />
+      <div className="bg-slate-200 h-8 flex items-center p-2 rounded-md ">
+        <label className="p-0 m-0 flex items-center" htmlFor="photo">
+          <PhotoIcon className="Icon_Button size-7" />
         </label>
       </div>
 
-    
       {/* <div
         className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
         style={{
