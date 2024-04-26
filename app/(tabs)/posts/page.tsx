@@ -12,7 +12,7 @@ async function getInitialPosts() {
       description: true,
       views: true,
       created_at: true,
-      photo:true,
+      photo: true,
       _count: {
         select: {
           comments: true,
