@@ -17,7 +17,7 @@ const _Input = (
       <input
         ref={ref}
         name={name}
-        className="grow border-none focus:ring-0 "
+        className="grow border-none rounded-md focus:ring-0 "
         {...rest}
       />
       {errors.map((error, index) => (

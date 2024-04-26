@@ -1,21 +1,19 @@
 "use client";
-import Link from "next/link";
 import { useFormState } from "react-dom";
-import DarkModeToggleButton from "./components/DarkModeToggleButton";
 import Input from "./components/input";
 import { login } from "./loginAction";
 export default function Home() {
   const [state, dispatch] = useFormState(login, null);
 
   return (
-    <div className="flex flex-col items-center bg-secondary">
-      <DarkModeToggleButton />
-      <div>
-        <span>아이콘, 로고</span>
-        <h2>당도 - 당(신 근처의)도(서관)</h2>
+    <div className="flex flex-col items-center bg-white shadow-lg rounded-md border-solid border-4 border-primary w-80 h-96 ">
+      {/* <DarkModeToggleButton /> */}
+      <div className='flex flex-col items-center'>
+        <h1>Bee-Tweet</h1>
+        <h3>Sign in</h3>
       </div>
       <form action={dispatch} className="flex flex-col items-center gap-2 my-4">
-        <label className="input input-primary flex items-center gap-2  bg-secondary-content">
+        <label className="input input-primary flex items-center gap-2  border-solid border-gray-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -32,7 +30,7 @@ export default function Home() {
             errors={state?.fieldErrors.email}
           />
         </label>
-        <label className="input input-primary flex items-center gap-2 bg-secondary-content">
+        <label className="input input-primary flex items-center gap-2 border-solid border-gray-300">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -54,14 +52,20 @@ export default function Home() {
             errors={state?.fieldErrors.password}
           />
         </label>
-        <input type="submit" className="btn btn-primary "></input>
+        <input
+          type="submit"
+          className="btn btn-primary"
+          value={"Sign In"}
+        ></input>
       </form>
       <div>
         <div>
-          <span>아직 계정이 없으신가요?</span>
-          <Link href={"/create-account"} passHref>
-            <button className="btn btn-primary">회원가입</button>
-          </Link>
+          <span>Don't have an account? </span>
+          {/* <Link href={"/create-account"} passHref> */}
+          <a className="link link-primary" href={"/create-account"}>
+            Sign Up
+          </a>
+          {/* </Link> */}
         </div>
       </div>
     </div>
