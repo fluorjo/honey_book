@@ -62,7 +62,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
   const comments = await getCachedPostComments(id);
 
   return (
-    <>
+    <div className="bg-green-200 ">
       <BackButton />
 
       <h2 className="text-lg font-semibold bg-blue-200">{post.title}</h2>
@@ -79,6 +79,6 @@ export default async function Modal({ params }: { params: { id: string } }) {
           <PhotoIcon className="h-28" />
         </div>
       </div> */}
-    </>
+    </div>
   );
 }

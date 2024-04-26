@@ -47,7 +47,7 @@ export default function AddPost() {
         className=" textarea textarea-bordered transition-height duration-300 ease-in-out h-24 
         "
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
-        defaultValue={"내용"}
+        
       />
       <button type="submit" value="Submit" className="btn btn-primary">Post</button>
     </form>

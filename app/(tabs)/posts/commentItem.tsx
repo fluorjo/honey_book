@@ -88,6 +88,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
           >
             {editedCommentText}
           </div>
+          
         ) : (
           <textarea
             className={`text-overflow ${
