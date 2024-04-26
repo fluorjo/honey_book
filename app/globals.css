@@ -26,7 +26,7 @@ textarea {
     @apply size-5;
   }
   .text-overflow {
-    @apply overflow-hidden break-words min-h-[2rem] pt-2 ;
+    @apply overflow-hidden break-words min-h-[2rem] pt-2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     @apply line-clamp-2;
@@ -37,5 +37,8 @@ textarea {
   .text-overflow.expanded {
     @apply max-h-[250rem];
     -webkit-line-clamp: unset; /* 확장 시 제한 해제 */
+  }
+  .post_photo {
+    @apply relative aspect-square border-gray-300 rounded-md left-[50%] translate-x-[-50%] my-4 size-60 border-solid ;
   }
 }

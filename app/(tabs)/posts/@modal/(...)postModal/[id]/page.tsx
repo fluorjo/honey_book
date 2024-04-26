@@ -1,6 +1,7 @@
 import BackButton from "@/app/components/backButton";
 import db from "@/lib/db";
 import { unstable_cache as nextCache } from "next/cache";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getComments } from "../../../actions";
 import CommentItem from "../../../commentItem";
@@ -67,6 +68,16 @@ export default async function Modal({ params }: { params: { id: string } }) {
 
       <h2 className="text-lg font-semibold bg-blue-200">{post.title}</h2>
       <p className="mb-5 bg-blue-400">{post.description}</p>
+      {post.photo ? (
+        <div className="post_photo size-52">
+          <Image
+            className="object-cover"
+            fill
+            src={`${post.photo}/avatar`}
+            alt={post.title}
+          />
+        </div>
+      ) : null}
       <div className="p-5 flex flex-col bg-red-400 w-[80%]">
         {comments &&
           comments.map((comment: any) => (

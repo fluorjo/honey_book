@@ -66,13 +66,22 @@ export default function PostItem({ post }: PostItemProps) {
   );
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
-      {/* 모달 실험 */}
-      {/* Put this part before </body> tag */}
+      {/* 모달 */}
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box">
           <h3 className="text-lg font-bold">{editedTitle}</h3>
           <p className="py-4">{editedDescription}</p>
+          {post.photo ? (
+            <div className="post_photo size-52">
+              <Image
+                className="object-cover"
+                fill
+                src={`${post.photo}/avatar`}
+                alt={post.title}
+              />
+            </div>
+          ) : null}
           <div>
             <CommentList postId={post.id} />
             <CommentForm postId={post.id} />
@@ -82,7 +91,7 @@ export default function PostItem({ post }: PostItemProps) {
           Close
         </label>
       </div>
-      {/* 모달 실험 */}
+      {/* 모달 */}
 
       <div className="bg-transparent flex flex-row  relative top-4 justify-between">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
@@ -131,7 +140,7 @@ export default function PostItem({ post }: PostItemProps) {
         <>
           <p>{editedDescription}</p>
           {post.photo ? (
-            <div className="relative aspect-square">
+            <div className="post_photo size-52">
               <Image
                 className="object-cover"
                 fill
