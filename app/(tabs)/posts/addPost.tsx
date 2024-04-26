@@ -3,8 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { uploadPost } from "./actions";
 import { PostType, postSchema } from "./schema";
+import { useState } from "react";
 
 export default function AddPost() {
+  const [preview, setPreview] = useState("");
+  const [uploadUrl, setUploadUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
   const {
     register,
     handleSubmit,
