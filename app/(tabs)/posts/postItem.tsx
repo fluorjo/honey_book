@@ -64,7 +64,7 @@ export default function PostItem({ post }: PostItemProps) {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/postUserInfo/${[post.id]}`,
     fetcher
   );
-  const modalId = `modal_${post.id}`; 
+  const modalId = `modal_${post.id}`;
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
       {/* 모달 */}
@@ -78,7 +78,7 @@ export default function PostItem({ post }: PostItemProps) {
               <Image
                 className="object-cover"
                 fill
-                src={`${post.photo}/avatar`}
+                src={`${post.photo}/width=500,height=500`}
                 alt={post.title}
               />
             </div>
@@ -145,7 +145,7 @@ export default function PostItem({ post }: PostItemProps) {
               <Image
                 className="object-cover"
                 fill
-                src={`${post.photo}/avatar`}
+                src={`${post.photo}/width=500,height=500`}
                 alt={post.title}
               />
             </div>

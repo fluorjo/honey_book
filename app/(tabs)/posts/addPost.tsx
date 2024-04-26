@@ -41,23 +41,25 @@ export default function AddPost() {
   };
   const onSubmit = async (data: PostType) => {
     console.log("data", data);
-    if (!file) {
-      return;
-    }
-    const cloudflareForm = new FormData();
-    cloudflareForm.append("file", file);
-    const response = await fetch(uploadUrl, {
-      method: "post",
-      body: cloudflareForm,
-    });
-    if (response.status !== 200) {
-      return;
-    }
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
-    if (data.photo) {
-      formData.append("photo", data.photo);
+    if (file) {
+      // 파일이 있을 경우에만 업로드 URL로 파일을 전송
+      const cloudflareForm = new FormData();
+      cloudflareForm.append("file", file);
+      const response = await fetch(uploadUrl, {
+        method: "post",
+        body: cloudflareForm,
+      });
+      if (response.status !== 200) {
+        console.error("Image upload failed:", response.statusText);
+        return; // 이미지 업로드 실패시 함수 종료
+      }
+      // 업로드 성공시, 이미지 URL을 폼 데이터에 추가
+      if (data.photo) {
+        formData.append("photo", data.photo);
+      }
     }
     try {
       const errors = await uploadPost(formData);

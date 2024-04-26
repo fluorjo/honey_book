@@ -7,9 +7,7 @@ export const postSchema = z.object({
   description: z.string({
     required_error: "Description is required",
   }),
-  photo: z.string({
-    required_error: "Photo is required",
-  }),
+  photo: z.string().optional().nullable(),
 });
 export const commentSchema = z.object({
   commentText: z.string({

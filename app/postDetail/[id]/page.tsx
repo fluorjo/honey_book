@@ -123,7 +123,7 @@ export default async function PostDetail({
           <Image
             className="object-cover "
             fill
-            src={`${post.photo}/avatar`}
+            src={`${post.photo}/width=500,height=500`}
             alt={post.title}
           />
         </div>
