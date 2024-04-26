@@ -39,17 +39,17 @@ export default function AddPost() {
     <form
       // onSubmit={handleSubmit(onValid)}
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col bg-green-400"
+      className="flex flex-col w-[450px] min-w-[200px]"
     >
-      <input {...register("title")} className="bg-blue-200" />
+      <input {...register("title")} className="input input-bordered" />
       <textarea
         {...register("description")}
-        className=" bg-blue-100 transition-height duration-300 ease-in-out h-24 
+        className=" textarea textarea-bordered transition-height duration-300 ease-in-out h-24 
         "
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
         defaultValue={"내용"}
       />
-      <input type="submit" value="Submit"></input>
+      <button type="submit" value="Submit" className="btn btn-primary">Post</button>
     </form>
   );
 }
