@@ -23,11 +23,11 @@ export interface PostType {
   description: string;
   views: number;
   created_at: Date;
+  photo?: string | null; 
   _count: {
     likes: number;
     comments: number;
   };
-  photo?: string;
 }
 export interface CommentType {
   id: number;

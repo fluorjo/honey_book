@@ -13,6 +13,7 @@ export async function uploadPost(formData: FormData) {
   const data = {
     title: formData.get("title"),
     description: formData.get("description"),
+    photo: formData.get("photo"),
   };
   const result = postSchema.safeParse(data);
   if (!result.success) {
@@ -26,6 +27,7 @@ export async function uploadPost(formData: FormData) {
         data: {
           title: result.data.title,
           description: result.data.description,
+          photo: result.data.photo,
           user: {
             connect: {
               id: session.id,
@@ -37,10 +39,24 @@ export async function uploadPost(formData: FormData) {
         },
       });
       revalidateAllpost();
-      // redirect(`/posts/`);
-      //redirect("/products")
+
     }
   }
+}
+
+// 사진 업로드
+export async function getUploadUrl() {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+      },
+    }
+  );
+  const data = await response.json();
+  return data;
 }
 
 export async function deletePost(postId: number) {

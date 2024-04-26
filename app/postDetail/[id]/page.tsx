@@ -10,6 +10,7 @@ import LikeButton from "@/app/components/LikeButton";
 
 import CommentItem from "@/app/(tabs)/posts/commentItem";
 import CommentForm from "../../(tabs)/posts/commentForm";
+import Image from "next/image";
 
 async function getPost(id: number) {
   try {
@@ -117,6 +118,16 @@ export default async function PostDetail({
       </div>
       <h2 className="text-lg font-semibold">{post.title}</h2>
       <p className="mb-5">{post.description}</p>
+      {post.photo ? (
+            <div className="relative aspect-square size-60">
+              <Image
+                className="object-cover"
+                fill
+                src={`${post.photo}/avatar`}
+                alt={post.title}
+              />
+            </div>
+          ) : null}
       <div className="flex flex-col gap-5 items-start">
         <div className="flex items-center gap-2 text-neutral-400 text-sm">
           <EyeIcon className="Icon_Button" />

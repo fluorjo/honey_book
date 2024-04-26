@@ -56,8 +56,14 @@ export default function PostItem({ post }: PostItemProps) {
   const router = useRouter();
   // 좋아요
   const fetcher = (url: any) => fetch(url).then((res) => res.json());
-  const { data, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/likeStatus/post/${[post.id]}`, fetcher);
-  const { data: userInfo } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/postUserInfo/${[post.id]}`, fetcher);
+  const { data, mutate } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/likeStatus/post/${[post.id]}`,
+    fetcher
+  );
+  const { data: userInfo } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/postUserInfo/${[post.id]}`,
+    fetcher
+  );
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
       {/* 모달 실험 */}
@@ -80,17 +86,17 @@ export default function PostItem({ post }: PostItemProps) {
 
       <div className="bg-transparent flex flex-row  relative top-4 justify-between">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
-        {userInfo?.user.avatar ? (
-  <Image
-    src={userInfo.user.avatar}
-    width={35}
-    height={35}
-    alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
-    className=""
-  />
-) : (
-  <UserIcon className="size-[35px] rounded-full " />
-)}
+          {userInfo?.user.avatar ? (
+            <Image
+              src={userInfo.user.avatar}
+              width={35}
+              height={35}
+              alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+              className=""
+            />
+          ) : (
+            <UserIcon className="size-[35px] rounded-full " />
+          )}
           <span>{userInfo?.user.username}</span>
         </div>
         <div className="flex flex-row space-x-4">
@@ -122,7 +128,19 @@ export default function PostItem({ post }: PostItemProps) {
         <textarea defaultValue={editedTitle} />
       )}
       {!isEditing ? (
-        <p>{editedDescription}</p>
+        <>
+          <p>{editedDescription}</p>
+          {post.photo ? (
+            <div className="relative aspect-square">
+              <Image
+                className="object-cover"
+                fill
+                src={`${post.photo}/avatar`}
+                alt={post.title}
+              />
+            </div>
+          ) : null}
+        </>
       ) : (
         <>
           <textarea

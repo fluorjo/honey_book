@@ -12,6 +12,7 @@ async function getInitialPosts() {
       description: true,
       views: true,
       created_at: true,
+      photo:true,
       _count: {
         select: {
           comments: true,
@@ -20,7 +21,7 @@ async function getInitialPosts() {
       },
     },
     orderBy: {
-      created_at: 'desc', 
+      created_at: "desc",
     },
   });
   return posts.map((post) => ({

@@ -1,9 +1,10 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { uploadPost } from "./actions";
+import { uploadPost,getUploadUrl } from "./actions";
 import { PostType, postSchema } from "./schema";
 import { useState } from "react";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 
 export default function AddPost() {
   const [preview, setPreview] = useState("");
@@ -17,11 +18,47 @@ export default function AddPost() {
   } = useForm<PostType>({
     resolver: zodResolver(postSchema),
   });
+  const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { files },
+    } = event;
+    if (!files) {
+      return;
+    }
+    const file = files[0];
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    setFile(file);
+    const { success, result } = await getUploadUrl();
+    if (success) {
+      const { id, uploadURL } = result;
+      setUploadUrl(uploadURL);
+      setValue(
+        "photo",
+        `${process.env.NEXT_PUBLIC_CLOUDFLARE_DELIVERY_URL}/${id}`
+      );
+    }
+  };
   const onSubmit = async (data: PostType) => {
     console.log("data", data);
+    if (!file) {
+      return;
+    }
+    const cloudflareForm = new FormData();
+    cloudflareForm.append("file", file);
+    const response = await fetch(uploadUrl, {
+      method: "post",
+      body: cloudflareForm,
+    });
+    if (response.status !== 200) {
+      return;
+    }
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
+    if (data.photo) {
+      formData.append("photo", data.photo);
+    }
     try {
       const errors = await uploadPost(formData);
       if (errors) {
@@ -53,6 +90,32 @@ export default function AddPost() {
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
         
       />
+       <label
+          htmlFor="photo"
+          className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
+          style={{
+            backgroundImage: `url(${preview})`,
+          }}
+        >
+          {preview === "" ? (
+            <>
+              <PhotoIcon className="w-20" />
+              <div className="text-neutral-400 text-sm">
+                사진을 추가해주세요.
+                {errors.photo?.message}
+              </div>
+            </>
+          ) : null}
+        </label>
+        <input
+          onChange={onImageChange}
+          type="file"
+          id="photo"
+          name="photo"
+          accept="image/*"
+          className="hidden"
+        />
+
       <button type="submit" value="Submit" className="btn btn-primary">Post</button>
     </form>
   );
