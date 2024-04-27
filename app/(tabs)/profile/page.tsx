@@ -47,7 +47,7 @@ export default async function Profile() {
   const user = await getUser();
 
   return (
-    <div>
+    <div className='flex flex-col items-center space-y-1'>
         {/* <div className="avatar">
           <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
             {user?.avatar ? (
@@ -73,7 +73,7 @@ export default async function Profile() {
         />
         <span>Joined {formatToTime(user?.created_at.toString())}</span>
       <form action={logOut}>
-        <button className="btn btn-primary mt-4">Log out</button>
+        <button className="btn btn-primary mt-1">Log out</button>
       </form>
     </div>
   );
