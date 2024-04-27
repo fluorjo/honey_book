@@ -28,7 +28,7 @@ interface Comment {
 
 export default function PostItem({ post }: PostItemProps) {
   //댓글 관련
-  const [showComments, setShowComments] = useState(true);
+  const [showComments, setShowComments] = useState(false);
   const toggleComments = () => {
     setShowComments(!showComments);
   };

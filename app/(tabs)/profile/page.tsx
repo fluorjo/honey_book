@@ -48,7 +48,6 @@ export default async function Profile() {
 
   return (
     <div>
-      <Suspense fallback={"Welcome!"}>
         {/* <div className="avatar">
           <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
             {user?.avatar ? (
@@ -72,9 +71,7 @@ export default async function Profile() {
             id: user.id,
           }}
         />
-
         <span>Joined {formatToTime(user?.created_at.toString())}</span>
-      </Suspense>
       <form action={logOut}>
         <button className="btn btn-primary mt-4">Log out</button>
       </form>

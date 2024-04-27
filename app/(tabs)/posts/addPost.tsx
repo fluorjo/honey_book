@@ -73,7 +73,7 @@ export default function AddPost() {
       console.error("Submission Error:", error);
     }
   };
-  console.log("Validation Errors22:", errors);
+  // console.log("Validation Errors22:", errors);
   // const onValid = async () => {
   //   console.log('dd')
   //   await onSubmit();

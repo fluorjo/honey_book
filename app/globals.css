@@ -50,6 +50,9 @@ textarea {
   .post_photo {
     @apply relative aspect-square border-gray-300 rounded-md left-[50%] translate-x-[-50%] my-4 size-60 border-solid bg-white;
   }
+  .avatar_profile {
+    @apply relative aspect-square border-gray-300 rounded-full left-[50%] translate-x-[-50%] size-24 border-solid bg-white;
+  }
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
