@@ -9,6 +9,8 @@ const nextConfig = {
           hostname: "imagedelivery.net",
         },
       ],
+      domains: ['imagedelivery.net'],
+
     },
   };
   

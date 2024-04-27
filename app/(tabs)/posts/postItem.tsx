@@ -80,6 +80,8 @@ export default function PostItem({ post }: PostItemProps) {
                 fill
                 src={`${post.photo}/width=500,height=500`}
                 alt={post.title}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+
               />
             </div>
           ) : null}
@@ -98,7 +100,7 @@ export default function PostItem({ post }: PostItemProps) {
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
           {userInfo?.user.avatar ? (
             <Image
-              src={userInfo.user.avatar}
+              src={`${userInfo.user.avatar}/avatar`}
               width={35}
               height={35}
               alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기

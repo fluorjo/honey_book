@@ -68,7 +68,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
         <div className=" overflow-hidden  flex flex-col  items-center space-y-1 mr-2">
           {userInfo?.user.avatar ? (
             <Image
-              src={userInfo.user.avatar}
+              src={`${userInfo.user.avatar}/avatar`}
               width={35}
               height={35}
               alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
