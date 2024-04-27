@@ -14,7 +14,6 @@ export default function Home() {
         <h3>Sign in</h3>
       </div>
       <form action={dispatch} className="Input_Form">
-  
 
         <Input
           name="email"

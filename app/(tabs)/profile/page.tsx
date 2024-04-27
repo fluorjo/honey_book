@@ -48,18 +48,26 @@ export default async function Profile() {
     <div>
       <Suspense fallback={"Welcome!"}>
         <div className="avatar">
-          <div className="w-24 rounded-full ">
+          <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
             {user?.avatar ? (
               <img
                 src={user.avatar}
-                alt={user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+                alt={user.username || "User avatar"} 
                 className=""
               />
             ) : (
-              <UserIcon className="rounded-full bg-[#DBDBDB] fill-white" />
+              <div>
+                <UserIcon className="rounded-full bg-[#c3c3c3] fill-white" />
+              </div>
             )}
           </div>
         </div>
+        {/* <div className="">
+          <div className="">
+            {user?.avatar ? <button className="" /> : <button className="" />}
+          </div>
+        </div> */}
+
         <h1>{user?.username} </h1>
         <span>Joined {formatToTime(user?.created_at.toString())}</span>
       </Suspense>
