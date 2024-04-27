@@ -131,7 +131,6 @@ export default function AddPost() {
         accept="image/*"
         className="hidden"
       />
-
       <button type="submit" value="Submit" className="btn btn-primary">
         Post
       </button>

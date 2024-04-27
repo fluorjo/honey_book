@@ -28,6 +28,12 @@ const formSchema = z.object({
   // .min(PASSWORD_MIN_LENGTH),
   // .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
+export const logOut = async () => {
+  "use server";
+  const session = await getSession();
+  await session.destroy();
+  redirect("/login");
+};
 export async function login(prevState: any, formData: FormData) {
   const data = {
     email: formData.get("email"),

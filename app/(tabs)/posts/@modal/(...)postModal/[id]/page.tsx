@@ -21,7 +21,7 @@ async function getPost(id: number) {
         user: {
           select: {
             username: true,
-            // avatar: true,
+            avatar: true,
           },
         },
         _count: {

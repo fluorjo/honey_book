@@ -1,10 +1,12 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTime } from "@/lib/utils";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
-import { UserIcon } from "@heroicons/react/24/solid";
+import { logOut } from "@/app/(auth)/login/loginAction";
+import ProfileAvatar from "@/app/components/profileAvatar";
 import { Suspense } from "react";
+
 async function getUser() {
   const session = await getSession();
   if (session.id) {
@@ -35,19 +37,19 @@ async function getUser() {
 //   }
 // }
 export default async function Profile() {
-  const logOut = async () => {
-    "use server";
-    const session = await getSession();
-    await session.destroy();
-    redirect("/login");
-  };
+  // const logOut = async () => {
+  //   "use server";
+  //   const session = await getSession();
+  //   await session.destroy();
+  //   redirect("/login");
+  // };
 
   const user = await getUser();
 
   return (
     <div>
       <Suspense fallback={"Welcome!"}>
-        <div className="avatar">
+        {/* <div className="avatar">
           <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
             {user?.avatar ? (
               <img
@@ -61,14 +63,24 @@ export default async function Profile() {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
+        <ProfileAvatar
+          user={{
+            username: user.username,
+            avatar: user.avatar,
+          }}
+        />
+        <input
+          type="file"
+          className="file-input file-input-ghost w-full max-w-xs"
+        />
+
         {/* <div className="">
           <div className="">
             {user?.avatar ? <button className="" /> : <button className="" />}
           </div>
         </div> */}
 
-        <h1>{user?.username} </h1>
         <span>Joined {formatToTime(user?.created_at.toString())}</span>
       </Suspense>
       <form action={logOut}>
