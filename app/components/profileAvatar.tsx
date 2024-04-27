@@ -34,8 +34,8 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
       target: { files },
     } = event;
     if (!files || files.length === 0) {
-        return;
-      }
+      return;
+    }
     const file = files[0];
     const url = URL.createObjectURL(file);
     setPreview(url);
@@ -85,12 +85,14 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
       console.error("Submission Error:", error);
     }
   };
-  const resetPreview = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.stopPropagation(); // 이벤트 전파 중지
-    setPreview(""); // 프리뷰 이미지를 제거하여 원래 프로필 이미지로 돌아갑니다.
+  const resetPreview = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    setPreview("");
   };
   return (
-    <div className="group">
+    <div className="group bg-yellow-300 min-w-48 flex flex-col items-center space-y-2">
       <div>
         {preview ? (
           <img
@@ -112,107 +114,104 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
           </div>
         )}
       </div>
-      {showButtons && (
-        <>
-          <button className="btn-primary btn-circle btn-outline">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 0 1024 1024"
-              className="h-6 w-6"
-            >
-              <path
-                fill="#4c4c4c"
-                d="M512 128a384 384 0 1 0 0 768a384 384 0 0 0 0-768m0-64a448 448 0 1 1 0 896a448 448 0 0 1 0-896"
-              />
-              <path
-                fill="#4c4c4c"
-                d="M640 288q64 0 64 64t-64 64t-64-64t64-64M214.656 790.656l-45.312-45.312l185.664-185.6a96 96 0 0 1 123.712-10.24l138.24 98.688a32 32 0 0 0 39.872-2.176L906.688 422.4l42.624 47.744L699.52 693.696a96 96 0 0 1-119.808 6.592l-138.24-98.752a32 32 0 0 0-41.152 3.456l-185.664 185.6z"
-              />
-            </svg>
-          </button>
-          <form onSubmit={handleSubmit(onSubmit)} className="bg-green-300">
-            <div>
-              <label
-                className="p-0 m-0 flex items-center  bg-red-400 "
-                htmlFor="avatar"
+      <div className="flex flex-row min-h-12 bg-purple-500">
+        {showButtons && (
+          <>
+            {/* 아바타 삭제 */}
+            <button className="btn-primary btn-circle btn-outline">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 36 36"
               >
-                <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
-                  {/* 크기 확 커지지 않게 클래스 관리 잘 하고 클래스들 통일하던가 해야겠다.  
-            
-            프리뷰 수정/삭제/제출. 삭제는 뭐 setpreview를 다시 비우면 되겠지.
-            */}
-                  <div>
-                    <button className="btn-primary btn-circle btn-outline">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 1024 1024"
-                        className="h-6 w-6"
-                      >
-                        <path
-                          fill="#4c4c4c"
-                          d="M512 128a384 384 0 1 0 0 768a384 384 0 0 0 0-768m0-64a448 448 0 1 1 0 896a448 448 0 0 1 0-896"
-                        />
-                        <path
-                          fill="#4c4c4c"
-                          d="M640 288q64 0 64 64t-64 64t-64-64t64-64M214.656 790.656l-45.312-45.312l185.664-185.6a96 96 0 0 1 123.712-10.24l138.24 98.688a32 32 0 0 0 39.872-2.176L906.688 422.4l42.624 47.744L699.52 693.696a96 96 0 0 1-119.808 6.592l-138.24-98.752a32 32 0 0 0-41.152 3.456l-185.664 185.6z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <input
-                  onChange={onImageChange}
-                  type="file"
-                  id="avatar"
-                  name="avatar"
-                  accept="image/*"
-                  className="hidden"
+                <path
+                  fill="#4c4c4c"
+                  d="M6 9v22a2.93 2.93 0 0 0 2.86 3h18.23A2.93 2.93 0 0 0 30 31V9Zm9 20h-2V14h2Zm8 0h-2V14h2Z"
+                  className="clr-i-solid clr-i-solid-path-1"
                 />
-              </label>
-              <button className="btn btn-circle btn-outline"disabled={!preview}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 24 24"
-                  className="h-6 w-6"
+                <path
+                  fill="#4c4c4c"
+                  d="M30.73 5H23V4a2 2 0 0 0-2-2h-6.2A2 2 0 0 0 13 4v1H5a1 1 0 1 0 0 2h25.73a1 1 0 0 0 0-2"
+                  className="clr-i-solid clr-i-solid-path-2"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-green-300">
+              <div className="flex flex-row">
+                <label
+                  className="p-0 m-0 flex items-center  bg-red-400 "
+                  htmlFor="avatar"
                 >
-                  <path
-                    fill="none"
-                    stroke="#4c4c4c"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 11L11 17L21 7"
+                  {/* 사진 선택 */}
+                  <button className="btn-primary btn-circle btn-outline bg-blue-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1em"
+                      height="1em"
+                      viewBox="0 0 36 36"
+                    >
+                      <path
+                        fill="#4c4c4c"
+                        d="M32 4H4a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M8.92 8a3 3 0 1 1-3 3a3 3 0 0 1 3-3M6 27v-4.1l6-6.08a1 1 0 0 1 1.41 0L16 19.35L8.32 27Zm24 0H11.15l6.23-6.23l5.4-5.4a1 1 0 0 1 1.41 0L30 21.18Z"
+                        className="clr-i-solid clr-i-solid-path-1"
+                      />
+                      <path fill="none" d="M0 0h36v36H0z" />
+                    </svg>
+                  </button>
+                  <input
+                    onChange={onImageChange}
+                    type="file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    className="hidden"
                   />
-                </svg>
-              </button>
-            </div>
-          </form>
-          <button className="btn btn-circle btn-outline"disabled={!preview} onClick={resetPreview}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="1em"
-                  height="1em"
-                  viewBox="0 0 24 24"
-                  className="h-6 w-6"
+                </label>
+                {/* 확인, 제출 버튼 */}
+                <button
+                  className="btn btn-circle btn-outline "
+                  disabled={!preview}
                 >
-                  <path
-                    fill="none"
-                    stroke="#4c4c4c"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 11L11 17L21 7"
-                  />
-                </svg>
-              </button>
-        </>
-      )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 36 36"
+                  >
+                    <path
+                      fill="#4c4c4c"
+                      d="M13.72 27.69L3.29 17.27a1 1 0 0 1 1.41-1.41l9 9L31.29 7.29A1 1 0 0 1 32.7 8.7Z"
+                      className="clr-i-outline clr-i-outline-path-1"
+                    />
+                    <path fill="none" d="M0 0h36v36H0z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+            <button
+              className="btn btn-circle btn-outline bg-blue"
+              disabled={!preview}
+              onClick={resetPreview}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 36 36"
+              >
+                <path
+                  fill="#4c4c4c"
+                  d="M24 4.22a1 1 0 0 0-1.41 1.42l5.56 5.49h-13A11 11 0 0 0 10.07 32a1 1 0 0 0 .93-1.82a9 9 0 0 1-5-8a9.08 9.08 0 0 1 9.13-9h13l-5.54 5.48A1 1 0 0 0 24 20l8-7.91Z"
+                  className="clr-i-outline clr-i-outline-path-1"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
       <h1>{user.userName}</h1>
     </div>
   );
