@@ -41,8 +41,8 @@ export async function login(prevState: any, formData: FormData) {
   };
   const result = await formSchema.spa(data);
   if (!result.success) {
-    console.log('data',data)
-    console.log('result fail',result)
+    console.log("data", data);
+    console.log("result fail", result);
 
     return result.error.flatten();
   } else {
@@ -61,11 +61,11 @@ export async function login(prevState: any, formData: FormData) {
     );
     if (ok) {
       const session = await getSession();
-      console.log('user',user)
-      console.log('session',session)
+      console.log("user", user);
+      console.log("session", session);
       session.id = user!.id;
       await session.save();
-      console.log('session',session)
+      console.log("session", session);
 
       redirect("/profile");
     } else {
@@ -76,5 +76,60 @@ export async function login(prevState: any, formData: FormData) {
         },
       };
     }
+  }
+}
+export async function getUploadAvatarUrl() {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+      },
+    }
+  );
+  const data = await response.json();
+  return data;
+}
+// const revalidateUser = async () => {
+//   "use server";
+//   revalidateTag("all_posts_lists");
+// };
+export async function editUser(
+  userId: number,
+  data: { userName?: string; avatar?: string | null }
+) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const user = await db.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (user.id !== session.id) {
+      throw new Error("Unauthorized to edit this user");
+    }
+
+    // 업데이트 진행
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: {
+        username: data.userName,
+        avatar: data.avatar,
+      },
+    });
+    console.log("edituser", user);
+    console.log("updatedUser", updatedUser);
+    return updatedUser;
+  } catch (e) {
+    console.log("eerr", e);
+    throw e; // It's generally a good idea to rethrow the error after logging it
   }
 }

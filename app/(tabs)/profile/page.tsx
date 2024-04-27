@@ -3,7 +3,7 @@ import getSession from "@/lib/session";
 import { formatToTime } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
-import { logOut } from "@/app/(auth)/login/loginAction";
+import { logOut } from "@/app/(auth)/login/userAction";
 import ProfileAvatar from "@/app/components/profileAvatar";
 import { Suspense } from "react";
 
@@ -66,20 +66,12 @@ export default async function Profile() {
         </div> */}
         <ProfileAvatar
           user={{
-            username: user.username,
+            userName: user.username,
             avatar: user.avatar,
+            created_at: user.created_at,
+            id: user.id,
           }}
         />
-        <input
-          type="file"
-          className="file-input file-input-ghost w-full max-w-xs"
-        />
-
-        {/* <div className="">
-          <div className="">
-            {user?.avatar ? <button className="" /> : <button className="" />}
-          </div>
-        </div> */}
 
         <span>Joined {formatToTime(user?.created_at.toString())}</span>
       </Suspense>

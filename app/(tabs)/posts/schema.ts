@@ -14,6 +14,12 @@ export const commentSchema = z.object({
     required_error: "commentText is required",
   }),
 });
+export const userSchema = z.object({
+  userName: z.string({
+    required_error: "userName is required!!!!!",
+  }),
+  avatar: z.string().optional().nullable(),
+});
 
 export interface PostType {
   id: number;
@@ -26,6 +32,12 @@ export interface PostType {
     likes: number;
     comments: number;
   };
+}
+export interface UserType {
+  id: number;
+  userName: string;
+  created_at: Date;
+  avatar?: string | null; 
 }
 export interface CommentType {
   id: number;

@@ -12,8 +12,6 @@ const publicOnlyUrls: Routes = {
   "/create-account": true,
   "/github/start": true,
   "/github/complete": true,
-  "/posts": true,
-
 };
 export async function middleware(request: NextRequest) {
     const session = await getSession();

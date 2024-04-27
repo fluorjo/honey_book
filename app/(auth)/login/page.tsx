@@ -2,7 +2,7 @@
 import { useFormState } from "react-dom";
 import Input from "../../components/input";
 import { SVGMailIcon, SVGPasswordIcon } from "../../components/svgIcons";
-import { login } from "./loginAction";
+import { login } from "./userAction";
 export default function Home() {
   const [state, dispatch] = useFormState(login, null);
 
@@ -14,7 +14,6 @@ export default function Home() {
         <h3>Sign in</h3>
       </div>
       <form action={dispatch} className="Input_Form">
-
         <Input
           name="email"
           type={"email"}
