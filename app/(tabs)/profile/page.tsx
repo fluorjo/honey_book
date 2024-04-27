@@ -1,6 +1,9 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { formatToTime } from "@/lib/utils";
 import { notFound, redirect } from "next/navigation";
+
+import { UserIcon } from "@heroicons/react/24/solid";
 import { Suspense } from "react";
 async function getUser() {
   const session = await getSession();
@@ -18,19 +21,19 @@ async function getUser() {
 }
 
 // async function Username() {
-//   // await new Promise((resolve) => setTimeout(resolve, 30000));
-//   const user = await getUser();
-//   return <h1>Welcome! {user?.username}!</h1>;
+//   try {
+//     const user = await getUser();
+//     return (
+//       <div>
+//         <h1>{user?.username} </h1>
+//         <span>Joined {formatToTime(user?.created_at.toString())}</span>
+//       </div>
+//     );
+//   } catch (error) {
+//     console.error("Failed to fetch user:", error);
+//     return <h1>Error fetching user.</h1>;
+//   }
 // }
-async function Username() {
-  try {
-    const user = await getUser();
-    return <h1>Welcome! {user?.username}!</h1>;
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    return <h1>Error fetching user.</h1>;
-  }
-}
 export default async function Profile() {
   const logOut = async () => {
     "use server";
@@ -38,13 +41,30 @@ export default async function Profile() {
     await session.destroy();
     redirect("/login");
   };
+
+  const user = await getUser();
+
   return (
     <div>
       <Suspense fallback={"Welcome!"}>
-        <Username />
+        <div className="avatar">
+          <div className="w-24 rounded-full ">
+            {user?.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+                className=""
+              />
+            ) : (
+              <UserIcon className="rounded-full bg-[#DBDBDB] fill-white" />
+            )}
+          </div>
+        </div>
+        <h1>{user?.username} </h1>
+        <span>Joined {formatToTime(user?.created_at.toString())}</span>
       </Suspense>
       <form action={logOut}>
-        <button>Log out</button>
+        <button className="btn btn-primary mt-4">Log out</button>
       </form>
     </div>
   );
