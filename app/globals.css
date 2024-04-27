@@ -22,6 +22,15 @@ textarea {
   resize: none;
 }
 @layer components {
+  .Input_Form_Div {
+    @apply flex flex-col items-center bg-white shadow-lg rounded-md border-solid border-4 border-primary w-80 h-96;
+  }
+  .Input_Form {
+    @apply flex flex-col items-center gap-2 my-4 space-y-0;
+  }
+  .Input_Form_Label {
+    @apply flex input input-primary  items-center gap-1  border-solid border-gray-300 h-10 min-h-[18px];
+  }
   .Icon_Button {
     @apply size-5;
   }
@@ -40,5 +49,24 @@ textarea {
   }
   .post_photo {
     @apply relative aspect-square border-gray-300 rounded-md left-[50%] translate-x-[-50%] my-4 size-60 border-solid bg-white;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: #000;
+      -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+      box-shadow: 0 0 0px 1000px #fff inset;
+      transition: background-color 5000s ease-in-out 0s;
+  }
+  
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
+  input:autofill:active {
+    -webkit-text-fill-color: #000;
+      -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+      box-shadow: 0 0 0px 1000px #fff inset;
+      transition: background-color 5000s ease-in-out 0s;
   }
 }
