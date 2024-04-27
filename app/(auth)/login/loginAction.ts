@@ -59,6 +59,8 @@ export async function login(prevState: any, formData: FormData) {
       console.log('session',session)
       session.id = user!.id;
       await session.save();
+      console.log('session',session)
+
       redirect("/profile");
     } else {
       return {
