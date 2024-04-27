@@ -14,6 +14,11 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
   const [preview, setPreview] = useState("");
   const [uploadUrl, setUploadUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [showButtons, setShowButtons] = useState(false);
+  const toggleButtons = () => {
+    setShowButtons(!showButtons);
+  };
+
   const {
     register,
     handleSubmit,
@@ -81,35 +86,41 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
     }
   };
   return (
-    <>
-      {preview ? (
-        <div>
+    <div className="group">
+      <div>
+        {preview ? (
           <img
             src={preview}
             alt={user.userName || "User avatar"}
             className="avatar_profile"
+            onClick={toggleButtons}
           />
-        </div>
-      ) : user.avatar ? (
-        <img
-          src={`${user.avatar}/width=500,height=500`}
-          alt={user.userName || "User avatar"}
-          className="avatar_profile"
-        />
-      ) : (
-        <div>
-          <UserIcon className="avatar_profile bg-[#c3c3c3] fill-white" />
-        </div>
-      )}
-      <form onSubmit={handleSubmit(onSubmit)} className='bg-green-300'>
-        <label className="p-0 m-0 flex items-center bg-red-400" htmlFor="avatar">
-          <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
-            {/* 크기 확 커지지 않게 클래스 관리 잘 하고 클래스들 통일하던가 해야겠다.  
+        ) : user.avatar ? (
+          <img
+            src={`${user.avatar}/width=500,height=500`}
+            alt={user.userName || "User avatar"}
+            className="avatar_profile"
+            onClick={toggleButtons}
+          />
+        ) : (
+          <div>
+            <UserIcon className="avatar_profile" onClick={toggleButtons} />
+          </div>
+        )}
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-green-300">
+        {showButtons && (
+          <label
+            className="p-0 m-0 flex items-center  bg-red-400 "
+            htmlFor="avatar"
+          >
+            <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
+              {/* 크기 확 커지지 않게 클래스 관리 잘 하고 클래스들 통일하던가 해야겠다.  
             
             프리뷰 수정/삭제/제출. 삭제는 뭐 setpreview를 다시 비우면 되겠지.
             */}
               <div>
-   
                 <button className="btn-primary btn-circle">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -162,21 +173,22 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
                     />
                   </svg>
                 </button>
-          </div>
-          </div>
-          <input
-            onChange={onImageChange}
-            type="file"
-            id="avatar"
-            name="avatar"
-            accept="image/*"
-            className="hidden"
-          />
-        </label>
+              </div>
+            </div>
+            <input
+              onChange={onImageChange}
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept="image/*"
+              className="hidden"
+            />
+          </label>
+        )}
 
         <h1>{user.userName}</h1>
       </form>
-    </>
+    </div>
   );
 };
 
