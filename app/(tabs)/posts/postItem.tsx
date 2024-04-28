@@ -66,12 +66,12 @@ export default function PostItem({ post }: PostItemProps) {
   );
   const modalId = `modal_${post.id}`;
   return (
-    <div className="pb-5 mb-5  text-black flex flex-col gap-2 bg-primary px-3 rounded-md max-w-72">
+    <div className="pb-5 mb-5  text-black flex flex-col gap-2  px-3 rounded-md  border-solid border-primary shadow-md w-96 ">
       {/* 모달 */}
       <input type="checkbox" id={modalId} className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">{editedTitle}</h3>
+          <h2 className="text-lg font-bold">{editedTitle}</h2>
           <p className="py-4">{editedDescription}</p>
           {post.photo ? (
             <div className="post_photo size-52">
@@ -81,7 +81,6 @@ export default function PostItem({ post }: PostItemProps) {
                 src={`${post.photo}/width=500,height=500`}
                 alt={post.title}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-
               />
             </div>
           ) : null}
@@ -96,7 +95,7 @@ export default function PostItem({ post }: PostItemProps) {
       </div>
       {/* 모달 */}
 
-      <div className="bg-transparent flex flex-row  relative top-4 justify-between">
+      <div className="bg-transparent flex flex-row  relative top-4 justify-between ">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
           {userInfo?.user.avatar ? (
             <Image
@@ -135,15 +134,15 @@ export default function PostItem({ post }: PostItemProps) {
       </div>
 
       {!isEditing ? (
-        <h2 className="text-black text-lg font-semibold">{post.title}</h2>
+        <h2 className="text-black text-lg font-semibold mb-0">{post.title}</h2>
       ) : (
         <textarea defaultValue={editedTitle} />
       )}
       {!isEditing ? (
-        <>
-          <p>{editedDescription}</p>
+        <div className="mt-0">
+          <h3 className="text-sm font-normal ">{editedDescription}</h3>
           {post.photo ? (
-            <div className="post_photo size-52">
+            <div className="post_photo">
               <Image
                 className="object-cover"
                 fill
@@ -152,7 +151,7 @@ export default function PostItem({ post }: PostItemProps) {
               />
             </div>
           ) : null}
-        </>
+        </div>
       ) : (
         <>
           <textarea

@@ -48,13 +48,13 @@ textarea {
     -webkit-line-clamp: unset; /* 확장 시 제한 해제 */
   }
   .post_photo {
-    @apply relative aspect-square border-gray-300 rounded-md left-[50%] translate-x-[-50%] my-4 size-60 border-solid bg-white;
+    @apply relative aspect-square border-gray-300 rounded-md left-[50%] translate-x-[-50%] my-4  border-solid bg-white;
   }
   .avatar_profile {
     @apply rounded-full cursor-pointer hover:brightness-110 bg-white fill-gray-200 border-solid border-gray-400 size-32;
   }
-  .avatar_profile_button{
-  @apply btn-circle btn-outline flex items-center justify-center size-10 bg-primary hover:bg-secondary mx-2 disabled:bg-gray-300 border-solid border-2 shadow-md 
+  .avatar_profile_button {
+    @apply btn-circle btn-outline flex items-center justify-center size-10 bg-primary hover:bg-secondary mx-2 disabled:bg-gray-300 border-solid border-2 shadow-md;
   }
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
