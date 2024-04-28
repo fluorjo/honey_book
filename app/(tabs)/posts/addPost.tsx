@@ -107,22 +107,6 @@ export default function AddPost() {
         </label>
       </div>
 
-      {/* <div
-        className="border-2 aspect-square flex items-center justify-center flex-col text-neutral-300 border-neutral-300 rounded-md border-dashed cursor-pointer bg-center bg-cover"
-        style={{
-          backgroundImage: `url(${preview})`,
-        }}
-      >
-        {preview === "" ? (
-          <>
-            <PhotoIcon className="w-20" />
-            <div className="text-neutral-400 text-sm">
-              사진을 추가해주세요.
-              {errors.photo?.message}
-            </div>
-          </>
-        ) : null}
-      </div> */}
       <input
         onChange={onImageChange}
         type="file"

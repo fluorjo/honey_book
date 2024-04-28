@@ -22,7 +22,6 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
   const toggleButtons = () => {
     setShowButtons(!showButtons);
   };
-
   const {
     register,
     handleSubmit,

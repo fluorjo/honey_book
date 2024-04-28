@@ -136,7 +136,10 @@ export default function PostItem({ post }: PostItemProps) {
       {!isEditing ? (
         <h2 className="text-black text-lg font-semibold mb-0">{post.title}</h2>
       ) : (
-        <textarea defaultValue={editedTitle} />
+        <textarea
+          defaultValue={editedTitle}
+          className="textarea textarea-primary min-h-7 h-7 mt-4"
+        />
       )}
       {!isEditing ? (
         <div className="mt-0">
@@ -155,12 +158,124 @@ export default function PostItem({ post }: PostItemProps) {
       ) : (
         <>
           <textarea
-            className="bg-blue-200"
+            className="textarea textarea-primary"
             defaultValue={editedDescription}
             onChange={(e) => setEditedDescription(e.target.value)}
             // onBlur={handleEditPost}
           />
-          <button className="btn btn-primary" onClick={handleEditPost}>
+                   {post.photo ? (
+            <div className="post_photo">
+              <Image
+                className="object-cover"
+                fill
+                src={`${post.photo}/width=500,height=500`}
+                alt={post.title}
+              />
+            </div>
+          ) : null}
+                    <div className='bg-red-200 flex flex-row items-center justify-center mb-4'>
+            {/* 아바타 삭제 */}
+            <button
+              className="avatar_profile_button"
+              // onClick={() => deleteUserAvatar(user.id)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.5em"
+                height="1.5em"
+                viewBox="0 0 36 36"
+                className=" p-0 m-0"
+              >
+                <path
+                  fill="#000000"
+                  d="M6 9v22a2.93 2.93 0 0 0 2.86 3h18.23A2.93 2.93 0 0 0 30 31V9Zm9 20h-2V14h2Zm8 0h-2V14h2Z"
+                  className="clr-i-solid clr-i-solid-path-1"
+                />
+                <path
+                  fill="#000000"
+                  d="M30.73 5H23V4a2 2 0 0 0-2-2h-6.2A2 2 0 0 0 13 4v1H5a1 1 0 1 0 0 2h25.73a1 1 0 0 0 0-2"
+                  className="clr-i-solid clr-i-solid-path-2"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+            <form 
+            className=" p-0 m-0"
+            // onSubmit={handleSubmit(onSubmit)} 
+            >
+              <div className="flex flex-row p-0 m-0 ">
+                <label className="avatar_profile_button" htmlFor="avatar">
+                  {/* 사진 선택 */}
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 36 36"
+                  >
+                    <path
+                      fill="#000000"
+                      d="M32 4H4a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M8.92 8a3 3 0 1 1-3 3a3 3 0 0 1 3-3M6 27v-4.1l6-6.08a1 1 0 0 1 1.41 0L16 19.35L8.32 27Zm24 0H11.15l6.23-6.23l5.4-5.4a1 1 0 0 1 1.41 0L30 21.18Z"
+                      className="clr-i-solid clr-i-solid-path-1"
+                    />
+                    <path fill="none" d="M0 0h36v36H0z" />
+                  </svg>
+                  <input
+                    // onChange={onImageChange}
+                    type="file"
+                    id="avatar"
+                    name="avatar"
+                    accept="image/*"
+                    className="hidden"
+                  />
+                </label>
+                {/* 확인, 제출 버튼 */}
+                <button
+                  className="avatar_profile_button"
+                  // disabled={!preview}
+                  type="submit"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 36 36"
+                  >
+                    <path
+                      fill="#000000"
+                      d="M13.72 27.69L3.29 17.27a1 1 0 0 1 1.41-1.41l9 9L31.29 7.29A1 1 0 0 1 32.7 8.7Z"
+                      className="clr-i-outline clr-i-outline-path-1"
+                    />
+                    <path fill="none" d="M0 0h36v36H0z" />
+                  </svg>
+                </button>
+              </div>
+            </form>
+            <button
+              className="avatar_profile_button "
+              // disabled={!preview}
+              // onClick={resetPreview}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.5em"
+                height="1.5em"
+                viewBox="0 0 36 36"
+              >
+                <path
+                  fill="#000000"
+                  d="M24 4.22a1 1 0 0 0-1.41 1.42l5.56 5.49h-13A11 11 0 0 0 10.07 32a1 1 0 0 0 .93-1.82a9 9 0 0 1-5-8a9.08 9.08 0 0 1 9.13-9h13l-5.54 5.48A1 1 0 0 0 24 20l8-7.91Z"
+                  className="clr-i-outline clr-i-outline-path-1"
+                />
+                <path fill="none" d="M0 0h36v36H0z" />
+              </svg>
+            </button>
+          </div>
+          <button
+            className="btn btn-primary"
+            onClick={handleEditPost}
+            disabled={!editedDescription.trim() || !editedTitle.trim()}
+          >
             Post
           </button>
         </>
