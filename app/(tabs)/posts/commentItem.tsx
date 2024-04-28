@@ -56,10 +56,9 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
 
   // 택스트 펼침, 접음
 
-  const [expanded, setExpanded] = useState(false); // 펼침 상태를 관리하는 상태 변수
-
+  const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => {
-    setExpanded(!expanded); // 상태 토글
+    setExpanded(!expanded);
   };
   return (
     <div className="mb-3 text-black flex flex-col gap-2  bg-base-100 max-w-full p-2 rounded-md  ">
@@ -71,7 +70,7 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
               src={`${userInfo.user.avatar}/avatar`}
               width={50}
               height={50}
-              alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+              alt={userInfo.user.username || "User avatar"}
               className=""
             />
           ) : (
@@ -90,26 +89,29 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
             {editedCommentText}
           </div>
         ) : (
-          <textarea
-            className={`text-overflow ${
-              expanded ? "expanded" : ""
-            } max-w-[70%] `}
-            defaultValue={editedCommentText}
-            onChange={(e) => setEditedCommentText(e.target.value)}
-            // onBlur={handleEditComment}
-          />
+          <div className=" w-full p-0 m-0 flex flex-col">
+            <textarea
+              className={`textarea textarea-primary ${
+                expanded ? "expanded" : ""
+              } rounded-md `}
+              defaultValue={editedCommentText}
+              onChange={(e) => setEditedCommentText(e.target.value)}
+              // onBlur={handleEditComment}
+            />
+            <button
+              className="btn btn-primary min-h-5 h-8 my-2"
+              onClick={handleEditComment}
+              disabled={!editedCommentText.trim()}
+            >
+              Post
+            </button>
+          </div>
         )}
       </div>
 
       <div className="flex items-center justify-start text-sm space-x-2 ">
         <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         <div className="flex gap-4 items-center">
-          {!isEditing ? null : (
-            // <PencilIcon className="Icon_Button" onClick={handleEditComment} />
-            <button className="btn btn-primary" onClick={handleEditComment}>
-              Post
-            </button>
-          )}
           <span>
             <LikeButton
               isLiked={likeStatus?.isLiked}
