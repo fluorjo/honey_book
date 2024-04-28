@@ -1,79 +1,22 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTime } from "@/lib/utils";
-import { notFound } from "next/navigation";
-
-import { logOut } from "@/app/(auth)/login/userAction";
 import ProfileAvatar from "@/app/components/profileAvatar";
-import { unstable_cache } from "next/cache";
+import { logOut } from "@/app/(auth)/login/userAction";
+import { GetServerSideProps } from 'next';
 
-async function getUser(id: number) {
-  const session = await getSession();
-  if (session.id) {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.id,
-      },
-    });
-    if (user) {
-      return user;
-    }
-  }
-  notFound();
-}
-const getCachedUser = unstable_cache(
-  async (id) => getUser(id),
-  ["my-app-user"],
-  {
-    tags: ["userStatus"],
-    revalidate: 1,
-  }
-);
-
-// async function Username() {
-//   try {
-//     const user = await getUser();
-//     return (
-//       <div>
-//         <h1>{user?.username} </h1>
-//         <span>Joined {formatToTime(user?.created_at.toString())}</span>
-//       </div>
-//     );
-//   } catch (error) {
-//     console.error("Failed to fetch user:", error);
-//     return <h1>Error fetching user.</h1>;
-//   }
-// }
 interface ProfileProps {
-  userID: number;
+  user: {
+    username: string;
+    avatar: string;
+    created_at: Date;
+    id: number;
+  };
 }
-export default async function Profile({ userID }: ProfileProps) {
-  // const logOut = async () => {
-  //   "use server";
-  //   const session = await getSession();
-  //   await session.destroy();
-  //   redirect("/login");
-  // };
 
-  const user = await getCachedUser(userID);
-
+export default function Profile({ user }: ProfileProps) {
   return (
     <div className="flex flex-col items-center space-y-1">
-      {/* <div className="avatar">
-          <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
-            {user?.avatar ? (
-              <img
-                src={user.avatar}
-                alt={user.username || "User avatar"} 
-                className=""
-              />
-            ) : (
-              <div>
-                <UserIcon className="rounded-full bg-[#c3c3c3] fill-white" />
-              </div>
-            )}
-          </div>
-        </div> */}
       <ProfileAvatar
         user={{
           userName: user.username,
@@ -82,10 +25,36 @@ export default async function Profile({ userID }: ProfileProps) {
           id: user.id,
         }}
       />
-      <span>Joined {formatToTime(user?.created_at.toString())}</span>
+      <span>Joined {formatToTime(user.created_at.toString())}</span>
       <form action={logOut}>
         <button className="btn btn-primary mt-1">Log out</button>
       </form>
     </div>
   );
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const userID = parseInt(context.params?.userID as string);
+  const user = await getUser(userID);
+  if (!user) {
+    return {
+      notFound: true,
+    };
+  }
+  return {
+    props: { user },
+  };
+}
+
+async function getUser(id: number) {
+  const session = await getSession();
+  if (session.id && session.id === id) {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user;
+  }
+  return null;
 }
