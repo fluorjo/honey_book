@@ -1,14 +1,17 @@
 import db from "@/lib/db";
 import { formatToTime } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import getSession from "@/lib/session";
 
 import { logOut } from "@/app/(auth)/login/userAction";
 import ProfileAvatar from "@/app/components/profileAvatar";
 
-async function getUser(id: number) {
+async function getUser() {
+  const session = await getSession();
+
   const user = await db.user.findUnique({
     where: {
-      id: id,
+      id: session.id,
     },
   });
   if (!user) {
@@ -17,8 +20,8 @@ async function getUser(id: number) {
   return user;
 }
 
-export default async function Profile({ userID }: { userID: number }) {
-  const user = await getUser(userID);
+export default async function Profile() {
+  const user = await getUser();
 
   return (
     <div className="flex flex-col items-center space-y-1">
