@@ -33,7 +33,7 @@ export default function DropdownBottomMenu({
 
   return (
     <div
-      className={`dropdown dropdown-top dropdown-end${
+      className={`dropdown dropdown-right dropdown-end${
         isOpen ? "dropdown-open" : ""
       }   flex justify-end h-5 top-0 pr-4 `}
     >
@@ -43,7 +43,7 @@ export default function DropdownBottomMenu({
         className="btn m-0 p-0 h-5 min-h-0 bg-transparent  border-none shadow-none"
         onMouseDown={toggleDropdown}
       >
-        <span className="icon-[uil--ellipsis-v]" ></span>
+        <span className="icon-[uil--ellipsis-h]"></span>
       </div>
       <ul
         tabIndex={0}
@@ -51,7 +51,7 @@ export default function DropdownBottomMenu({
           isOpen ? "" : "hidden"
         } `}
       >
-        <li>
+        <li className="">
           <a onClick={closeDropdown} className="">
             <DeleteButton itemId={comment.id} onDelete={deleteComment} />
           </a>

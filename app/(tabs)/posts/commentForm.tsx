@@ -13,9 +13,12 @@ const CommentForm = ({ postId }: CommentFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<CommentType>({
     resolver: zodResolver(commentSchema),
   });
+  const commentText = watch("commentText");
+
   const onSubmitComment = async (commentData: CommentType) => {
     console.log("commentData", commentData);
     const formData = new FormData();
@@ -38,15 +41,22 @@ const CommentForm = ({ postId }: CommentFormProps) => {
   };
 
   return (
-    <form className="flex flex-row items-center justify-evenly" onSubmit={handleSubmit(onSubmitComment)}>
+    <form
+      className="flex flex-col items-center justify-evenly "
+      onSubmit={handleSubmit(onSubmitComment)}
+    >
       <textarea
-        className="textarea textarea-bordered"
+        className="textarea textarea-primary w-[90%] bg-base-200 focus:bg-base-100"
         placeholder="Comment this post"
         required
         {...register("commentText")}
       />
-      <button className="btn btn-primary">Post</button>
-
+      <button
+        className="btn btn-primary w-full mt-2"
+        disabled={!commentText || commentText.trim() === ""}
+      >
+        Post
+      </button>
       {errors.commentText && <p>{errors.commentText.message}</p>}
     </form>
   );
