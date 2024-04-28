@@ -30,14 +30,11 @@ const getCachedUser = unstable_cache(
   }
 );
 
-
 export default async function Profile({ userID }: any) {
-
   const user = await getCachedUser(userID);
 
   return (
     <div className="flex flex-col items-center space-y-1">
-
       <ProfileAvatar
         user={{
           userName: user.username,
@@ -47,6 +44,9 @@ export default async function Profile({ userID }: any) {
         }}
       />
       <span>Joined {formatToTime(user?.created_at.toString())}</span>
+      <a className="link link-primary text-black py-4" href={"/posts"}>
+        Go to Posts
+      </a>
       <form action={logOut}>
         <button className="btn btn-primary mt-1">Log out</button>
       </form>

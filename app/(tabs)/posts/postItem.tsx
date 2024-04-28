@@ -151,7 +151,7 @@ export default function PostItem({ post }: PostItemProps) {
     }
   };
   return (
-    <div className="pb-5 mb-5  text-black flex flex-col gap-2  px-3 rounded-md  border-solid border-primary shadow-md w-96 ">
+    <div className="pb-5 mb-5  text-black flex flex-col gap-2  px-3 rounded-md  border-solid border-primary shadow-md md:w-96 ">
       {/* 모달 */}
 
       <input type="checkbox" id={modalId} className="modal-toggle" />

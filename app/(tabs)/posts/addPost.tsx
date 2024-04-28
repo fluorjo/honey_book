@@ -1,5 +1,5 @@
 "use client";
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -32,8 +32,6 @@ export default function AddPost() {
     const { success, result, uploadType } = await getUploadUrl();
 
     if (success && uploadType === "default") {
-      console.log("ㅈㅈㅈㅈresult", result);
-      console.log("uploadType", uploadType);
       const { id, uploadURL } = result;
       setUploadUrl(uploadURL);
       setValue(
@@ -85,14 +83,18 @@ export default function AddPost() {
     <form
       // onSubmit={handleSubmit(onValid)}
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col min-w-[200px] w-96"
+      className="flex flex-col md:w-96 space-y-2  w-44  "
     >
-      <textarea {...register("title")} className="textarea textarea-primary h-12" />
+      <textarea
+        {...register("title")}
+        className="textarea textarea-primary min-h-8 h-8"
+        placeholder="Title"
+      />
       <textarea
         {...register("description")}
         className=" textarea textarea-primary textarea-bordered transition-height duration-300 ease-in-out h-24 
         "
-        //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
+        placeholder="description"
       />
       {preview === "" ? null : (
         <div
@@ -104,9 +106,9 @@ export default function AddPost() {
           {" "}
         </div>
       )}
-      <div className="bg-base-300 h-8 flex items-center p-2 rounded-md  border-primary border-solid ">
+      <div className="bg-base-100 h-8 flex items-center p-2 rounded-md  border-primary border-solid ">
         <label className="p-0 m-0 flex items-center" htmlFor="photo">
-          <PhotoIcon className="Icon_Button size-7" />
+          <PhotoIcon className="Icon_Button size-7 " />
         </label>
       </div>
 
