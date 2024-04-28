@@ -1,12 +1,19 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 export default function TabBar() {
-  const pathname = usePathname();
+  const router = useRouter();
+  const goToHome = () => {
+    router.push("/posts");
+  };
+
+  const goToProfile = () => {
+    router.push("/profile");
+  };
+
   return (
     <div className="btm-nav lg:hidden bg-white border-none h-12">
-      <button className="btm_nav_button">
+      <button className="btm_nav_button" onClick={goToHome}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="size-6"
@@ -38,19 +45,18 @@ export default function TabBar() {
           />
         </svg>
       </button>
-      <button className="btm_nav_button">
+      <button className="btm_nav_button" onClick={goToProfile}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          viewBox="0 0 28 28"
           className="size-6"
-          fill="none"
-          viewBox="0 0 24 24"
           stroke="currentColor"
         >
           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            fill="currentColor"
+            d="M21 16a3 3 0 0 1 3 3v.715C24 23.292 19.79 26 14 26S4 23.433 4 19.715V19a3 3 0 0 1 3-3zM14 2a6 6 0 1 1 0 12a6 6 0 0 1 0-12"
           />
         </svg>
       </button>

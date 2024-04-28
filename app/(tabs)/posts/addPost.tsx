@@ -85,12 +85,12 @@ export default function AddPost() {
     <form
       // onSubmit={handleSubmit(onValid)}
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col w-[450px] min-w-[200px]"
+      className="flex flex-col min-w-[200px] w-96"
     >
-      <input {...register("title")} className="input input-bordered" />
+      <textarea {...register("title")} className="textarea textarea-primary h-12" />
       <textarea
         {...register("description")}
-        className=" textarea textarea-bordered transition-height duration-300 ease-in-out h-24 
+        className=" textarea textarea-primary textarea-bordered transition-height duration-300 ease-in-out h-24 
         "
         //focus:h-48 해서 크게 하면 버튼 누르려 할 때 다시 줄어든다. 고쳐야 함.
       />
@@ -104,7 +104,7 @@ export default function AddPost() {
           {" "}
         </div>
       )}
-      <div className="bg-slate-200 h-8 flex items-center p-2 rounded-md ">
+      <div className="bg-base-300 h-8 flex items-center p-2 rounded-md  border-primary border-solid ">
         <label className="p-0 m-0 flex items-center" htmlFor="photo">
           <PhotoIcon className="Icon_Button size-7" />
         </label>

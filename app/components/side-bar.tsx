@@ -23,10 +23,14 @@ export default function SideBar({ children }: SideBarProps) {
       >
         <ul className="menu p-4 overflow-y-auto text-base-content">
           <li>
-            <a>Home</a>
+            <a className="link link-hover text-black" href={"/posts"}>
+              Posts
+            </a>
           </li>
           <li>
-            <a>Profile</a>
+          <a className="link link-hover text-black" href={"/profile"}>
+          Profile
+            </a>
           </li>
         </ul>
       </div>
