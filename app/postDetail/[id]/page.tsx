@@ -1,3 +1,4 @@
+import LikeButton from "@/app/components/LikeButton";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
@@ -5,8 +6,6 @@ import { EyeIcon } from "@heroicons/react/24/outline";
 import { unstable_cache as nextCache } from "next/cache";
 import { notFound } from "next/navigation";
 import { getComments } from "../../(tabs)/posts/actions";
-// import LikeButton from "../../components/like-button";
-import LikeButton from "@/app/components/LikeButton";
 
 import CommentItem from "@/app/(tabs)/posts/commentItem";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -101,7 +100,7 @@ export default async function PostDetail({
   const comments = await getCachedPostComments(id);
 
   return (
-    <div className="p-5 text-black border-solid border-primary shadow-md w-full flex items-center flex-col">
+    <div className="p-5 text-black border-solid border-base-300 shadow-md w-full flex items-center flex-col">
       <div className="flex items-center gap-2 mb-2  w-full ">
         <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1 bg-white border-solid border-base-300 border-2">
           {post.user.avatar ? (
@@ -123,7 +122,7 @@ export default async function PostDetail({
           </div>
         </div>
       </div>
-      <div className=" w-[90%] flex flex-col card shadow-xl pb-8">
+      <div className=" w-[90%] flex flex-col card shadow-xl pb-8 border-solid border-primary">
         <div className="card-body text-start ">
           <h2 className="text-xl font-bold ">{post.title}</h2>
           <p className="mb-5 text-lg">{post.description}</p>
@@ -158,18 +157,13 @@ export default async function PostDetail({
               ))}
           </div> */}
           </div>
-
-          <details className="collapse bg-transparent ">
-            <summary className="collapse-title text-sm font-medium w-2">
-              Show Comment
-            </summary>
-            <div className="collapse-content w-72">
-              {comments &&
-                comments.map((comment: any) => (
-                  <CommentItem key={comment.id} comment={comment} />
-                ))}
-            </div>
-          </details>
+          <div className=" w-full ">
+          <div className="divider"></div>
+            {comments &&
+              comments.map((comment: any) => (
+                <CommentItem key={comment.id} comment={comment} />
+              ))}
+          </div>
           <CommentForm postId={id} />
         </div>
       </div>
