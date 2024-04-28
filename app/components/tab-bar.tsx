@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 export default function TabBar() {
   const pathname = usePathname();
   return (
-    <div className="btm-nav lg:hidden">
-      <button className="text-primary">
+    <div className="btm-nav lg:hidden bg-white border-none h-12">
+      <button className="btm_nav_button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="size-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -22,10 +22,10 @@ export default function TabBar() {
           />
         </svg>
       </button>
-      <button className="text-primary active">
+      <button className="btm_nav_button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="size-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -38,10 +38,10 @@ export default function TabBar() {
           />
         </svg>
       </button>
-      <button className="text-primary">
+      <button className="btm_nav_button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
+          className="size-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

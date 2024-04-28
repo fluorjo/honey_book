@@ -56,6 +56,9 @@ textarea {
   .avatar_profile_button {
     @apply btn-circle btn-outline flex items-center justify-center size-10 bg-primary hover:bg-secondary mx-2 disabled:bg-gray-300 border-solid border-2 shadow-md;
   }
+  .btm_nav_button {
+    @apply bg-primary border-none text-secondary;
+  }
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
@@ -75,5 +78,4 @@ textarea {
     box-shadow: 0 0 0px 1000px #fff inset;
     transition: background-color 5000s ease-in-out 0s;
   }
-
 }
