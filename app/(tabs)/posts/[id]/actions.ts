@@ -47,3 +47,39 @@ export async function dislikePost(postId: number) {
     }
   } catch (e) {}
 }
+export async function deletePostPhoto(postId: number) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const post = await db.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      throw new Error("post not found");
+    }
+
+    if (post.userId !== session.id) {
+      throw new Error("Unauthorized to delete this photo");
+    }
+
+    // 업데이트 진행
+    const updatedPost = await db.post.update({
+      where: { id: postId },
+      data: {
+        photo: null,
+      },
+    });
+    console.log("editpost", post);
+    console.log("updatedPost", updatedPost);
+    return updatedPost;
+  } catch (e) {
+    console.log("eerr", e);
+    throw e; // It's generally a good idea to rethrow the error after logging it
+  } finally {
+    // revalidateUser();
+  }
+}

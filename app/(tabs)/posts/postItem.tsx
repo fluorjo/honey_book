@@ -16,6 +16,7 @@ import { deletePost, editPost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType } from "./schema";
+import { deletePostPhoto } from "./[id]/actions";
 
 interface PostItemProps {
   post: PostType;
@@ -102,7 +103,7 @@ export default function PostItem({ post }: PostItemProps) {
               src={`${userInfo.user.avatar}/avatar`}
               width={60}
               height={60}
-              alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
+              alt={userInfo.user.username || "User avatar"} 
               className=""
             />
           ) : (
@@ -174,10 +175,10 @@ export default function PostItem({ post }: PostItemProps) {
             </div>
           ) : null}
                     <div className='bg-red-200 flex flex-row items-center justify-center mb-4'>
-            {/* 아바타 삭제 */}
+            {/* 포스트 사진 삭제 */}
             <button
               className="avatar_profile_button"
-              // onClick={() => deleteUserAvatar(user.id)}
+              onClick={() => deletePostPhoto(post.id)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
