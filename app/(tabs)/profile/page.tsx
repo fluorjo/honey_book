@@ -5,9 +5,9 @@ import { notFound } from "next/navigation";
 
 import { logOut } from "@/app/(auth)/login/userAction";
 import ProfileAvatar from "@/app/components/profileAvatar";
-import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
 
-async function getUser() {
+async function getUser(id: number) {
   const session = await getSession();
   if (session.id) {
     const user = await db.user.findUnique({
@@ -21,6 +21,14 @@ async function getUser() {
   }
   notFound();
 }
+const getCachedUser = unstable_cache(
+  async (id) => getUser(id),
+  ["my-app-user"],
+  {
+    tags: ["userStatus"],
+    revalidate: 1,
+  }
+);
 
 // async function Username() {
 //   try {
@@ -36,7 +44,10 @@ async function getUser() {
 //     return <h1>Error fetching user.</h1>;
 //   }
 // }
-export default async function Profile() {
+interface ProfileProps {
+  userID: number;
+}
+export default async function Profile({ userID }: ProfileProps) {
   // const logOut = async () => {
   //   "use server";
   //   const session = await getSession();
@@ -44,11 +55,11 @@ export default async function Profile() {
   //   redirect("/login");
   // };
 
-  const user = await getUser();
+  const user = await getCachedUser(userID);
 
   return (
-    <div className='flex flex-col items-center space-y-1'>
-        {/* <div className="avatar">
+    <div className="flex flex-col items-center space-y-1">
+      {/* <div className="avatar">
           <div className="w-24 rounded-full cursor-pointer hover:brightness-110">
             {user?.avatar ? (
               <img
@@ -63,15 +74,15 @@ export default async function Profile() {
             )}
           </div>
         </div> */}
-        <ProfileAvatar
-          user={{
-            userName: user.username,
-            avatar: user.avatar,
-            created_at: user.created_at,
-            id: user.id,
-          }}
-        />
-        <span>Joined {formatToTime(user?.created_at.toString())}</span>
+      <ProfileAvatar
+        user={{
+          userName: user.username,
+          avatar: user.avatar,
+          created_at: user.created_at,
+          id: user.id,
+        }}
+      />
+      <span>Joined {formatToTime(user?.created_at.toString())}</span>
       <form action={logOut}>
         <button className="btn btn-primary mt-1">Log out</button>
       </form>

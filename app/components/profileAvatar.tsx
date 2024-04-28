@@ -1,7 +1,7 @@
 "use client";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   deleteUserAvatar,
@@ -54,6 +54,11 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
       );
     }
   };
+
+  const resetPreview = () => {
+    setPreview(""); // 프리뷰 상태를 비워줍니다.
+  };
+
   const onSubmit = async (data: UserType) => {
     console.log("userdata", data);
     const formData = new FormData();
@@ -74,35 +79,19 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
         formData.append("avatar", data.avatar);
       }
     }
-    try {
-      const errors = await editUser(user.id, {
-        userName: data.userName,
-        avatar: data.avatar,
-      });
-      if (errors) {
-        console.log("Server-side Errors:", errors);
-      } else {
-        console.log("Post uploaded successfully");
-        // Navigate or refresh the form upon success
-      }
-    } catch (error) {
-      console.error("Submission Error:", error);
-    }
-  };
-  const resetPreview = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.stopPropagation();
-    setPreview("");
-  };
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // 파일 입력 요소가 존재하면 클릭 이벤트를 발생시킨다.
+    const updatedUserData = await editUser(user.id, {
+      userName: data.userName,
+      avatar: data.avatar,
+    });
+
+    if (updatedUserData) {
+      console.log("Post uploaded successfully", updatedUserData);
+      resetPreview(); // 프리뷰 리셋
     } else {
-      console.error("File input not available");
+      console.log("Server-side Errors:", updatedUserData);
     }
   };
+
   return (
     <div className="group  min-w-[15rem] flex flex-col items-center space-y-2 ">
       <div>
@@ -182,7 +171,11 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
                   />
                 </label>
                 {/* 확인, 제출 버튼 */}
-                <button className="avatar_profile_button" disabled={!preview}>
+                <button
+                  className="avatar_profile_button"
+                  disabled={!preview}
+                  type="submit"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1.5em"

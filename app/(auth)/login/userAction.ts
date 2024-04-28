@@ -2,6 +2,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import bcrypt from "bcrypt";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 const checkEmailExists = async (email: string) => {
@@ -91,10 +92,10 @@ export async function getUploadAvatarUrl() {
   const data = await response.json();
   return data;
 }
-// const revalidateUser = async () => {
-//   "use server";
-//   revalidateTag("all_posts_lists");
-// };
+const revalidateUser = async () => {
+  "use server";
+  revalidateTag("userStatus");
+};
 export async function editUser(
   userId: number,
   data: { userName?: string; avatar?: string | null }
@@ -131,7 +132,9 @@ export async function editUser(
     return updatedUser;
   } catch (e) {
     console.log("eerr", e);
-    throw e; // It's generally a good idea to rethrow the error after logging it
+    throw e;
+  } finally {
+    revalidateUser();
   }
 }
 export async function deleteUserAvatar(userId: number) {
@@ -166,5 +169,7 @@ export async function deleteUserAvatar(userId: number) {
   } catch (e) {
     console.log("eerr", e);
     throw e; // It's generally a good idea to rethrow the error after logging it
+  } finally {
+    revalidateUser();
   }
 }
