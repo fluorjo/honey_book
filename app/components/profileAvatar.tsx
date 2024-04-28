@@ -1,9 +1,13 @@
 "use client";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { editUser, getUploadAvatarUrl } from "../(auth)/login/userAction";
+import {
+  deleteUserAvatar,
+  editUser,
+  getUploadAvatarUrl,
+} from "../(auth)/login/userAction";
 import { UserType, userSchema } from "../(auth)/schema";
 
 interface ProfileAvatarProps {
@@ -91,6 +95,14 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
     event.stopPropagation();
     setPreview("");
   };
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click(); // 파일 입력 요소가 존재하면 클릭 이벤트를 발생시킨다.
+    } else {
+      console.error("File input not available");
+    }
+  };
   return (
     <div className="group  min-w-[15rem] flex flex-col items-center space-y-2 ">
       <div>
@@ -118,7 +130,10 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
         {showButtons && (
           <>
             {/* 아바타 삭제 */}
-            <button className="avatar_profile_button">
+            <button
+              className="avatar_profile_button"
+              onClick={() => deleteUserAvatar(user.id)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.5em"
@@ -139,31 +154,24 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
                 <path fill="none" d="M0 0h36v36H0z" />
               </svg>
             </button>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className=" p-0 m-0"
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className=" p-0 m-0">
               <div className="flex flex-row p-0 m-0 ">
-                <label
-                  className="p-0 m-0 flex items-center  "
-                  htmlFor="avatar"
-                >
+                <label className="avatar_profile_button" htmlFor="avatar">
                   {/* 사진 선택 */}
-                  <button className="avatar_profile_button">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1.5em"
-                      height="1.5em"
-                      viewBox="0 0 36 36"
-                    >
-                      <path
-                        fill="#000000"
-                        d="M32 4H4a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M8.92 8a3 3 0 1 1-3 3a3 3 0 0 1 3-3M6 27v-4.1l6-6.08a1 1 0 0 1 1.41 0L16 19.35L8.32 27Zm24 0H11.15l6.23-6.23l5.4-5.4a1 1 0 0 1 1.41 0L30 21.18Z"
-                        className="clr-i-solid clr-i-solid-path-1"
-                      />
-                      <path fill="none" d="M0 0h36v36H0z" />
-                    </svg>
-                  </button>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 36 36"
+                  >
+                    <path
+                      fill="#000000"
+                      d="M32 4H4a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M8.92 8a3 3 0 1 1-3 3a3 3 0 0 1 3-3M6 27v-4.1l6-6.08a1 1 0 0 1 1.41 0L16 19.35L8.32 27Zm24 0H11.15l6.23-6.23l5.4-5.4a1 1 0 0 1 1.41 0L30 21.18Z"
+                      className="clr-i-solid clr-i-solid-path-1"
+                    />
+                    <path fill="none" d="M0 0h36v36H0z" />
+                  </svg>
                   <input
                     onChange={onImageChange}
                     type="file"

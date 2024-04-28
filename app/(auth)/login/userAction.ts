@@ -127,6 +127,41 @@ export async function editUser(
     });
     console.log("edituser", user);
     console.log("updatedUser", updatedUser);
+
+    return updatedUser;
+  } catch (e) {
+    console.log("eerr", e);
+    throw e; // It's generally a good idea to rethrow the error after logging it
+  }
+}
+export async function deleteUserAvatar(userId: number) {
+  try {
+    const session = await getSession();
+    if (!session || !session.id) {
+      throw new Error("Authentication required");
+    }
+
+    const user = await db.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    if (user.id !== session.id) {
+      throw new Error("Unauthorized to edit this user");
+    }
+
+    // 업데이트 진행
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: {
+        avatar: null,
+      },
+    });
+    console.log("edituser", user);
+    console.log("updatedUser", updatedUser);
     return updatedUser;
   } catch (e) {
     console.log("eerr", e);
