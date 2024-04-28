@@ -7,16 +7,18 @@ import {
   EyeIcon,
 } from "@heroicons/react/24/outline";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import DropdownMenu from "../../components/dropDown";
-import { deletePost, editPost } from "./actions";
+import { deletePostPhoto } from "./[id]/actions";
+import { deletePost, editPost, getUploadUrlForEdit, revalidateAllpost } from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
-import { PostType } from "./schema";
-import { deletePostPhoto } from "./[id]/actions";
+import { PostType, postPhotoEditSchema } from "./schema";
 
 interface PostItemProps {
   post: PostType;
@@ -50,6 +52,7 @@ export default function PostItem({ post }: PostItemProps) {
       title: editedTitle,
       description: editedDescription,
     });
+    revalidateAllpost();
     setIsEditing(false);
   };
 
@@ -66,6 +69,82 @@ export default function PostItem({ post }: PostItemProps) {
     fetcher
   );
   const modalId = `modal_${post.id}`;
+
+  //사진 수정 관련
+  const [photoeditpreview, setPreview] = useState("");
+  const [uploadUrl, setUploadUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<PostType>({
+    resolver: zodResolver(postPhotoEditSchema),
+  });
+
+  const onImageChangeForEdit = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    event.preventDefault();
+    const {
+      target: { files },
+    } = event;
+    if (!files || files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    setFile(file);
+    const { success, result, uploadType } = await getUploadUrlForEdit();
+
+    if (success && uploadType === "edit") {
+      console.log("result", result);
+      const { id, uploadURL } = result;
+      console.log("result", result);
+      console.log("uploadTypeforeddittt", uploadType);
+      setUploadUrl(uploadURL);
+      setValue(
+        "photo",
+        `${process.env.NEXT_PUBLIC_CLOUDFLARE_DELIVERY_URL}/${id}`
+      );
+    }
+  };
+  const resetPreview = () => {
+    setPreview("");
+  };
+
+  const onSubmitEditedPhoto = async (data: PostType) => {
+    console.log("data", data);
+    const formData = new FormData();
+
+    if (file) {
+      const cloudflareForm = new FormData();
+      cloudflareForm.append("file", file);
+      const response = await fetch(uploadUrl, {
+        method: "post",
+        body: cloudflareForm,
+      });
+      if (response.status !== 200) {
+        console.error("Image upload failed:", response.statusText);
+        return;
+      }
+      if (data.photo) {
+        formData.append("photo", data.photo);
+      }
+    }
+    const updatedPostPhoto = await editPost(post.id, {
+      photo: data.photo,
+    });
+    if (updatedPostPhoto) {
+      console.log("Post uploaded successfully", updatedPostPhoto);
+      resetPreview();
+    } else {
+      console.log("Server-side Errors:", updatedPostPhoto);
+    }
+  };
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2  px-3 rounded-md  border-solid border-primary shadow-md w-96 ">
       {/* 모달 */}
@@ -103,7 +182,7 @@ export default function PostItem({ post }: PostItemProps) {
               src={`${userInfo.user.avatar}/avatar`}
               width={60}
               height={60}
-              alt={userInfo.user.username || "User avatar"} 
+              alt={userInfo.user.username || "User avatar"}
               className=""
             />
           ) : (
@@ -116,10 +195,7 @@ export default function PostItem({ post }: PostItemProps) {
             htmlFor={modalId}
             className=" icon-[entypo--popup] Icon_Button"
           ></label>
-          {/* <span
-            onClick={() => router.push(`/postModal/${post.id}`)}
-            className="icon-[entypo--popup] Icon_Button"
-          ></span> */}
+
           <ArrowsPointingOutIcon
             onClick={() => router.push(`/postDetail/${post.id}`)}
             className="Icon_Button"
@@ -140,6 +216,7 @@ export default function PostItem({ post }: PostItemProps) {
         <textarea
           defaultValue={editedTitle}
           className="textarea textarea-primary min-h-7 h-7 mt-4"
+          onChange={(e) => setEditedTitle(e.target.value)}
         />
       )}
       {!isEditing ? (
@@ -164,7 +241,16 @@ export default function PostItem({ post }: PostItemProps) {
             onChange={(e) => setEditedDescription(e.target.value)}
             // onBlur={handleEditPost}
           />
-                   {post.photo ? (
+          {photoeditpreview ? (
+            <div className="post_photo">
+              <Image
+                className="object-cover"
+                fill
+                src={`${photoeditpreview}`}
+                alt={post.title}
+              />
+            </div>
+          ) : post.photo ? (
             <div className="post_photo">
               <Image
                 className="object-cover"
@@ -174,7 +260,7 @@ export default function PostItem({ post }: PostItemProps) {
               />
             </div>
           ) : null}
-                    <div className='bg-red-200 flex flex-row items-center justify-center mb-4'>
+          <div className="bg-red-200 flex flex-row items-center justify-center mb-4">
             {/* 포스트 사진 삭제 */}
             <button
               className="avatar_profile_button"
@@ -200,14 +286,16 @@ export default function PostItem({ post }: PostItemProps) {
                 <path fill="none" d="M0 0h36v36H0z" />
               </svg>
             </button>
-            <form 
-            className=" p-0 m-0"
-            // onSubmit={handleSubmit(onSubmit)} 
+            <form
+              className=" p-0 m-0"
+              onSubmit={handleSubmit(onSubmitEditedPhoto)}
             >
               <div className="flex flex-row p-0 m-0 ">
-                <label className="avatar_profile_button" htmlFor="avatar">
+                <label
+                  className="avatar_profile_button"
+                  htmlFor={`photo_edit_${post.id}`}
+                >
                   {/* 사진 선택 */}
-
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1.5em"
@@ -222,10 +310,10 @@ export default function PostItem({ post }: PostItemProps) {
                     <path fill="none" d="M0 0h36v36H0z" />
                   </svg>
                   <input
-                    // onChange={onImageChange}
+                    onChange={onImageChangeForEdit}
                     type="file"
-                    id="avatar"
-                    name="avatar"
+                    id={`photo_edit_${post.id}`}
+                    name="photo"
                     accept="image/*"
                     className="hidden"
                   />
@@ -233,7 +321,7 @@ export default function PostItem({ post }: PostItemProps) {
                 {/* 확인, 제출 버튼 */}
                 <button
                   className="avatar_profile_button"
-                  // disabled={!preview}
+                  disabled={!photoeditpreview}
                   type="submit"
                 >
                   <svg
@@ -254,8 +342,8 @@ export default function PostItem({ post }: PostItemProps) {
             </form>
             <button
               className="avatar_profile_button "
-              // disabled={!preview}
-              // onClick={resetPreview}
+              disabled={!photoeditpreview}
+              onClick={resetPreview}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -315,3 +403,4 @@ export default function PostItem({ post }: PostItemProps) {
     </div>
   );
 }
+

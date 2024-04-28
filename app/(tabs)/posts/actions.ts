@@ -5,7 +5,7 @@ import getSession from "@/lib/session";
 import { error } from "console";
 import { revalidateTag } from "next/cache";
 import { postSchema } from "./schema";
-const revalidateAllpost = async () => {
+export const revalidateAllpost = async () => {
   "use server";
   revalidateTag("all_posts_lists");
 };
@@ -39,7 +39,6 @@ export async function uploadPost(formData: FormData) {
         },
       });
       revalidateAllpost();
-
     }
   }
 }
@@ -56,7 +55,27 @@ export async function getUploadUrl() {
     }
   );
   const data = await response.json();
-  return data;
+  return {
+    ...data,
+    uploadType: "default",
+  };
+}
+
+export async function getUploadUrlForEdit() {
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v2/direct_upload`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_API_KEY}`,
+      },
+    }
+  );
+  const data = await response.json();
+  return {
+    ...data,
+    uploadType: "edit",
+  };
 }
 
 export async function deletePost(postId: number) {
@@ -90,7 +109,7 @@ export async function deletePost(postId: number) {
 
 export async function editPost(
   postId: number,
-  data: { title?: string; description?: string }
+  data: { title?: string; description?: string; photo?: string | null }
 ) {
   try {
     const session = await getSession();
@@ -116,6 +135,7 @@ export async function editPost(
       data: {
         title: data.title,
         description: data.description,
+        photo: data.photo,
       },
     });
     console.log("editpost", post);
@@ -169,7 +189,7 @@ export async function deleteComment(
     await db.comment.delete({
       where: { id: commentId },
     });
-    revalidateTag(`comment`)
+    revalidateTag(`comment`);
     // onSuccess();
   } catch (e) {
     console.log("eeeerrrrr");

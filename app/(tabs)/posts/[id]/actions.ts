@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-
+import {revalidateAllpost} from "../actions"
 export async function revalidateTest(postId: number) {
   "use server";
   revalidateTag(`comment-status-${postId}`);
@@ -80,6 +80,7 @@ export async function deletePostPhoto(postId: number) {
     console.log("eerr", e);
     throw e; // It's generally a good idea to rethrow the error after logging it
   } finally {
-    // revalidateUser();
+    revalidateAllpost();
   }
 }
+

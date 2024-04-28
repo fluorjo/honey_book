@@ -55,7 +55,7 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
   };
 
   const resetPreview = () => {
-    setPreview(""); // 프리뷰 상태를 비워줍니다.
+    setPreview("");
   };
 
   const onSubmit = async (data: UserType) => {
@@ -85,7 +85,7 @@ const ProfileAvatar: React.FC<ProfileAvatarProps> = ({ user }) => {
 
     if (updatedUserData) {
       console.log("Post uploaded successfully", updatedUserData);
-      resetPreview(); // 프리뷰 리셋
+      resetPreview(); 
     } else {
       console.log("Server-side Errors:", updatedUserData);
     }

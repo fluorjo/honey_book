@@ -9,6 +9,9 @@ export const postSchema = z.object({
   }),
   photo: z.string().optional().nullable(),
 });
+export const postPhotoEditSchema = z.object({
+  photo: z.string().optional().nullable(),
+});
 export const commentSchema = z.object({
   commentText: z.string({
     required_error: "commentText is required",
@@ -27,7 +30,7 @@ export interface PostType {
   description: string;
   views: number;
   created_at: Date;
-  photo?: string | null; 
+  photo?: string | null;
   _count: {
     likes: number;
     comments: number;
@@ -37,7 +40,7 @@ export interface UserType {
   id: number;
   userName: string;
   created_at: Date;
-  avatar?: string | null; 
+  avatar?: string | null;
 }
 export interface CommentType {
   id: number;

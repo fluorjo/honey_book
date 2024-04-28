@@ -29,8 +29,11 @@ export default function AddPost() {
     const url = URL.createObjectURL(file);
     setPreview(url);
     setFile(file);
-    const { success, result } = await getUploadUrl();
-    if (success) {
+    const { success, result, uploadType } = await getUploadUrl();
+
+    if (success && uploadType === "default") {
+      console.log("ㅈㅈㅈㅈresult", result);
+      console.log("uploadType", uploadType);
       const { id, uploadURL } = result;
       setUploadUrl(uploadURL);
       setValue(
