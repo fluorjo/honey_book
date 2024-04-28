@@ -6,7 +6,7 @@ interface Routes {
 }
 
 const publicOnlyUrls: Routes = {
-  "/": true,
+  // "/": true,
   "/login": true,
   "/sms": true,
   "/create-account": true,
