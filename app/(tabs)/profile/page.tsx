@@ -1,37 +1,24 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
 import { formatToTime } from "@/lib/utils";
 import { notFound } from "next/navigation";
 
 import { logOut } from "@/app/(auth)/login/userAction";
 import ProfileAvatar from "@/app/components/profileAvatar";
-import { unstable_cache } from "next/cache";
 
 async function getUser(id: number) {
-  const session = await getSession();
-  if (session.id) {
-    const user = await db.user.findUnique({
-      where: {
-        id: session.id,
-      },
-    });
-    if (user) {
-      return user;
-    }
+  const user = await db.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!user) {
+    notFound();
   }
-  notFound();
+  return user;
 }
-const getCachedUser = unstable_cache(
-  async (id) => getUser(id),
-  ["my-app-user"],
-  {
-    tags: ["userStatus"],
-    revalidate: 1,
-  }
-);
 
-export default async function Profile({ userID }: any) {
-  const user = await getCachedUser(userID);
+export default async function Profile({ userID }: { userID: number }) {
+  const user = await getUser(userID);
 
   return (
     <div className="flex flex-col items-center space-y-1">
@@ -43,7 +30,7 @@ export default async function Profile({ userID }: any) {
           id: user.id,
         }}
       />
-      <span>Joined {formatToTime(user?.created_at.toString())}</span>
+      <span>Joined {formatToTime(user.created_at.toString())}</span>
       <a className="link link-primary text-black py-4" href={"/posts"}>
         Go to Posts
       </a>
