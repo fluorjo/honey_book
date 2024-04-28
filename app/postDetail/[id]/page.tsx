@@ -9,6 +9,7 @@ import { getComments } from "../../(tabs)/posts/actions";
 import LikeButton from "@/app/components/LikeButton";
 
 import CommentItem from "@/app/(tabs)/posts/commentItem";
+import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import CommentForm from "../../(tabs)/posts/commentForm";
 
@@ -27,7 +28,7 @@ async function getPost(id: number) {
         user: {
           select: {
             username: true,
-            // avatar: true,
+            avatar: true,
           },
         },
         _count: {
@@ -100,53 +101,65 @@ export default async function PostDetail({
   const comments = await getCachedPostComments(id);
 
   return (
-    <div className="p-5 text-black">
-      <div className="flex items-center gap-2 mb-2">
-        {/* <Image
-          width={28}
-          height={28}
-          className="size-7 rounded-full"
-          src={post.user.avatar!}
-          alt={post.user.username}
-        /> */}
-        <div>
-          <span className="text-sm font-semibold">{post.user.username}</span>
-          <div className="text-xs">
+    <div className="p-5 text-black border-solid border-primary shadow-md w-full flex items-center flex-col">
+      <div className="flex items-center gap-2 mb-2  w-full ">
+        <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1 bg-white border-solid border-base-300 border-2">
+          {post.user.avatar ? (
+            <Image
+              src={`${post.user.avatar}/avatar`}
+              width={120}
+              height={120}
+              alt={post.user.username || "User avatar"}
+              className=""
+            />
+          ) : (
+            <UserIcon className="size-[120px] rounded-full " />
+          )}
+        </div>
+        <div className="">
+          <span className="text-2xl font-semibold">{post.user.username}</span>
+          <div className="text-lg">
             <span>{formatToTimeAgo(post.created_at.toString())}</span>
           </div>
         </div>
       </div>
-      <h2 className="text-lg font-semibold">{post.title}</h2>
-      <p className="mb-5">{post.description}</p>
-      {post.photo ? (
-        <div className="post_photo">
-          <Image
-            className="object-cover "
-            fill
-            src={`${post.photo}/width=500,height=500`}
-            alt={post.title}
-          />
+      <div className=" w-[90%] flex flex-col card shadow-xl pb-8">
+        <div className="card-body text-start ">
+          <h2 className="text-xl font-bold ">{post.title}</h2>
+          <p className="mb-5 text-lg">{post.description}</p>
+          {post.photo ? (
+            <figure className="rounded-md">
+              <img
+                className=" object-cover size-80 "
+                src={`${post.photo}/public`}
+                alt={post.title}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </figure>
+          ) : null}
         </div>
-      ) : null}
-      <div className="flex flex-col gap-5 items-start">
-        <div className="flex items-center gap-2 text-neutral-400 text-sm">
-          <EyeIcon className="Icon_Button" />
-          <span>조회 {post.views}</span>
-          <LikeButton
-            isLiked={isLiked}
-            likeCount={likeCount}
-            id={id}
-            type={"post"}
-          />
-        </div>
-        <div>
-          {/* <div className="p-5 flex flex-col bg-red-400 w-[800px]">
+
+        <div className="flex flex-col gap-5 items-start  mx-8">
+          <div className="flex items-center gap-2 text-neutral-400 text-sm">
+            <EyeIcon className="Icon_Button" />
+            <span>조회 {post.views}</span>
+            <LikeButton
+              isLiked={isLiked}
+              likeCount={likeCount}
+              id={id}
+              type={"post"}
+            />
+          </div>
+          <div>
+            {/* <div className="p-5 flex flex-col bg-red-400 w-[800px]">
             {comments &&
               comments.map((comment: any) => (
                 <CommentItem key={comment.id} comment={comment} />
               ))}
           </div> */}
-          <details className="collapse bg-transparent">
+          </div>
+
+          <details className="collapse bg-transparent ">
             <summary className="collapse-title text-sm font-medium w-2">
               Show Comment
             </summary>

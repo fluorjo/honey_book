@@ -164,7 +164,7 @@ export default function PostItem({ post }: PostItemProps) {
                 width={90}
                 height={90}
                 alt={userInfo.user.username || "User avatar"}
-                className=""
+                className="overflow-hidden rounded-full  flex flex-row items-center space-x-1 bg-white border-solid border-base-300 border-2"
               />
             ) : (
               <UserIcon className="size-[90px] rounded-full " />

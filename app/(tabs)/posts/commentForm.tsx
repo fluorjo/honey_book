@@ -42,7 +42,7 @@ const CommentForm = ({ postId }: CommentFormProps) => {
 
   return (
     <form
-      className="flex flex-col items-center justify-evenly "
+      className="flex flex-col items-center justify-evenly  w-full"
       onSubmit={handleSubmit(onSubmitComment)}
     >
       <textarea
