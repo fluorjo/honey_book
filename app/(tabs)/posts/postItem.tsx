@@ -100,13 +100,13 @@ export default function PostItem({ post }: PostItemProps) {
           {userInfo?.user.avatar ? (
             <Image
               src={`${userInfo.user.avatar}/avatar`}
-              width={35}
-              height={35}
+              width={60}
+              height={60}
               alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
               className=""
             />
           ) : (
-            <UserIcon className="size-[35px] rounded-full " />
+            <UserIcon className="size-[60px] rounded-full " />
           )}
           <span>{userInfo?.user.username}</span>
         </div>

@@ -62,30 +62,31 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
     setExpanded(!expanded); // 상태 토글
   };
   return (
-    <div className="mb-5 border-b border-neutral-500 text-black flex flex-col gap-2  bg-secondary max-w-full p-2 rounded-md">
+    <div className="mb-3 text-black flex flex-col gap-2  bg-base-100 max-w-full p-2 rounded-md  ">
       <div className="flex flex-row">
         {" "}
-        <div className=" overflow-hidden  flex flex-col  items-center space-y-1 mr-2">
+        <div className=" overflow-hidden  flex flex-col  items-center mr-3 justify-center">
           {userInfo?.user.avatar ? (
             <Image
               src={`${userInfo.user.avatar}/avatar`}
-              width={35}
-              height={35}
+              width={50}
+              height={50}
               alt={userInfo.user.username || "User avatar"} // alt 값은 유저 이름이나 "User avatar"로 채우기
               className=""
             />
           ) : (
-            <UserIcon className="size-[35px] rounded-full " />
+            <UserIcon className="size-[50px] rounded-full " />
           )}
-          <span>{userInfo?.user.username}</span>
         </div>
         {!isEditing ? (
           <div
             className={`text-overflow ${
               expanded ? "expanded" : ""
-            } max-w-[70%]  bg-gray-200 px-2 rounded-md `}
+            } max-w-[75%]  bg-base-300 mx-1 py-1 rounded-md indent-[-10px] pl-4 pr-4 `}
             onClick={toggleExpand}
           >
+            {userInfo?.user.username}
+            <br />
             {editedCommentText}
           </div>
         ) : (
@@ -100,10 +101,8 @@ export default function CommentItem({ comment, mutate }: CommentItemProps) {
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm">
-        <div className="flex gap-4 items-center">
-          <span>{formatToTimeAgo(comment.created_at.toString())}</span>
-        </div>
+      <div className="flex items-center justify-start text-sm space-x-2 ">
+        <span>{formatToTimeAgo(comment.created_at.toString())}</span>
         <div className="flex gap-4 items-center">
           {!isEditing ? null : (
             // <PencilIcon className="Icon_Button" onClick={handleEditComment} />
