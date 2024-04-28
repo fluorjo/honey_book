@@ -15,7 +15,12 @@ import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import DropdownMenu from "../../components/dropDown";
 import { deletePostPhoto } from "./[id]/actions";
-import { deletePost, editPost, getUploadUrlForEdit, revalidateAllpost } from "./actions";
+import {
+  deletePost,
+  editPost,
+  getUploadUrlForEdit,
+  revalidateAllpost,
+} from "./actions";
 import CommentForm from "./commentForm";
 import CommentList from "./commentList";
 import { PostType, postPhotoEditSchema } from "./schema";
@@ -148,9 +153,30 @@ export default function PostItem({ post }: PostItemProps) {
   return (
     <div className="pb-5 mb-5  text-black flex flex-col gap-2  px-3 rounded-md  border-solid border-primary shadow-md w-96 ">
       {/* 모달 */}
+
       <input type="checkbox" id={modalId} className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className="modal-box">
+          <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
+            {userInfo?.user.avatar ? (
+              <Image
+                src={`${userInfo.user.avatar}/avatar`}
+                width={90}
+                height={90}
+                alt={userInfo.user.username || "User avatar"}
+                className=""
+              />
+            ) : (
+              <UserIcon className="size-[90px] rounded-full " />
+            )}
+            <span className="text-xl font-bold">{userInfo?.user.username}</span>
+          </div>
+          <div className="flex gap-4 items-center mt-2">
+            <span>{formatToTimeAgo(post.created_at.toString())}</span>
+            <span className="flex flex-row ">
+              <EyeIcon className="Icon_Button mr-1" /> {post.views}
+            </span>
+          </div>
           <h2 className="text-lg font-bold">{editedTitle}</h2>
           <p className="py-4">{editedDescription}</p>
           {post.photo ? (
@@ -403,4 +429,3 @@ export default function PostItem({ post }: PostItemProps) {
     </div>
   );
 }
-
