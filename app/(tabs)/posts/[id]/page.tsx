@@ -122,7 +122,7 @@ export default async function PostDetail({
           <span>조회 {post.views}</span>
         </div>
         <div>
-          <div className="p-5 flex flex-col bg-red-400">
+          <div className="p-5 flex flex-col ">
             {comments &&
               comments.map((comment: any) => (
                 <CommentItem key={comment.id} comment={comment} />

@@ -202,17 +202,17 @@ export default function PostItem({ post }: PostItemProps) {
       {/* 모달 */}
 
       <div className="bg-transparent flex flex-row  relative top-4 justify-between ">
-        <div className=" overflow-hidden rounded-full  flex flex-row items-center  bg-red-200">
+        <div className=" overflow-hidden rounded-full  flex flex-row items-center  ">
           {userInfo?.user.avatar ? (
             <Image
               src={`${userInfo.user.avatar}/avatar`}
               width={60}
               height={60}
               alt={userInfo.user.username || "User avatar"}
-              className="rounded-full"
+              className="rounded-full border-solid border-base-300 mr-2"
             />
           ) : (
-            <UserIcon className="size-[60px] rounded-full " />
+            <UserIcon className="size-[60px] rounded-full border-solid border-base-300 mr-2" />
           )}
           <span>{userInfo?.user.username}</span>
         </div>
@@ -286,7 +286,7 @@ export default function PostItem({ post }: PostItemProps) {
               />
             </div>
           ) : null}
-          <div className="bg-red-200 flex flex-row items-center justify-center mb-4">
+          <div className=" flex flex-row items-center justify-center mb-4">
             {/* 포스트 사진 삭제 */}
             <button
               className="avatar_profile_button"

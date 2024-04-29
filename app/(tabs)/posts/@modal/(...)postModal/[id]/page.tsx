@@ -78,7 +78,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
           />
         </div>
       ) : null}
-      <div className="p-5 flex flex-col bg-red-400 w-[80%]">
+      <div className="p-5 flex flex-col w-[80%]">
         {comments &&
           comments.map((comment: any) => (
             <CommentItem key={comment.id} comment={comment} />
