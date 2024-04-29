@@ -164,7 +164,7 @@ export default function PostItem({ post }: PostItemProps) {
                 width={90}
                 height={90}
                 alt={userInfo.user.username || "User avatar"}
-                className="overflow-hidden rounded-full  flex flex-row items-center space-x-1 bg-white border-solid border-base-300 border-2"
+                className="overflow-hidden rounded-full  flex flex-row items-center space-x-1 bg-white border-solid border-base-300 border-2 "
               />
             ) : (
               <UserIcon className="size-[90px] rounded-full " />
@@ -202,14 +202,14 @@ export default function PostItem({ post }: PostItemProps) {
       {/* 모달 */}
 
       <div className="bg-transparent flex flex-row  relative top-4 justify-between ">
-        <div className=" overflow-hidden rounded-full  flex flex-row items-center space-x-1">
+        <div className=" overflow-hidden rounded-full  flex flex-row items-center  bg-red-200">
           {userInfo?.user.avatar ? (
             <Image
               src={`${userInfo.user.avatar}/avatar`}
               width={60}
               height={60}
               alt={userInfo.user.username || "User avatar"}
-              className=""
+              className="rounded-full"
             />
           ) : (
             <UserIcon className="size-[60px] rounded-full " />

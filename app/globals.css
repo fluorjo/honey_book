@@ -54,7 +54,8 @@ textarea {
     @apply rounded-full cursor-pointer hover:brightness-110 bg-white fill-gray-200 border-solid border-gray-400 size-32;
   }
   .avatar_profile_button {
-    @apply btn-circle btn-outline flex items-center justify-center size-10 bg-primary hover:bg-secondary mx-2 disabled:bg-gray-300 border-solid border-2 shadow-md;
+    @apply btn-primary flex items-center justify-center h-12 w-12 bg-primary hover:bg-secondary mx-2 disabled:bg-gray-300 border-solid border-2 shadow-md text-sm text-center rounded-md;
+
   }
   .btm_nav_button {
     @apply bg-primary border-none text-secondary;
